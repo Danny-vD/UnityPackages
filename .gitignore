@@ -54,3 +54,5 @@ FMOD/**/.cache/
 
 # Ignore anything that starts with a '.' (e.g. .vs .user .cache etc)
 .*
+
+FMOD/**
