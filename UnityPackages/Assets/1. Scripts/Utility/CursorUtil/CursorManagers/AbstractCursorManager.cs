@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using VDFramework;
+using Utility.SerializableDictionary;
 using MouseButton = Utility.CursorUtil.MouseUtil.MouseButton;
 
 namespace Utility.CursorUtil.CursorManagers
