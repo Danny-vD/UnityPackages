@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Editor.Utility;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
-using Utility;
 using Utility.SerializableDictionary;
 
-namespace PropertyDrawers.Dictionary
+namespace Editor.PropertyDrawers.Dictionary
 {
 	[CustomPropertyDrawer(typeof(SerializableDictionary<,>), true)]
 	public class SerializableDictionaryDrawer : PropertyDrawer
