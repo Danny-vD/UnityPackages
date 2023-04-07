@@ -21,7 +21,7 @@ namespace Utility.CursorUtil.CursorManagers
 		{
 			foreach ((MouseButton button, T datum) in MouseClickData)
 			{
-				if (MouseUtil.IsMouseButtonPressed(button))
+				if (MouseUtil.IsButtonPressed(button))
 				{
 					if (!IsIdle && CurrentState == button) // If we're currently idle, always go through
 					{
