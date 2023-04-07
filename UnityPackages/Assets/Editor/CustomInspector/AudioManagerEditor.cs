@@ -207,7 +207,7 @@ namespace CustomInspector
 			return needRecompile;
 		}
 
-		[MenuItem("FMOD/Import EventTypes")] // Make the validation a menu command that can be triggered from anywhere
+		[MenuItem("FMOD/Import Events")] // Make the validation a menu command that can be triggered from anywhere
 		private static void ValidateEventTypeEnumMenuItem(MenuCommand command)
 		{
 			_ = ValidateEventTypeEnum();
