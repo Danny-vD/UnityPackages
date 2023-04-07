@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:UnityPackages/Assets/zDEPENDENCIES/Structs.meta
 guid: 55821d4080fe92a4aa67ae010721f531
+========
+guid: 03f7148f4d87d9d439b3da17b2853b4d
+>>>>>>>> 3e8692260fe94adefea84d5da45c3eaef854f77f:UnityPackages/Assets/zDEPENDENCIES/Structs/Utility.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
