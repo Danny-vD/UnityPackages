@@ -4,7 +4,7 @@ using Utility.SerializableDictionary;
 using VDFramework.Extensions;
 using static Utility.EditorUtils;
 
-namespace PropertyDrawers.Dictionary
+namespace Editor.PropertyDrawers.Dictionary
 {
 	[CustomPropertyDrawer(typeof(SerializableEnumDictionary<,>), true)]
 	public class SerializableEnumDictionaryDrawer : PropertyDrawer
