@@ -1,15 +1,15 @@
-﻿using Enums.Localisation;
+﻿using IO.Localisation;
 
-namespace IO.Localisation
+namespace Localisation
 {
-	public static class LanguageUtil
+	public static class LocalisationUtil
 	{
 		/// <summary>
 		/// Returns the string for a specific key for the current language
 		/// </summary>
 		public static string GetLocalisedString(string entryID)
 		{
-			return JsonLanguageParser.GetVariable(entryID, LanguageSettings.Language.ToString());
+			return JsonLocalisationParser.GetVariable(entryID, LanguageSettings.Language.ToString());
 		}
 
 		/// <summary>

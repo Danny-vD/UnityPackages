@@ -1,35 +1,28 @@
 ﻿using System.Linq;
+using Enums.Localisation;
 using Events.Localisation;
 using UnityEngine;
 using VDFramework.EventSystem;
 using VDFramework.Extensions;
 
-namespace Enums.Localisation
+namespace Localisation
 {
-	// ReSharper disable InconsistentNaming
-	public enum Language
-	{
-		NL = SystemLanguage.Dutch,
-		EN = SystemLanguage.English,
-		DE = SystemLanguage.German,
-	}
-
 	public static class LanguageSettings
 	{
-		private const bool UseSystemLanguageAsDefault = true;
+		private const bool useSystemLanguageAsDefault = true;
 
-		private const Language DefaultLanguage = Language.EN;
+		private const Language defaultLanguage = Language.EN;
 
 		static LanguageSettings()
 		{
 #pragma warning disable CS0162 // Heuristically unreachable code
-			if (UseSystemLanguageAsDefault)
+			if (useSystemLanguageAsDefault)
 			{
 				SystemLanguage = Application.systemLanguage;
 			}
 			else
 			{
-				Language = DefaultLanguage;
+				Language = defaultLanguage;
 			}
 #pragma warning restore CS0162
 		}
@@ -41,7 +34,7 @@ namespace Enums.Localisation
 			get => language;
 			set
 			{
-				language = IsValidLanguage(value) ? value : DefaultLanguage;
+				language = IsValidLanguage(value) ? value : defaultLanguage;
 
 				EventManager.RaiseEvent(new LanguageChangedEvent());
 			}

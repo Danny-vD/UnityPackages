@@ -1,11 +1,12 @@
 ﻿using Events.Localisation;
+using IO.Localisation;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using VDFramework;
 using VDFramework.EventSystem;
 
-namespace IO.Localisation
+namespace Localisation.UI
 {
 	public class LocalisedText : BetterMonoBehaviour
 	{
@@ -37,7 +38,7 @@ namespace IO.Localisation
 
 		private void ReloadText()
 		{
-			SetText(LanguageUtil.GetLocalisedString(textType));
+			SetText(LocalisationUtil.GetLocalisedString(textType));
 		}
 
 		private void SetText(string newText)

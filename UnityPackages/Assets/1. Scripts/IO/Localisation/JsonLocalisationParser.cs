@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace IO.Localisation
 {
-	public static class JsonLanguageParser
+	public static class JsonLocalisationParser
 	{
 		private static readonly JsonLanguageVariables variables;
 
-		static JsonLanguageParser()
+		static JsonLocalisationParser()
 		{
 			variables = new JsonLanguageVariables();
 

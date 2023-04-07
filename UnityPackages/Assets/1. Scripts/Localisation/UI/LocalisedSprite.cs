@@ -6,7 +6,7 @@ using Utility.SerializableDictionary;
 using VDFramework;
 using VDFramework.EventSystem;
 
-namespace IO.Localisation
+namespace Localisation.UI
 {
 	public class LocalisedSprite : BetterMonoBehaviour
 	{
