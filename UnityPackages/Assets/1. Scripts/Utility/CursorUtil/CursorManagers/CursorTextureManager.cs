@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using MouseButton = Utility.CursorUtil.MouseUtil.MouseButton;
 
-namespace Utility.CursorUtil
+namespace Utility.CursorUtil.CursorManagers
 {
 	public class CursorTextureManager : AbstractCursorManager<CursorTextureManager.CursorData>
 	{

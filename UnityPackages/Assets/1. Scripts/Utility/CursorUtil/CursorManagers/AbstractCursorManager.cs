@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using VDFramework;
 using MouseButton = Utility.CursorUtil.MouseUtil.MouseButton;
-using Utility.SerializableDictionary;
 
-namespace Utility.CursorUtil
+namespace Utility.CursorUtil.CursorManagers
 {
 	[DisallowMultipleComponent]
 	public abstract class AbstractCursorManager<T> : BetterMonoBehaviour where T : struct

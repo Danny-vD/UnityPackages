@@ -3,7 +3,7 @@ using System.IO;
 using UnityEngine;
 using VDFramework;
 
-namespace Utility
+namespace IO.Screenshots
 {
 	public class ScreenshotTaker : BetterMonoBehaviour
 	{
