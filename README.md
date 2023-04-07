@@ -1,15 +1,15 @@
-# UnityPackages
+# UnityPackages  
 A collection of UnityPackages I developed
 
-Dependencies:
-<FMOD For Unity>
+Dependencies:  
+<FMOD For Unity>  
 
-[Editor&Utility]
-Utility.AbstractFunctionHandler
-Enums.UnityFunction
+[Editor&Utility]  
+Utility.AbstractFunctionHandler  
+Enums.UnityFunction  
 
-Editor/Utility.EditorUtils
-Editor/Utility.WriteToResources
+Editor/Utility.EditorUtils  
+Editor/Utility.WriteToResources  
 
-[SerializableDictionary]
+[SerializableDictionary]    
 **
