@@ -1,11 +1,11 @@
 using System;
 using System.Globalization;
 using System.Linq;
-using VDFramework.Extensions;
 using UnityEditor;
 using UnityEngine;
+using VDFramework.Extensions;
 
-namespace Utility
+namespace Editor.Utility
 {
 	public static class EditorUtils
 	{

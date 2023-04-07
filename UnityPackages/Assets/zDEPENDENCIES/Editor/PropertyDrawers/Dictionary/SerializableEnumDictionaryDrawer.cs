@@ -2,7 +2,7 @@
 using UnityEngine;
 using Utility.SerializableDictionary;
 using VDFramework.Extensions;
-using static Utility.EditorUtils;
+using static Editor.Utility.EditorUtils;
 
 namespace Editor.PropertyDrawers.Dictionary
 {

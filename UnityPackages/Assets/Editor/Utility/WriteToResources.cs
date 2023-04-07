@@ -2,7 +2,7 @@
 using System.Text;
 using UnityEngine;
 
-namespace Utility
+namespace Editor.Utility
 {
 	public static class WriteToResourcesUtil
 	{
