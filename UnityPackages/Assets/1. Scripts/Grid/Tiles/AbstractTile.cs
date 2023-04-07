@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Attributes;
 using Enums.Grid;
+using Structs.Grid;
 using UnityEngine;
 using VDFramework;
 
@@ -18,15 +19,15 @@ namespace Grid.Tiles
 		}
 		
 		[SerializeField]
-		protected bool walkable = true;
+		protected TileProperties properties = TileProperties.Default;
 		
-		public bool IsWalkable => walkable;
-
-		// Set the underlaying array to 4, as that is the most common amount of neighbors
-		protected readonly List<AbstractTile> Neighbors = new List<AbstractTile>(4);
+		public TileProperties Properties => properties;
 
 		public abstract TileType TileType { get; }
-
+		
+		// Set the underlaying array to 4, as that is the most common amount of neighbors
+		protected readonly List<AbstractTile> Neighbors = new List<AbstractTile>(4);
+		
 		// ReSharper disable once Unity.RedundantEventFunction
 		// Discourage any derivative classes from using the Awake method (because it the tile is not properly initialized at this moment)
 		// Override Initialize instead
