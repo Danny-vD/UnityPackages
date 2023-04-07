@@ -51,3 +51,6 @@ fmod_editor.log
 FMOD/**/.user/
 FMOD/**/.unsaved/
 FMOD/**/.cache/
+
+# Ignore anything that starts with a '.' (e.g. .vs .user .cache etc)
+#.*
