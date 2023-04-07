@@ -1,6 +1,7 @@
 ﻿using Enums;
 using UnityEngine;
 using UnityEngine.Events;
+using Utility.SerializableDictionary;
 
 namespace Utility.UnityFunctionHandlers
 {
