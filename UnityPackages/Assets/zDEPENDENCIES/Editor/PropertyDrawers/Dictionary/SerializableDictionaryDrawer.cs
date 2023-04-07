@@ -4,10 +4,10 @@ using System.Linq;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
-using Utility;
 using Utility.SerializableDictionary;
+using Editor.Utility;
 
-namespace PropertyDrawers.Dictionary
+namespace Editor.PropertyDrawers.Dictionary
 {
 	[CustomPropertyDrawer(typeof(SerializableDictionary<,>), true)]
 	public class SerializableDictionaryDrawer : PropertyDrawer
