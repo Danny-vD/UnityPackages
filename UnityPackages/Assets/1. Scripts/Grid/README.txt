@@ -4,4 +4,4 @@ GridCreator creates the Grid from the GridData (by using the TileTypePrefabs scr
 GridUtil tells GridCreator to create the grid on Awake and can provide information about a given GridPosition
 GridUtil is also used to tell the GridCreator to instead setup a pre-generated grid
 
-GridModifier is an EditorTool that allows you to change TileTypes by selecting tiles in the viewport
+GridModifier is a tool that allows you to change TileTypes by selecting tiles in the viewport
