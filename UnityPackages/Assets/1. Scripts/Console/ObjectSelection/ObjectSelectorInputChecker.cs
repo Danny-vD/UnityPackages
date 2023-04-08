@@ -1,11 +1,10 @@
-﻿//#define NewInput //NOTE: Define when needed
+﻿//#define UNITY_INPUT_SYSTEM //NOTE: Define when needed
 
 using System;
 using UnityEngine;
 
-#if NewInput
+#if UNITY_INPUT_SYSTEM
 using UnityEngine.InputSystem;
-
 #else
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +15,7 @@ namespace Console.ObjectSelection
 	[Serializable]
 	public class ObjectSelectorInputChecker
 	{
-#if NewInput
+#if UNITY_INPUT_SYSTEM
 		[SerializeField]
 		private InputActionReference addToSelectionInput;
 
@@ -35,8 +34,7 @@ namespace Console.ObjectSelection
 			return addToSelectionInput.action.IsPressed();
 		}
 #else
-		[SerializeField,
-		 Tooltip("You need to press at least 1 of these keys to Add to the selection, instead of override it")]
+		[SerializeField, Tooltip("You need to press at least 1 of these keys to Add to the selection, instead of override it")]
 		private List<KeyCode> addToSelectionKeys = new List<KeyCode>() { KeyCode.LeftControl, KeyCode.RightControl };
 
 		private bool CheckInput()
