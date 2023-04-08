@@ -1,11 +1,14 @@
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using VDFramework;
 
 namespace Utility.UI
 {
-    public class SelectOnEnable : MonoBehaviour
+    /// <summary>
+    /// Select a specific selectable when this object is enabled
+    /// </summary>
+    public class SelectOnEnable : BetterMonoBehaviour
     {
         [SerializeField]
         private Selectable selectable;
