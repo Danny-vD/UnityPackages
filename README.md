@@ -34,5 +34,5 @@ Contains a couple scripts that manage a 2D grid and place prefabs for each posit
 Also comes with several ways to modify the grid for easy level editing.
 ___
 ## Console
-Contains a UI Console with input field and a way to easily add new commands to the console.  
+Contains a UI Console with an input field and a way to easily add new commands to the console.  
 It also supports selecting objects in the scene and perform commands on that object.
