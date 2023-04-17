@@ -137,21 +137,20 @@ namespace Editor.PropertyDrawers.Dictionary
 			SerializedProperty keyValuePair = serializedDictionary.GetArrayElementAtIndex(index);
 			SerializedProperty key = keyValuePair.FindPropertyRelative("key");
 			SerializedProperty value = keyValuePair.FindPropertyRelative("value");
-			
+
 			Type[] genericArguments = fieldInfo.FieldType.GetGenericArguments();
 			Type keyType = genericArguments[0];
 
 			rect.height  =  EditorGUI.GetPropertyHeight(key, true);
-			propertySize += rect.height;
+			propertySize += rect.height; // Same as 'Key' PropertyHeight
 
 			EditorGUI.PropertyField(rect, key, new GUIContent($"{EditorUtils.GetValueString(key, index, propertyType: keyType)} [{EditorUtils.GetTypeString(key)}]"), true);
 
-			rect.y       += rect.height;
-			rect.y       += spacingBetweenPairValues;
+			rect.y       += rect.height + spacingBetweenPairValues; // Move the position down to beneath the last element + spacing
 			propertySize += spacingBetweenPairValues;
 
 			rect.height  =  EditorGUI.GetPropertyHeight(value, true);
-			propertySize += rect.height;
+			propertySize += rect.height; // Same as 'Value' PropertyHeight
 
 			EditorGUI.PropertyField(rect, value, new GUIContent($"Value [{EditorUtils.GetTypeString(value)}]"), true);
 
