@@ -14,6 +14,126 @@ namespace Utility.CursorUtil
 	[DisallowMultipleComponent]
 	public class MouseUtil : Singleton<MouseUtil>
 	{
+		#region Nested Types
+
+		/// <summary>
+		/// A utility class that watches the Button ups and downs and calls the respective events
+		/// </summary>
+		private class MouseInputEventHandler
+		{
+			public event Action OnButtonDown = InvokeAnyButtonDown;
+			public event Action OnButtonUp = InvokeAnyButtonUp;
+
+			private readonly Func<bool> checkButtonDown;
+			private readonly Func<bool> checkButtonUp;
+
+			public bool ButtonPressed { get; private set; }
+
+			public MouseInputEventHandler(Func<bool> buttonDown, Func<bool> buttonUp)
+			{
+				checkButtonDown = buttonDown;
+				checkButtonUp   = buttonUp;
+			}
+
+			/// <summary>
+			/// Same as Unity's own Update function, but has to be manually called
+			/// </summary>
+			public void Update()
+			{
+				if (checkButtonDown())
+				{
+					ButtonPressed = true;
+					OnButtonDown.Invoke();
+				}
+				else if (checkButtonUp())
+				{
+					ButtonPressed = false;
+					OnButtonUp.Invoke();
+				}
+			}
+		}
+
+#if UNITY_INPUT_SYSTEM
+		// Necessary for convencience of other scripts trying to interact with MouseUtil
+		
+		/// <summary>
+		/// Button indices for <see cref="UnityEngine.InputSystem.LowLevel.MouseState.buttons"/>.
+		/// </summary>
+		/// <seealso cref="UnityEngine.InputSystem.LowLevel.MouseButton"/>
+		public enum MouseButton
+		{
+			/// <summary>
+			/// Left mouse button.
+			/// </summary>
+			/// <seealso cref="Mouse.leftButton"/>
+			Left = UnityEngine.InputSystem.LowLevel.MouseButton.Left,
+
+			/// <summary>
+			/// Right mouse button.
+			/// </summary>
+			/// <seealso cref="Mouse.rightButton"/>
+			Right = UnityEngine.InputSystem.LowLevel.MouseButton.Right,
+
+			/// <summary>
+			/// Middle mouse button.
+			/// </summary>
+			/// <seealso cref="Mouse.middleButton"/>
+			Middle = UnityEngine.InputSystem.LowLevel.MouseButton.Middle,
+
+			/// <summary>
+			/// Second side button.
+			/// </summary>
+			/// <seealso cref="Mouse.forwardButton"/>
+			Forward = UnityEngine.InputSystem.LowLevel.MouseButton.Forward,
+
+			/// <summary>
+			/// First side button.
+			/// </summary>
+			/// <seealso cref="Mouse.backButton"/>
+			Back = UnityEngine.InputSystem.LowLevel.MouseButton.Back,
+		}
+#else
+		/// <summary>
+		/// Button indices for <see cref="UnityEngine.Input.GetMouseButton"/>
+		/// </summary>
+		/// <seealso cref="UnityEngine.Input.GetMouseButtonDown"/>
+		/// <seealso cref="UnityEngine.Input.GetMouseButtonUp"/>
+		public enum MouseButton
+		{
+			/// <summary>
+			/// Left mouse button.
+			/// </summary>
+			/// <seealso cref="UnityEngine.KeyCode.Mouse0"/>
+			Left,
+
+			/// <summary>
+			/// Right mouse button.
+			/// </summary>
+			/// <seealso cref="UnityEngine.KeyCode.Mouse1"/>
+			Right,
+
+			/// <summary>
+			/// Middle mouse button.
+			/// </summary>
+			/// <seealso cref="UnityEngine.KeyCode.Mouse2"/>
+			Middle,
+
+			/// <summary>
+			/// First side button.
+			/// </summary>
+			/// <seealso cref="UnityEngine.KeyCode.Mouse3"/>
+			Back,
+
+			/// <summary>
+			/// Second side button.
+			/// </summary>
+			/// <seealso cref="UnityEngine.KeyCode.Mouse4"/>
+			Forward,
+		}
+#endif
+
+		#endregion
+
 		#region Button Listener Events
 
 		/// <summary>
@@ -166,6 +286,16 @@ namespace Utility.CursorUtil
 
 		#endregion
 
+		#region Private Events
+
+		/// <seealso cref="OnScroll"/>
+		private static event Action<Vector2> onMouseScroll = delegate { };
+
+		private static event Action anyMouseButtonDown = delegate { };
+		private static event Action anyMouseButtonUp = delegate { };
+
+		#endregion
+
 		#region Properties
 
 		/// <summary>
@@ -196,6 +326,12 @@ namespace Utility.CursorUtil
 
 		#endregion
 
+		#region Private fields
+
+		private static readonly MouseInputEventHandler[] mouseButtonHandlers = new MouseInputEventHandler[5];
+
+		#endregion
+
 		#region MouseWorldPosition Methods
 
 		/// <summary>
@@ -219,18 +355,6 @@ namespace Utility.CursorUtil
 		{
 			return camera.ScreenToWorldPoint(GetMousePosition2D(), eye);
 		}
-
-		#endregion
-
-		#region Private fields
-
-		/// <seealso cref="OnScroll"/>
-		private static event Action<Vector2> onMouseScroll = delegate { };
-
-		private static event Action anyMouseButtonDown = delegate { };
-		private static event Action anyMouseButtonUp = delegate { };
-
-		private static readonly MouseInputEventHandler[] mouseButtonHandlers = new MouseInputEventHandler[5];
 
 		#endregion
 
@@ -378,6 +502,8 @@ namespace Utility.CursorUtil
 
 		#endregion
 
+		#region Button Query Methods
+
 		/// <summary>
 		/// Checks whether the specified MouseButton is currently pressed
 		/// </summary>
@@ -388,6 +514,10 @@ namespace Utility.CursorUtil
 			return mouseButtonHandlers[(int)mouseButton].ButtonPressed;
 		}
 
+		#endregion
+
+		#region Private Methods
+
 		private static void InvokeAnyButtonDown()
 		{
 			anyMouseButtonDown.Invoke();
@@ -397,6 +527,8 @@ namespace Utility.CursorUtil
 		{
 			anyMouseButtonUp.Invoke();
 		}
+
+		#endregion
 
 		#region UNITY_INPUT_SYSTEM
 
@@ -520,6 +652,8 @@ namespace Utility.CursorUtil
 
 		#endregion
 
+		#region Unity Event Functions
+
 		private void Update()
 		{
 			// Will be non-null if it has listeners, this allows us to prevent the Vector math for GetScrollDelta when we don't need it
@@ -533,124 +667,6 @@ namespace Utility.CursorUtil
 				buttonHandler.Update();
 			}
 		}
-
-		#region Nested Types
-
-		/// <summary>
-		/// A utility class that watches the Button ups and downs and calls the respective events
-		/// </summary>
-		private class MouseInputEventHandler
-		{
-			public event Action OnButtonDown = InvokeAnyButtonDown;
-			public event Action OnButtonUp = InvokeAnyButtonUp;
-
-			private readonly Func<bool> checkButtonDown;
-			private readonly Func<bool> checkButtonUp;
-
-			public bool ButtonPressed { get; private set; }
-
-			public MouseInputEventHandler(Func<bool> buttonDown, Func<bool> buttonUp)
-			{
-				checkButtonDown = buttonDown;
-				checkButtonUp   = buttonUp;
-			}
-
-			/// <summary>
-			/// Same as Unity's own Update function, but has to be manually called
-			/// </summary>
-			public void Update()
-			{
-				if (checkButtonDown())
-				{
-					ButtonPressed = true;
-					OnButtonDown.Invoke();
-				}
-				else if (checkButtonUp())
-				{
-					ButtonPressed = false;
-					OnButtonUp.Invoke();
-				}
-			}
-		}
-
-#if UNITY_INPUT_SYSTEM
-		// Necessary for convencience of other scripts trying to interact with MouseUtil
-		
-		/// <summary>
-		/// Button indices for <see cref="UnityEngine.InputSystem.LowLevel.MouseState.buttons"/>.
-		/// </summary>
-		/// <seealso cref="UnityEngine.InputSystem.LowLevel.MouseButton"/>
-		public enum MouseButton
-		{
-			/// <summary>
-			/// Left mouse button.
-			/// </summary>
-			/// <seealso cref="Mouse.leftButton"/>
-			Left = UnityEngine.InputSystem.LowLevel.MouseButton.Left,
-
-			/// <summary>
-			/// Right mouse button.
-			/// </summary>
-			/// <seealso cref="Mouse.rightButton"/>
-			Right = UnityEngine.InputSystem.LowLevel.MouseButton.Right,
-
-			/// <summary>
-			/// Middle mouse button.
-			/// </summary>
-			/// <seealso cref="Mouse.middleButton"/>
-			Middle = UnityEngine.InputSystem.LowLevel.MouseButton.Middle,
-
-			/// <summary>
-			/// Second side button.
-			/// </summary>
-			/// <seealso cref="Mouse.forwardButton"/>
-			Forward = UnityEngine.InputSystem.LowLevel.MouseButton.Forward,
-
-			/// <summary>
-			/// First side button.
-			/// </summary>
-			/// <seealso cref="Mouse.backButton"/>
-			Back = UnityEngine.InputSystem.LowLevel.MouseButton.Back,
-		}
-#else
-		/// <summary>
-		/// Button indices for <see cref="UnityEngine.Input.GetMouseButton"/>
-		/// </summary>
-		/// <seealso cref="UnityEngine.Input.GetMouseButtonDown"/>
-		/// <seealso cref="UnityEngine.Input.GetMouseButtonUp"/>
-		public enum MouseButton
-		{
-			/// <summary>
-			/// Left mouse button.
-			/// </summary>
-			/// <seealso cref="UnityEngine.KeyCode.Mouse0"/>
-			Left,
-
-			/// <summary>
-			/// Right mouse button.
-			/// </summary>
-			/// <seealso cref="UnityEngine.KeyCode.Mouse1"/>
-			Right,
-
-			/// <summary>
-			/// Middle mouse button.
-			/// </summary>
-			/// <seealso cref="UnityEngine.KeyCode.Mouse2"/>
-			Middle,
-
-			/// <summary>
-			/// First side button.
-			/// </summary>
-			/// <seealso cref="UnityEngine.KeyCode.Mouse3"/>
-			Back,
-
-			/// <summary>
-			/// Second side button.
-			/// </summary>
-			/// <seealso cref="UnityEngine.KeyCode.Mouse4"/>
-			Forward,
-		}
-#endif
 
 		#endregion
 	}
