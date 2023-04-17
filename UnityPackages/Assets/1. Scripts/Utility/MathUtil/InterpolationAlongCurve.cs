@@ -18,8 +18,8 @@ namespace Utility.MathUtil
 		/// <summary>
 		/// The current curve used for retrieving the interpolation value between <see cref="ValueA"/> and <see cref="ValueB"/>
 		/// </summary>
-		/// <seealso cref="Evaluate"/>
-		/// <seealso cref="EvaluateNormalized"/>
+		/// <seealso cref="Evaluate(float)"/>
+		/// <seealso cref="EvaluateNormalized(float)"/>
 		/// <seealso cref="AnimationCurve"/>
 		public AnimationCurve Curve
 		{
@@ -87,23 +87,47 @@ namespace Utility.MathUtil
 		}
 
 		/// <summary>
+		/// Returns an interpolated value between <paramref name="valueA"/> and <paramref name="valueB"/> based on the result of the <see cref="Curve"/> at <paramref name="time"/>
+		/// </summary>
+		/// <param name="valueA"><see cref="ValueA"/></param>
+		/// <param name="valueB"><see cref="ValueB"/></param>
+		/// <param name="time">The time to evaluate the curve for the interpolation value</param>
+		/// <returns>An (unclamped) interpolated value between A and B</returns>
+		public float Evaluate(float time, float valueA, float valueB)
+		{
+			return Mathf.LerpUnclamped(valueA, valueB, curve.Evaluate(time));
+		}
+
+		/// <summary>
 		/// Returns an interpolated value between <see cref="ValueA"/> and <see cref="ValueB"/> based on the result of the <see cref="Curve"/> at <paramref name="time"/>
 		/// </summary>
 		/// <param name="time">The time to evaluate the curve for the interpolation value</param>
 		/// <returns>An (unclamped) interpolated value between A and B</returns>
 		public float Evaluate(float time)
 		{
-			return Mathf.LerpUnclamped(ValueA, ValueB, curve.Evaluate(time));
+			return Evaluate(time, ValueA, ValueB);
+		}
+		
+		/// <summary>
+		/// Returns an interpolated value between <paramref name="valueA"/> and <paramref name="valueB"/> based on the result of the <see cref="Curve"/> at <paramref name="normalizedTime"/>
+		/// </summary>
+		/// <param name="valueA"><see cref="ValueA"/></param>
+		/// <param name="valueB"><see cref="ValueB"/></param>
+		/// <param name="normalizedTime">a normalized value that represents the % of the <see cref="MaxTime"/></param>
+		/// <returns>An (unclamped) interpolated value between A and B</returns>
+		public float EvaluateNormalized(float normalizedTime, float valueA, float valueB)
+		{
+			return Evaluate(normalizedTime * MaxTime, valueA, valueB);
 		}
 
 		/// <summary>
-		/// Returns an interpolated value between <see cref="ValueA"/> and <see cref="ValueB"/> based on the result of the <see cref="Curve"/> at normalizedTime <paramref name="normalizedTime"/>
+		/// Returns an interpolated value between <see cref="ValueA"/> and <see cref="ValueB"/> based on the result of the <see cref="Curve"/> at <paramref name="normalizedTime"/>
 		/// </summary>
 		/// <param name="normalizedTime">a normalized value that represents the % of the <see cref="MaxTime"/></param>
 		/// <returns>An (unclamped) interpolated value between A and B</returns>
 		public float EvaluateNormalized(float normalizedTime)
 		{
-			return Evaluate(normalizedTime * MaxTime);
+			return EvaluateNormalized(normalizedTime, ValueA, ValueB);
 		}
 
 		private void RecalculateMaxTime()
