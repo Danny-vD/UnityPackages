@@ -16,43 +16,6 @@ namespace Utility.CursorUtil
 	{
 		#region Nested Types
 
-		/// <summary>
-		/// A utility class that watches the Button ups and downs and calls the respective events
-		/// </summary>
-		private class MouseInputEventHandler
-		{
-			public event Action OnButtonDown = InvokeAnyButtonDown;
-			public event Action OnButtonUp = InvokeAnyButtonUp;
-
-			private readonly Func<bool> checkButtonDown;
-			private readonly Func<bool> checkButtonUp;
-
-			public bool ButtonPressed { get; private set; }
-
-			public MouseInputEventHandler(Func<bool> buttonDown, Func<bool> buttonUp)
-			{
-				checkButtonDown = buttonDown;
-				checkButtonUp   = buttonUp;
-			}
-
-			/// <summary>
-			/// Same as Unity's own Update function, but has to be manually called
-			/// </summary>
-			public void Update()
-			{
-				if (checkButtonDown())
-				{
-					ButtonPressed = true;
-					OnButtonDown.Invoke();
-				}
-				else if (checkButtonUp())
-				{
-					ButtonPressed = false;
-					OnButtonUp.Invoke();
-				}
-			}
-		}
-
 #if UNITY_INPUT_SYSTEM
 		// Necessary for convencience of other scripts trying to interact with MouseUtil
 		
@@ -131,6 +94,43 @@ namespace Utility.CursorUtil
 			Forward,
 		}
 #endif
+		
+		/// <summary>
+		/// A utility class that watches the Button ups and downs and calls the respective events
+		/// </summary>
+		private class MouseInputEventHandler
+		{
+			public event Action OnButtonDown = InvokeAnyButtonDown;
+			public event Action OnButtonUp = InvokeAnyButtonUp;
+
+			private readonly Func<bool> checkButtonDown;
+			private readonly Func<bool> checkButtonUp;
+
+			public bool ButtonPressed { get; private set; }
+
+			public MouseInputEventHandler(Func<bool> buttonDown, Func<bool> buttonUp)
+			{
+				checkButtonDown = buttonDown;
+				checkButtonUp   = buttonUp;
+			}
+
+			/// <summary>
+			/// Same as Unity's own Update function, but has to be manually called
+			/// </summary>
+			public void Update()
+			{
+				if (checkButtonDown())
+				{
+					ButtonPressed = true;
+					OnButtonDown.Invoke();
+				}
+				else if (checkButtonUp())
+				{
+					ButtonPressed = false;
+					OnButtonUp.Invoke();
+				}
+			}
+		}
 
 		#endregion
 
