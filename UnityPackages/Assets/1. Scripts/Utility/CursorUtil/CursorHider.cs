@@ -16,7 +16,7 @@ namespace Utility.CursorUtil
 		[SerializeField, Tooltip("When should the cursor be hidden?")]
 		private CursorHideMode hideMode = CursorHideMode.HideCursor;
 
-		private void Start()
+		private void OnEnable()
 		{
 			if (hideMode == CursorHideMode.AlwaysShowCursor)
 			{
@@ -31,16 +31,6 @@ namespace Utility.CursorUtil
 			{
 				HideCursor();
 			}
-		}
-
-		private void OnEnable()
-		{
-			if (!MouseUtil.IsInitialized)
-			{
-				return;
-			}
-			
-			Start();
 		}
 
 		private void OnDisable()

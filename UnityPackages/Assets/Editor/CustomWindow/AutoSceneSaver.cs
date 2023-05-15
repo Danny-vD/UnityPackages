@@ -3,7 +3,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Editor.CustomWindow
+namespace CustomWindow
 {
 	public class AutoSceneSaver : EditorWindow
 	{

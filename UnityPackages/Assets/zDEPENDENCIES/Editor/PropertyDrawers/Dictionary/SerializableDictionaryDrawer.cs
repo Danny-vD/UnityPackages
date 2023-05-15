@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Editor.Utility;
+using Structs.Utility.SerializableDictionary;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -85,7 +85,7 @@ namespace Editor.PropertyDrawers.Dictionary
 		/// <summary>
 		/// Check if all the keys are distinct by comparing their value as a string
 		/// </summary>
-		/// <seealso cref="Structs.Utility.SerializableDictionary.SerializableKeyValuePair.key"/>
+		/// <seealso cref="SerializableKeyValuePair{TKey,TValue}.key"/>
 		/// <seealso cref="EditorUtils.GetValueString"/>
 		private static bool IsValidDictionary(SerializedProperty dictionary, out int actualKeyCount)
 		{
