@@ -11,7 +11,7 @@ namespace Utility.PhysicsUtil
 	public class GroundedChecker : BetterMonoBehaviour
 	{
 		[SerializeField, Header("Layers that will never count as grounded when touched")]
-		private LayerMask IgnoreLayer = 1 << 10 | 1 << 5; // Player and UI Layer
+		private LayerMask IgnoreLayer = 1 << 5; // UI Layer
 
 		[SerializeField, Header("The maximum allowed slope in degrees for it to still count as grounded"), Range(0, 90)]
 		private float slopeThreshold = 30;
@@ -23,7 +23,7 @@ namespace Utility.PhysicsUtil
 		private bool isGrounded;
 
 		/// <summary>
-		/// Will check whether any touched surface normal is within the grounded angle threshold
+		/// Is any touched surface normal within the grounded angle threshold?
 		/// </summary>
 		public bool IsGrounded => checkedSinceUpdate ? isGrounded : CheckGrounded();
 
@@ -48,13 +48,21 @@ namespace Utility.PhysicsUtil
 
 			foreach (ContactPoint point in contactPoints)
 			{
+				// Check the normal of the contact point
 				float normalAngle = Vector3.Angle(point.normal, Vector3.up);
 
+				if (normalAngle < slopeThreshold)
+				{
+					isGrounded = true;
+					break;
+				}
+
+				// Raycast towards the contact point and check the hit normal (this is not the same as the point.normal)
 				Physics.Raycast(point.point, -point.normal, out RaycastHit hit, 0.2f, ~IgnoreLayer);
 
 				float raycastAngle = Vector3.Angle(hit.normal, Vector3.up);
 
-				if (normalAngle < slopeThreshold || raycastAngle < slopeThreshold)
+				if (raycastAngle < slopeThreshold)
 				{
 					isGrounded = true;
 					break;
