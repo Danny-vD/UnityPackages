@@ -99,7 +99,7 @@ namespace Utility.CopyTargetUtils
 			if (copyAngles != 0)
 			{
 				CopyRotation();
-				
+
 				ApplyRotationOffset();
 			}
 
@@ -152,9 +152,12 @@ namespace Utility.CopyTargetUtils
 			Transform parent = CachedTransform.parent;
 			Vector3 offset = globalPositionOffset;
 
-			offset += parent.right * parentPositionOffset.x;
-			offset += parent.up * parentPositionOffset.y;
-			offset += parent.forward * parentPositionOffset.z;
+			if (parent)
+			{
+				offset += parent.right * parentPositionOffset.x;
+				offset += parent.up * parentPositionOffset.y;
+				offset += parent.forward * parentPositionOffset.z;
+			}
 
 			offset += target.right * targetPositionOffset.x;
 			offset += target.up * targetPositionOffset.y;
@@ -231,9 +234,12 @@ namespace Utility.CopyTargetUtils
 			Transform parent = CachedTransform.parent;
 			Vector3 offset = globalRotationOffset;
 
-			offset += parent.right * parentRotationOffset.x;
-			offset += parent.up * parentRotationOffset.y;
-			offset += parent.forward * parentRotationOffset.z;
+			if (parent)
+			{
+				offset += parent.right * parentRotationOffset.x;
+				offset += parent.up * parentRotationOffset.y;
+				offset += parent.forward * parentRotationOffset.z;
+			}
 
 			offset += target.right * targetRotationOffset.x;
 			offset += target.up * targetRotationOffset.y;
@@ -248,7 +254,7 @@ namespace Utility.CopyTargetUtils
 				offset = transform.InverseTransformVector(offset);
 			}
 
-			// Prevent adding an offset to an axis we didn't copy (which would cause infinite translation)
+			// Prevent adding an offset to an axis we didn't copy (which would cause infinite rotation)
 			if (!copyAngles.HasFlag(Axis.X))
 			{
 				offset.x = 0;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Attributes;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Utility.MathUtil
 	/// </summary>
 	/// <seealso cref="Curve"/>
 	[Serializable]
-	public class InterpolationAlongCurve
+	public class InterpolationAlongCurve : ISerializationCallbackReceiver
 	{
 		[SerializeField]
 		private AnimationCurve curve;
@@ -27,7 +28,7 @@ namespace Utility.MathUtil
 			set
 			{
 				curve = value;
-				RecalculateMaxTime();
+				RecalculateMinMaxTime();
 			}
 		}
 
@@ -41,12 +42,31 @@ namespace Utility.MathUtil
 		{
 			get
 			{
-				if (!hasCalculatedMaxTime)
+				if (!hasCalculatedTime)
 				{
-					RecalculateMaxTime();
+					RecalculateMinMaxTime();
 				}
 
 				return maxTime;
+			}
+		}
+		
+		[SerializeField, ReadOnly]
+		private float minTime;
+
+		/// <summary>
+		/// The latest time in the curve
+		/// </summary>
+		public float MinTime
+		{
+			get
+			{
+				if (!hasCalculatedTime)
+				{
+					RecalculateMinMaxTime();
+				}
+
+				return minTime;
 			}
 		}
 
@@ -74,13 +94,13 @@ namespace Utility.MathUtil
 		/// <seealso cref="MaxTime"/>
 		public WrapMode CurvePostWrapMode => curve.postWrapMode;
 
-		private bool hasCalculatedMaxTime = false;
+		private bool hasCalculatedTime = false;
 
 		public InterpolationAlongCurve(AnimationCurve animationCurve, float valueA, float valueB)
 		{
 			curve = animationCurve;
 
-			RecalculateMaxTime();
+			RecalculateMinMaxTime();
 
 			ValueA = valueA;
 			ValueB = valueB;
@@ -113,29 +133,78 @@ namespace Utility.MathUtil
 		/// </summary>
 		/// <param name="valueA"><see cref="ValueA"/></param>
 		/// <param name="valueB"><see cref="ValueB"/></param>
-		/// <param name="normalizedTime">a normalized value that represents the % of the <see cref="MaxTime"/></param>
+		/// <param name="normalizedTime">a normalized value that represents the % between <see cref="MinTime"/> and <see cref="MaxTime"/></param>
 		/// <returns>An (unclamped) interpolated value between A and B</returns>
 		public float EvaluateNormalized(float normalizedTime, float valueA, float valueB)
 		{
-			return Evaluate(normalizedTime * MaxTime, valueA, valueB);
+			return Evaluate(Mathf.Lerp(MinTime, MaxTime, normalizedTime), valueA, valueB);
+		}
+		
+		/// <summary>
+		/// Returns an interpolated value between <paramref name="valueA"/> and <paramref name="valueB"/> based on the result of the <see cref="Curve"/> at <paramref name="normalizedTime"/>
+		/// </summary>
+		/// <param name="valueA"><see cref="ValueA"/></param>
+		/// <param name="valueB"><see cref="ValueB"/></param>
+		/// <param name="normalizedTime">a normalized value that represents the % of the <see cref="MaxTime"/></param>
+		/// <returns>An (unclamped) interpolated value between A and B</returns>
+		/// /// <remarks>This function assumes that MinTime is 0 and does not take the actual start of the curve into account</remarks>
+		public float EvaluateNormalizedPositive(float normalizedTime, float valueA, float valueB)
+		{
+			return Evaluate(normalizedTime * maxTime, valueA, valueB);
 		}
 
 		/// <summary>
 		/// Returns an interpolated value between <see cref="ValueA"/> and <see cref="ValueB"/> based on the result of the <see cref="Curve"/> at <paramref name="normalizedTime"/>
 		/// </summary>
-		/// <param name="normalizedTime">a normalized value that represents the % of the <see cref="MaxTime"/></param>
+		/// <param name="normalizedTime">a normalized value that represents the % between <see cref="MinTime"/> and <see cref="MaxTime"/></param>
 		/// <returns>An (unclamped) interpolated value between A and B</returns>
 		public float EvaluateNormalized(float normalizedTime)
 		{
 			return EvaluateNormalized(normalizedTime, ValueA, ValueB);
 		}
+		
+		/// <summary>
+		/// Returns an interpolated value between <see cref="ValueA"/> and <see cref="ValueB"/> based on the result of the <see cref="Curve"/> at <paramref name="normalizedTime"/>
+		/// </summary>
+		/// <param name="normalizedTime">a normalized value that represents the % of the <see cref="MaxTime"/></param>
+		/// <returns>An (unclamped) interpolated value between A and B</returns>
+		/// <remarks>This function assumes that MinTime is 0 and does not take the actual start of the curve into account</remarks>
+		public float EvaluateNormalizedPositive(float normalizedTime)
+		{
+			return EvaluateNormalizedPositive(normalizedTime, ValueA, ValueB);
+		}
 
-		private void RecalculateMaxTime()
+		private void RecalculateMinMaxTime()
 		{
 			// Get the latest time
-			maxTime = curve.keys.Select(key => key.time).Max();
+			IEnumerable<float> keyTimes = curve.keys.Select(key => key.time);
 
-			hasCalculatedMaxTime = true;
+			minTime = float.MaxValue;
+			maxTime = float.MinValue;
+			
+			foreach (float time in keyTimes)
+			{
+				if (time < minTime)
+				{
+					minTime = time;
+				}
+
+				if (time > maxTime)
+				{
+					maxTime = time;
+				}
+			}
+
+			hasCalculatedTime = true;
+		}
+
+		public void OnBeforeSerialize()
+		{
+		}
+
+		public void OnAfterDeserialize()
+		{
+			RecalculateMinMaxTime();
 		}
 	}
 }
