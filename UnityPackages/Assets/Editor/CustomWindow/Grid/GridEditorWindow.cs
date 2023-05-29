@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using Comparisons.Grid;
 using Enums.Grid;
-using Grid;
 using Grid.Core;
 using Structs.Utility.SerializableDictionary;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
 using UnityEngine;
-using static Editor.Utility.EditorUtils;
+using UnityEngine.SceneManagement;
+using static Utility.EditorUtils;
 
-namespace Editor.CustomWindow.Grid
+namespace CustomWindow.Grid
 {
 	public class GridEditorWindow : EditorWindow
 	{
@@ -36,7 +35,7 @@ namespace Editor.CustomWindow.Grid
 			DrawGridProperties();
 
 			DrawGenerateButton();
-
+			
 			scroll = EditorGUILayout.BeginScrollView(scroll, true, true);
 			{
 				EditorGUILayout.Space(20.0f);

@@ -8,8 +8,10 @@ namespace Utility.EditorHelpers
 	/// </summary>
 	public class RemoveInBuild : BetterMonoBehaviour
 	{
+#if UNITY_EDITOR
 		[SerializeField, Tooltip("If true this object will not be removed when the editor goes into playmode")]
 		private bool persistInPlayMode = true;
+#endif
 
 		protected virtual bool RemoveObject => false;
 

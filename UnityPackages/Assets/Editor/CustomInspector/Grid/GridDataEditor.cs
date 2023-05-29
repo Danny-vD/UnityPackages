@@ -2,9 +2,9 @@
 using Grid.Core;
 using UnityEditor;
 using UnityEngine;
-using static Editor.Utility.EditorUtils;
+using static Utility.EditorUtils;
 
-namespace Editor.CustomInspector.Grid
+namespace CustomInspector.Grid
 {
 	[CustomEditor(typeof(GridData), true)]
 	public class GridDataEditor : UnityEditor.Editor

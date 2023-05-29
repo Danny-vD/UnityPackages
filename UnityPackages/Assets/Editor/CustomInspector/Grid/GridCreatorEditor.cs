@@ -1,12 +1,11 @@
-using Grid;
 using Grid.Core;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static Editor.Utility.EditorUtils;
+using static Utility.EditorUtils;
 
-namespace Editor.CustomInspector.Grid
+namespace CustomInspector.Grid
 {
 	[CustomEditor(typeof(GridCreator))]
 	public class GridCreatorEditor : UnityEditor.Editor

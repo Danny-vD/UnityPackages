@@ -2,9 +2,9 @@
 using UnityEngine;
 using Utility.SerializableDictionary;
 using VDFramework.Extensions;
-using static Editor.Utility.EditorUtils;
+using static Utility.EditorUtils;
 
-namespace Editor.PropertyDrawers.Dictionary
+namespace PropertyDrawers.Dictionary
 {
 	[CustomPropertyDrawer(typeof(SerializableEnumDictionary<,>), true)]
 	public class SerializableEnumDictionaryDrawer : PropertyDrawer

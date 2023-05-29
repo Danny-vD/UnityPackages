@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Enums.Grid;
-using Grid;
 using Grid.Core;
 using Grid.EditorTools;
 using Grid.Tiles;
 using UnityEditor;
 using UnityEngine;
-using static Editor.Utility.EditorUtils;
+using static Utility.EditorUtils;
 
-namespace Editor.CustomInspector.Grid
+namespace CustomInspector.Grid
 {
 	[CustomEditor(typeof(GridModifier))]
 	public class GridModifierEditor : UnityEditor.Editor
