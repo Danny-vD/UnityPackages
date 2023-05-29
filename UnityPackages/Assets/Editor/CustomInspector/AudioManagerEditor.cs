@@ -1,19 +1,19 @@
 using System;
 using System.Linq;
 using Audio.Core;
-using Editor.Utility.EnumWriter.FMODUtil;
+using Utility.EnumWriter.FMODUtil;
 using Enums.Audio;
 using FMODUnity;
 using UnityEditor;
 using UnityEngine;
 using VDFramework.Extensions;
 using EventType = Enums.Audio.EventType;
-using static Editor.Utility.EditorUtils;
+using static Utility.EditorUtils;
 
-namespace Editor.CustomInspector
+namespace CustomInspector
 {
 	[CustomEditor(typeof(AudioManager))]
-	public class AudioManagerEditor : UnityEditor.Editor
+	public class AudioManagerEditor : Editor
 	{
 		// AudioManager
 		private AudioManager audioManager;

@@ -8,7 +8,7 @@ using UnityEditor.Compilation;
 using UnityEngine;
 using EventType = Enums.Audio.EventType;
 
-namespace Editor.Utility.EnumWriter.FMODUtil
+namespace Utility.EnumWriter.FMODUtil
 {
 	public static class AudioEnumWriter
 	{
