@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Editor.Utility;
+using Utility;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 using Utility.SerializableDictionary;
 
-namespace Editor.PropertyDrawers.Dictionary
+namespace PropertyDrawers.Dictionary
 {
 	[CustomPropertyDrawer(typeof(SerializableDictionary<,>), true)]
 	public class SerializableDictionaryDrawer : PropertyDrawer
 	{
 		// Constants, for consistent layout
-		private const float spacingWarningToDictionary = 10.0f;
 		private const float baseSize = 15f;
-		private const float spacingBetweenElements = 8f;
-		private const float spacingBetweenPairValues = 5.0f;
+		
+		private const float warningHeight = 45.0f;
+		private const float spacingWarningToDictionary = 10.0f;
 
 		private const float paddingAtBeginOfElement = 2.0f;
+		private const float spacingBetweenPairValues = 5.0f;
+		private const float paddingAtEndOfElement = 8f;
+		
 		private const float paddingAtEndOfProperty = 0.0f;
-
-		private const float warningHeight = 45.0f;
 
 		private float propertySize;
 
@@ -131,31 +132,26 @@ namespace Editor.PropertyDrawers.Dictionary
 				return;
 			}
 
-			rect.y       += paddingAtBeginOfElement;
-			propertySize += paddingAtBeginOfElement;
+			rect.y += paddingAtBeginOfElement;
 
 			SerializedProperty keyValuePair = serializedDictionary.GetArrayElementAtIndex(index);
 			SerializedProperty key = keyValuePair.FindPropertyRelative("key");
 			SerializedProperty value = keyValuePair.FindPropertyRelative("value");
-			
+
 			Type[] genericArguments = fieldInfo.FieldType.GetGenericArguments();
 			Type keyType = genericArguments[0];
 
-			rect.height  =  EditorGUI.GetPropertyHeight(key, true);
-			propertySize += rect.height;
+			rect.height = EditorGUI.GetPropertyHeight(key, true);
 
 			EditorGUI.PropertyField(rect, key, new GUIContent($"{EditorUtils.GetValueString(key, index, propertyType: keyType)} [{EditorUtils.GetTypeString(key)}]"), true);
 
-			rect.y       += rect.height;
-			rect.y       += spacingBetweenPairValues;
-			propertySize += spacingBetweenPairValues;
+			rect.y += rect.height + spacingBetweenPairValues; // Move the position down to beneath the last element + spacing
 
-			rect.height  =  EditorGUI.GetPropertyHeight(value, true);
-			propertySize += rect.height;
+			rect.height = EditorGUI.GetPropertyHeight(value, true);
 
 			EditorGUI.PropertyField(rect, value, new GUIContent($"Value [{EditorUtils.GetTypeString(value)}]"), true);
 
-			propertySize += spacingBetweenElements;
+			propertySize += GetElementHeight(index) + 2; // + 2 because Unity adds 2 pixels padding to each element
 		}
 
 		private void DrawNoneElement(Rect rect)
@@ -189,7 +185,7 @@ namespace Editor.PropertyDrawers.Dictionary
 			currentElementHeight += EditorGUI.GetPropertyHeight(key, true) + EditorGUI.GetPropertyHeight(value, true);
 
 			currentElementHeight += spacingBetweenPairValues;
-			currentElementHeight += spacingBetweenElements;
+			currentElementHeight += paddingAtEndOfElement;
 
 			return currentElementHeight;
 		}
