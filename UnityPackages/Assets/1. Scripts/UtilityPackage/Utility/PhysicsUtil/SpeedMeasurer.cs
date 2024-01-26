@@ -2,7 +2,7 @@ using Attributes;
 using UnityEngine;
 using VDFramework;
 
-namespace Utility.PhysicsUtil
+namespace UtilityPackage.Utility.PhysicsUtil
 {
 	public class SpeedMeasurer : BetterMonoBehaviour
 	{

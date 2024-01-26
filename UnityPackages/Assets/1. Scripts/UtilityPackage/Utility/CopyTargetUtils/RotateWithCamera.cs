@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using VDFramework;
 
-namespace Utility.CopyTargetUtils
+namespace UtilityPackage.Utility.CopyTargetUtils
 {
 	/// <summary>
 	/// Copies the camera rotation to this transform

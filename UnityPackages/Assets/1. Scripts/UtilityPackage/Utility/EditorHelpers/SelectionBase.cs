@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Utility.EditorHelpers
+namespace UtilityPackage.Utility.EditorHelpers
 {
 	/// <summary>
 	/// Ensures this gameobject will always be selected when clicking on one of the children in the scene

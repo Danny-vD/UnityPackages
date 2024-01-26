@@ -1,6 +1,6 @@
-﻿namespace Interfaces
+﻿namespace UtilityPackage.Interfaces
 {
-	public interface IListener
+	public interface IEventListener
 	{
 		void AddListeners();
 

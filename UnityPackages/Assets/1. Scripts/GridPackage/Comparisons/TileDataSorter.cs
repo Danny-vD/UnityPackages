@@ -1,5 +1,5 @@
 ﻿using System;
-using Enums.Grid;
+using GridPackage.Enums.Grid;
 using Structs.Utility.SerializableDictionary;
 using UnityEngine;
 

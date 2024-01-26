@@ -1,7 +1,7 @@
 using UnityEngine;
 using VDFramework;
 
-namespace Utility.EditorHelpers
+namespace UtilityPackage.Utility.EditorHelpers
 {
 	/// <summary>
 	/// Remove this component or object outside of the Unity Editor

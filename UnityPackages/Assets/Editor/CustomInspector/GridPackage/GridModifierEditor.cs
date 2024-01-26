@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Enums.Grid;
+using GridPackage.Enums.Grid;
 using GridPackage.Grid.BaseTiles;
 using GridPackage.Grid.Core;
 using GridPackage.Grid.EditorTools;
 using UnityEditor;
 using UnityEngine;
-using static Utility.EditorUtils;
+using static Utility.EditorPackage.EditorUtils;
 
-namespace CustomInspector.Grid
+namespace CustomInspector.GridPackage
 {
 	[CustomEditor(typeof(GridModifier))]
-	public class GridModifierEditor : UnityEditor.Editor
+	public class GridModifierEditor : Editor
 	{
 		private GridModifier gridModifier;
 		private static bool regenerateGrid = true;

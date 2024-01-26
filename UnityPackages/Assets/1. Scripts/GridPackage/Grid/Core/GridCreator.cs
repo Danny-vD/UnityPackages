@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Enums.Grid;
+using GridPackage.Enums.Grid;
 using GridPackage.Grid.BaseTiles;
 using GridPackage.ScriptableObjects;
 using Structs.Utility.SerializableDictionary;

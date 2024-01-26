@@ -1,7 +1,7 @@
-﻿using Structs.CursorStructs;
+﻿using SerializableDictionaryPackage.SerializableDictionary;
+using Structs.CursorStructs;
 using UnityEngine;
 using UnityEngine.UI;
-using Utility.SerializableDictionary;
 using UtilityPackage.CursorManagement.CursorUtility;
 using UtilityPackage.CursorManagement.CursorUtility.Singletons;
 

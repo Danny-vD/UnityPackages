@@ -3,7 +3,7 @@ using UnityEngine;
 using UtilityPackage.CursorManagement.CursorUtility;
 using VDFramework;
 
-namespace UtilityPackage.Utility.CursorUtil
+namespace UtilityPackage.Utility.CursorUtility
 {
 	[DisallowMultipleComponent]
 	public class CursorHider : BetterMonoBehaviour

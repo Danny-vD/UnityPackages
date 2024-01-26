@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Attributes;
-using Enums.Grid;
+using GridPackage.Enums.Grid;
 using GridPackage.Structs;
 using UnityEngine;
 using VDFramework;

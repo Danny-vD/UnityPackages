@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Enums
+namespace UtilityPackage.Utility.UnityFunctionHandlers.Enums
 {
 	/// <summary>
 	/// Represents basic Unity Event Functions

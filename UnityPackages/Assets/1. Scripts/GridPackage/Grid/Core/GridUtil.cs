@@ -1,4 +1,4 @@
-﻿using Enums.Grid;
+﻿using GridPackage.Enums.Grid;
 using GridPackage.Grid.BaseTiles;
 using UnityEngine;
 using VDFramework;

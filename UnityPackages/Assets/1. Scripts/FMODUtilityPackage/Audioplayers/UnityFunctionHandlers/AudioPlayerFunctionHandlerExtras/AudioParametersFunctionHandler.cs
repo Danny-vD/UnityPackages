@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Enums;
 using FMOD.Studio;
 using FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.BaseClasses;
 using FMODUtilityPackage.Structs;
+using SerializableDictionaryPackage.SerializableDictionary;
 using UnityEngine;
-using Utility.SerializableDictionary;
+using UtilityPackage.Utility.UnityFunctionHandlers.Enums;
 
 namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.AudioPlayerFunctionHandlerExtras
 {

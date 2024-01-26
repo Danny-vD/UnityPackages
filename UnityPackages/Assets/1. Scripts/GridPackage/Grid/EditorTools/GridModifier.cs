@@ -1,8 +1,8 @@
 ﻿using System;
-using Enums.Grid;
+using GridPackage.Enums.Grid;
 using GridPackage.Grid.Core;
 using UnityEngine;
-using Utility.EditorHelpers;
+using UtilityPackage.Utility.EditorHelpers;
 
 namespace GridPackage.Grid.EditorTools
 {

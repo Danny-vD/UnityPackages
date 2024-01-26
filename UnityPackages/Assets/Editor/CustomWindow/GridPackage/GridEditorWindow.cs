@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using Enums.Grid;
 using GridPackage.Comparisons;
+using GridPackage.Enums.Grid;
 using GridPackage.Grid.Core;
 using Structs.Utility.SerializableDictionary;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static Utility.EditorUtils;
+using static Utility.EditorPackage.EditorUtils;
 
-namespace CustomWindow.Grid
+namespace CustomWindow.GridPackage
 {
 	public class GridEditorWindow : EditorWindow
 	{

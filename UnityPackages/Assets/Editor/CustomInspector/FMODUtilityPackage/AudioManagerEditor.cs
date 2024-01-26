@@ -8,7 +8,7 @@ using UnityEngine;
 using Utility.FMODUtilityPackage.EnumWriter;
 using VDFramework.Extensions;
 using EventType = FMODUtilityPackage.Enums.EventType;
-using static Utility.EditorUtils;
+using static Utility.EditorPackage.EditorUtils;
 
 namespace CustomInspector.FMODUtilityPackage
 {

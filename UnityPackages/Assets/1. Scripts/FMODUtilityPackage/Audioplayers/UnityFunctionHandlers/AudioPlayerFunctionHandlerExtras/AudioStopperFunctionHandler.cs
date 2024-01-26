@@ -1,7 +1,7 @@
-﻿using Enums;
-using FMOD.Studio;
+﻿using FMOD.Studio;
 using FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.BaseClasses;
 using UnityEngine;
+using UtilityPackage.Utility.UnityFunctionHandlers.Enums;
 
 namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.AudioPlayerFunctionHandlerExtras
 {

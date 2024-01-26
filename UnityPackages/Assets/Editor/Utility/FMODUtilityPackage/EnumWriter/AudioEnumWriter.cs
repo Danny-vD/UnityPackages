@@ -6,6 +6,7 @@ using System.Text;
 using FMODUnity;
 using UnityEditor.Compilation;
 using UnityEngine;
+using Utility.EditorPackage;
 using EventType = FMODUtilityPackage.Enums.EventType;
 
 namespace Utility.FMODUtilityPackage.EnumWriter

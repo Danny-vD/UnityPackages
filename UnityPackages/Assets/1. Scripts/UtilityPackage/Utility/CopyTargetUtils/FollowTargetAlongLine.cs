@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using VDFramework;
 
-namespace Utility.CopyTargetUtils
+namespace UtilityPackage.Utility.CopyTargetUtils
 {
 	[DisallowMultipleComponent]
 	public class FollowTargetAlongLine : BetterMonoBehaviour

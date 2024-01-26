@@ -2,7 +2,7 @@
 using UnityEngine;
 using VDFramework;
 
-namespace Utility.PhysicsUtil
+namespace UtilityPackage.Utility.PhysicsUtil
 {
 	/// <summary>
 	/// An extremely accurate way to check groundedness of an object by checking the angle of all contact points with a surface *and* checking the angle of the hitNormal from the raycast towards those points

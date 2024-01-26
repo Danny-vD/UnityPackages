@@ -1,12 +1,12 @@
-﻿using Enums;
-using FMODUnity;
+﻿using FMODUnity;
 using FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.BaseClasses;
 using FMODUtilityPackage.Core;
 using FMODUtilityPackage.Enums;
 using FMODUtilityPackage.ExtentionMethods;
 using FMODUtilityPackage.Structs;
+using SerializableDictionaryPackage.SerializableDictionary;
 using UnityEngine;
-using Utility.SerializableDictionary;
+using UtilityPackage.Utility.UnityFunctionHandlers.Enums;
 
 namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.EmitterHandlers
 {

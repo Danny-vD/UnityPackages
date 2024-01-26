@@ -2,7 +2,7 @@
 using UnityEngine;
 using VDFramework;
 
-namespace Utility.CopyTargetUtils
+namespace UtilityPackage.Utility.CopyTargetUtils
 {
 	public class CopyTransformOfTarget : BetterMonoBehaviour
 	{

@@ -1,8 +1,8 @@
-﻿using Enums;
-using UnityEngine;
+﻿using UnityEngine;
+using UtilityPackage.Utility.UnityFunctionHandlers.Enums;
 using VDFramework;
 
-namespace Utility.UnityFunctionHandlers
+namespace UtilityPackage.Utility.UnityFunctionHandlers
 {
 	/// <summary>
 	/// Invoke the <see cref="ReactToEvent"/> function as a reaction to given <see cref="Enums.UnityFunction"/>s

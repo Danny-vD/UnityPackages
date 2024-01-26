@@ -1,6 +1,6 @@
-﻿using Structs.CursorStructs;
+﻿using SerializableDictionaryPackage.SerializableDictionary;
+using Structs.CursorStructs;
 using UnityEngine;
-using Utility.SerializableDictionary;
 using UtilityPackage.CursorManagement.CursorUtility;
 
 namespace CursorManagement.CursorComponents

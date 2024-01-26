@@ -2,7 +2,7 @@
 using UnityEngine;
 using VDFramework;
 
-namespace Utility.PhysicsUtil.Callbacks
+namespace UtilityPackage.Utility.PhysicsUtil.Callbacks
 {
 	public class TriggerCallback : BetterMonoBehaviour
 	{

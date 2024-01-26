@@ -1,9 +1,9 @@
-﻿using Enums;
+﻿using SerializableDictionaryPackage.SerializableDictionary;
 using UnityEngine;
 using UnityEngine.Events;
-using Utility.SerializableDictionary;
+using UtilityPackage.Utility.UnityFunctionHandlers.Enums;
 
-namespace Utility.UnityFunctionHandlers
+namespace UtilityPackage.Utility.UnityFunctionHandlers
 {
 	public class EventFunctionHandler : AbstractFunctionHandler
 	{

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using SerializableDictionaryPackage.SerializableDictionary;
 using UnityEngine;
-using Utility.SerializableDictionary;
 
 namespace FMODUtilityPackage.Structs
 {

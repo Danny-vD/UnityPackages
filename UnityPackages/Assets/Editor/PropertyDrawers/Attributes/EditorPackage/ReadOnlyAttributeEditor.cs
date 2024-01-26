@@ -3,7 +3,7 @@ using Attributes;
 using UnityEditor;
 using UnityEngine;
 
-namespace PropertyDrawers.Attributes
+namespace PropertyDrawers.Attributes.EditorPackage
 {
 	[CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
 	public class ReadOnlyAttributeEditor : PropertyDrawer

@@ -1,9 +1,9 @@
 ﻿using LocalisationPackage.Core;
 using LocalisationPackage.Core.Enums;
 using LocalisationPackage.Events;
+using SerializableDictionaryPackage.SerializableDictionary;
 using UnityEngine;
 using UnityEngine.UI;
-using Utility.SerializableDictionary;
 using VDFramework;
 using VDFramework.EventSystem;
 

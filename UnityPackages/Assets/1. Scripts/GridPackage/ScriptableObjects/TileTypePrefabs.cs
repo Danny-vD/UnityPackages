@@ -1,6 +1,6 @@
-using Enums.Grid;
+using GridPackage.Enums.Grid;
+using SerializableDictionaryPackage.SerializableDictionary;
 using UnityEngine;
-using Utility.SerializableDictionary;
 
 namespace GridPackage.ScriptableObjects
 {

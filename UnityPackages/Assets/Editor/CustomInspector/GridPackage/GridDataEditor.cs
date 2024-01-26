@@ -1,13 +1,13 @@
-﻿using Enums.Grid;
+﻿using GridPackage.Enums.Grid;
 using GridPackage.Grid.Core;
 using UnityEditor;
 using UnityEngine;
-using static Utility.EditorUtils;
+using static Utility.EditorPackage.EditorUtils;
 
-namespace CustomInspector.Grid
+namespace CustomInspector.GridPackage
 {
 	[CustomEditor(typeof(GridData), true)]
-	public class GridDataEditor : UnityEditor.Editor
+	public class GridDataEditor : Editor
 	{
 		private static bool tileDataFoldout;
 

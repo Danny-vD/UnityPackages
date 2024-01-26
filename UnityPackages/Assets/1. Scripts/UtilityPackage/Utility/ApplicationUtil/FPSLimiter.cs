@@ -1,7 +1,7 @@
 using UnityEngine;
 using VDFramework;
 
-namespace Utility.ApplicationUtil
+namespace UtilityPackage.Utility.ApplicationUtil
 {
     public class FPSLimiter : BetterMonoBehaviour
     {

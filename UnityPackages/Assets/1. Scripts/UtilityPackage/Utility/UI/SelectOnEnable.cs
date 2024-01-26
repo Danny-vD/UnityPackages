@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using VDFramework;
 
-namespace Utility.UI
+namespace UtilityPackage.Utility.UI
 {
     /// <summary>
     /// Select a specific selectable when this object is enabled

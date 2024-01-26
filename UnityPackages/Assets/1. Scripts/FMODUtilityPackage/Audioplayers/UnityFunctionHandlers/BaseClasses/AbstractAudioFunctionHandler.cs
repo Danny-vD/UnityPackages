@@ -1,5 +1,5 @@
 ﻿using FMODUtilityPackage.Core;
-using Utility.UnityFunctionHandlers;
+using UtilityPackage.Utility.UnityFunctionHandlers;
 
 namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.BaseClasses
 {

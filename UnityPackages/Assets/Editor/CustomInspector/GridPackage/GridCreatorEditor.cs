@@ -3,12 +3,12 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static Utility.EditorUtils;
+using static Utility.EditorPackage.EditorUtils;
 
-namespace CustomInspector.Grid
+namespace CustomInspector.GridPackage
 {
 	[CustomEditor(typeof(GridCreator))]
-	public class GridCreatorEditor : UnityEditor.Editor
+	public class GridCreatorEditor : Editor
 	{
 		private GridCreator gridCreator;
 

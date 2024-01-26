@@ -6,7 +6,7 @@ using System.Linq;
 using Structs.Utility.SerializableDictionary;
 using UnityEngine;
 
-namespace Utility.SerializableDictionary
+namespace SerializableDictionaryPackage.SerializableDictionary
 {
 	/// <summary>
 	/// A 'fake' dictionary that can be serialized

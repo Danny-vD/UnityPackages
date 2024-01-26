@@ -1,9 +1,9 @@
-﻿using Enums;
-using FMOD.Studio;
+﻿using FMOD.Studio;
 using FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.BaseClasses;
 using FMODUtilityPackage.Core;
 using FMODUtilityPackage.Enums;
 using UnityEngine;
+using UtilityPackage.Utility.UnityFunctionHandlers.Enums;
 using EventType = FMODUtilityPackage.Enums.EventType;
 
 namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers
