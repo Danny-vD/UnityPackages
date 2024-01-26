@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using CursorManagement.Singletons;
 using SerializableDictionaryPackage.SerializableDictionary;
-using Structs.CursorStructs;
 using UnityEngine;
 using UtilityPackage.CursorManagement.CursorUtility;
+using UtilityPackage.CursorManagement.Singletons;
+using UtilityPackage.CursorManagement.Structs;
 
-namespace CursorManagement.CursorComponents
+namespace UtilityPackage.CursorManagement.CursorComponents
 {
 	public class DraggingCursorComponent : AbstractCursorComponent
 	{

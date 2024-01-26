@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Structs.CursorStructs
+namespace UtilityPackage.CursorManagement.Structs
 {
 	[Serializable]
 	public struct CursorData

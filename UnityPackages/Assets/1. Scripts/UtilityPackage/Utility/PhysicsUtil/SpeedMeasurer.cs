@@ -1,5 +1,5 @@
-using Attributes;
 using UnityEngine;
+using UtilityPackage.Attributes;
 using VDFramework;
 
 namespace UtilityPackage.Utility.PhysicsUtil

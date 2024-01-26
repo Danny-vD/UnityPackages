@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Attributes
+namespace UtilityPackage.Attributes
 {
 	/// <summary>
 	///   <para>Prevent this field from being edited in the inspector.</para>

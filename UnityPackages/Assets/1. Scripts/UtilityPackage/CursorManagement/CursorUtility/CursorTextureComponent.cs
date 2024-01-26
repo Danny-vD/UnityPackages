@@ -1,5 +1,5 @@
-﻿using Structs.CursorStructs;
-using UnityEngine;
+﻿using UnityEngine;
+using UtilityPackage.CursorManagement.Structs;
 using VDFramework;
 
 namespace UtilityPackage.CursorManagement.CursorUtility

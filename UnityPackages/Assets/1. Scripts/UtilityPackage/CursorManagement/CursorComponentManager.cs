@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Structs.CursorStructs;
 using UnityEngine;
+using UtilityPackage.CursorManagement.Structs;
 using VDFramework.Singleton;
 
-namespace CursorManagement
+namespace UtilityPackage.CursorManagement
 {
 	/// <summary>
 	/// Manages CursorComponents in a priority-based order

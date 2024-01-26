@@ -4,7 +4,7 @@ using UtilityPackage.CursorManagement.CursorUtility;
 using VDFramework.Extensions;
 using VDFramework.Singleton;
 
-namespace CursorManagement.Singletons
+namespace UtilityPackage.CursorManagement.Singletons
 {
 	public class MouseButtonHeldChecker : Singleton<MouseButtonHeldChecker>
 	{
