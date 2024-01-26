@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Attributes;
 using UnityEngine;
+using VDFramework.Extensions;
 
 namespace UtilityPackage.Utility.MathUtil
 {
@@ -11,7 +11,7 @@ namespace UtilityPackage.Utility.MathUtil
 	/// </summary>
 	/// <seealso cref="Curve"/>
 	[Serializable]
-	public class InterpolationAlongCurve : ISerializationCallbackReceiver
+	public class InterpolationAlongCurve
 	{
 		[SerializeField]
 		private AnimationCurve curve;
@@ -21,6 +21,8 @@ namespace UtilityPackage.Utility.MathUtil
 		/// </summary>
 		/// <seealso cref="Evaluate(float)"/>
 		/// <seealso cref="EvaluateNormalized(float)"/>
+		/// <seealso cref="EvaluateCurve(float)"/>
+		/// <seealso cref="EvaluateCurveNormalized(float)"/>
 		/// <seealso cref="AnimationCurve"/>
 		public AnimationCurve Curve
 		{
@@ -28,13 +30,38 @@ namespace UtilityPackage.Utility.MathUtil
 			set
 			{
 				curve = value;
-				RecalculateMinMaxTime();
+				RecalculateValues();
 			}
 		}
 
 		[SerializeField, ReadOnly]
+		private float minTime;
+		
+		[SerializeField, ReadOnly]
 		private float maxTime;
+		
+		[SerializeField, ReadOnly]
+		private float minValue;
+		
+		[SerializeField, ReadOnly]
+		private float maxValue;
+		
+		/// <summary>
+		/// The earliest time in the curve
+		/// </summary>
+		public float MinTime
+		{
+			get
+			{
+				if (!hasCalculatedValues)
+				{
+					RecalculateValues();
+				}
 
+				return minTime;
+			}
+		}
+		
 		/// <summary>
 		/// The latest time in the curve
 		/// </summary>
@@ -42,33 +69,51 @@ namespace UtilityPackage.Utility.MathUtil
 		{
 			get
 			{
-				if (!hasCalculatedTime)
+				if (!hasCalculatedValues)
 				{
-					RecalculateMinMaxTime();
+					RecalculateValues();
 				}
 
 				return maxTime;
 			}
 		}
 		
-		[SerializeField, ReadOnly]
-		private float minTime;
-
 		/// <summary>
-		/// The latest time in the curve
+		/// The lowest value in the curve
 		/// </summary>
-		public float MinTime
+		public float MinValue
 		{
 			get
 			{
-				if (!hasCalculatedTime)
+				if (!hasCalculatedValues)
 				{
-					RecalculateMinMaxTime();
+					RecalculateValues();
 				}
 
-				return minTime;
+				return minValue;
 			}
 		}
+		
+		/// <summary>
+		/// The highest value in the curve
+		/// </summary>
+		public float MaxValue
+		{
+			get
+			{
+				if (!hasCalculatedValues)
+				{
+					RecalculateValues();
+				}
+
+				return maxValue;
+			}
+		}
+
+		/// <summary>
+		/// The length of the curve between the first and last keyframe
+		/// </summary>
+		public float TotalCurveTime => MaxTime - MinTime;
 
 		/// <summary>
 		/// <para>The first value used for interpolation.</para>
@@ -94,16 +139,32 @@ namespace UtilityPackage.Utility.MathUtil
 		/// <seealso cref="MaxTime"/>
 		public WrapMode CurvePostWrapMode => curve.postWrapMode;
 
-		private bool hasCalculatedTime = false;
+		private bool hasCalculatedValues = false;
 
 		public InterpolationAlongCurve(AnimationCurve animationCurve, float valueA, float valueB)
 		{
 			curve = animationCurve;
 
-			RecalculateMinMaxTime();
+			if (curve != null)
+			{
+				RecalculateValues();
+			}
 
 			ValueA = valueA;
 			ValueB = valueB;
+		}
+		
+		public InterpolationAlongCurve(AnimationCurve animationCurve)
+		{
+			curve = animationCurve;
+
+			if (curve != null)
+			{
+				RecalculateValues();
+				
+				ValueA = MinValue;
+				ValueB = MaxValue;
+			}
 		}
 
 		/// <summary>
@@ -115,7 +176,7 @@ namespace UtilityPackage.Utility.MathUtil
 		/// <returns>An (unclamped) interpolated value between A and B</returns>
 		public float Evaluate(float time, float valueA, float valueB)
 		{
-			return Mathf.LerpUnclamped(valueA, valueB, curve.Evaluate(time));
+			return Mathf.LerpUnclamped(valueA, valueB, EvaluateCurve(time));
 		}
 
 		/// <summary>
@@ -127,19 +188,7 @@ namespace UtilityPackage.Utility.MathUtil
 		{
 			return Evaluate(time, ValueA, ValueB);
 		}
-		
-		/// <summary>
-		/// Returns an interpolated value between <paramref name="valueA"/> and <paramref name="valueB"/> based on the result of the <see cref="Curve"/> at <paramref name="normalizedTime"/>
-		/// </summary>
-		/// <param name="valueA"><see cref="ValueA"/></param>
-		/// <param name="valueB"><see cref="ValueB"/></param>
-		/// <param name="normalizedTime">a normalized value that represents the % between <see cref="MinTime"/> and <see cref="MaxTime"/></param>
-		/// <returns>An (unclamped) interpolated value between A and B</returns>
-		public float EvaluateNormalized(float normalizedTime, float valueA, float valueB)
-		{
-			return Evaluate(Mathf.Lerp(MinTime, MaxTime, normalizedTime), valueA, valueB);
-		}
-		
+
 		/// <summary>
 		/// Returns an interpolated value between <paramref name="valueA"/> and <paramref name="valueB"/> based on the result of the <see cref="Curve"/> at <paramref name="normalizedTime"/>
 		/// </summary>
@@ -147,16 +196,15 @@ namespace UtilityPackage.Utility.MathUtil
 		/// <param name="valueB"><see cref="ValueB"/></param>
 		/// <param name="normalizedTime">a normalized value that represents the % of the <see cref="MaxTime"/></param>
 		/// <returns>An (unclamped) interpolated value between A and B</returns>
-		/// /// <remarks>This function assumes that MinTime is 0 and does not take the actual start of the curve into account</remarks>
-		public float EvaluateNormalizedPositive(float normalizedTime, float valueA, float valueB)
+		public float EvaluateNormalized(float normalizedTime, float valueA, float valueB)
 		{
-			return Evaluate(normalizedTime * maxTime, valueA, valueB);
+			return Evaluate(MinTime + normalizedTime * TotalCurveTime, valueA, valueB);
 		}
 
 		/// <summary>
 		/// Returns an interpolated value between <see cref="ValueA"/> and <see cref="ValueB"/> based on the result of the <see cref="Curve"/> at <paramref name="normalizedTime"/>
 		/// </summary>
-		/// <param name="normalizedTime">a normalized value that represents the % between <see cref="MinTime"/> and <see cref="MaxTime"/></param>
+		/// <param name="normalizedTime">a normalized value that represents the % of the <see cref="MaxTime"/></param>
 		/// <returns>An (unclamped) interpolated value between A and B</returns>
 		public float EvaluateNormalized(float normalizedTime)
 		{
@@ -164,47 +212,32 @@ namespace UtilityPackage.Utility.MathUtil
 		}
 		
 		/// <summary>
-		/// Returns an interpolated value between <see cref="ValueA"/> and <see cref="ValueB"/> based on the result of the <see cref="Curve"/> at <paramref name="normalizedTime"/>
+		/// Returns the value of the <see cref="Curve"/> at <paramref name="time"/>
+		/// </summary>
+		/// <param name="time">The time to evaluate the curve</param>
+		public float EvaluateCurve(float time)
+		{
+			return curve.Evaluate(time);
+		}
+		
+		/// <summary>
+		/// Returns the value of the <see cref="Curve"/> at <paramref name="normalizedTime"/>
 		/// </summary>
 		/// <param name="normalizedTime">a normalized value that represents the % of the <see cref="MaxTime"/></param>
-		/// <returns>An (unclamped) interpolated value between A and B</returns>
-		/// <remarks>This function assumes that MinTime is 0 and does not take the actual start of the curve into account</remarks>
-		public float EvaluateNormalizedPositive(float normalizedTime)
+		public float EvaluateCurveNormalized(float normalizedTime)
 		{
-			return EvaluateNormalizedPositive(normalizedTime, ValueA, ValueB);
+			return EvaluateCurve(MinTime + normalizedTime * TotalCurveTime);
 		}
 
-		private void RecalculateMinMaxTime()
+		private void RecalculateValues()
 		{
-			// Get the latest time
-			IEnumerable<float> keyTimes = curve.keys.Select(key => key.time);
+			Keyframe[] curveKeys = curve.keys;
 
-			minTime = float.MaxValue;
-			maxTime = float.MinValue;
-			
-			foreach (float time in keyTimes)
-			{
-				if (time < minTime)
-				{
-					minTime = time;
-				}
+			curveKeys.Select(key => key.time).GetMinMax(out minTime, out maxTime);
 
-				if (time > maxTime)
-				{
-					maxTime = time;
-				}
-			}
+			curveKeys.Select(key => key.value).GetMinMax(out minValue, out maxValue);
 
-			hasCalculatedTime = true;
-		}
-
-		public void OnBeforeSerialize()
-		{
-		}
-
-		public void OnAfterDeserialize()
-		{
-			RecalculateMinMaxTime();
+			hasCalculatedValues = true;
 		}
 	}
 }

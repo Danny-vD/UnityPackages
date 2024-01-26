@@ -71,12 +71,12 @@ namespace SerializableDictionaryPackage.SerializableDictionary
 				TryGetValue(key, out TValue value);
 				return value;
 			}
-			set => ((IDictionary) this).Add(key, value);
+			set => ((IDictionary)this).Add(key, value);
 		}
 
 		public int Count => InternalList.Count;
 
-		public object SyncRoot => ((ICollection) InternalList).SyncRoot;
+		public object SyncRoot => ((ICollection)InternalList).SyncRoot;
 
 		public bool IsFixedSize => false;
 		public bool IsSynchronized => false;
@@ -86,9 +86,9 @@ namespace SerializableDictionaryPackage.SerializableDictionary
 
 		public ICollection<TValue> Values => InternalList.Select(pair => pair.Value).ToArray();
 
-		ICollection IDictionary.Values => (ICollection) Keys;
+		ICollection IDictionary.Values => (ICollection)Keys;
 
-		ICollection IDictionary.Keys => (ICollection) Values;
+		ICollection IDictionary.Keys => (ICollection)Values;
 
 		#endregion
 
@@ -182,19 +182,19 @@ namespace SerializableDictionaryPackage.SerializableDictionary
 
 			VerifyValue(value);
 
-			Add((TKey) key, (TValue) value);
+			Add((TKey)key, (TValue)value);
 		}
 
 		void IDictionary.Remove(object key)
 		{
 			VerifyKey(key);
 
-			Remove((TKey) key);
+			Remove((TKey)key);
 		}
 
 		bool IDictionary.Contains(object key)
 		{
-			return VerifyKey(key) && ContainsKey((TKey) key);
+			return VerifyKey(key) && ContainsKey((TKey)key);
 		}
 
 		#endregion
@@ -203,17 +203,21 @@ namespace SerializableDictionaryPackage.SerializableDictionary
 
 		public void Add(KeyValuePair<TKey, TValue> item)
 		{
-			if (!InternalList.Contains(item))
+			SerializableKeyValuePair<TKey, TValue> pair = item;
+
+			if (!InternalList.Contains(pair))
 			{
-				InternalList.Add(item);
-				serializedDictionary.Add(item);
+				InternalList.Add(pair);
+				serializedDictionary.Add(pair);
 			}
 		}
 
 		public bool Remove(KeyValuePair<TKey, TValue> item)
 		{
-			serializedDictionary.Remove(item);
-			return InternalList.Remove(item);
+			SerializableKeyValuePair<TKey, TValue> pair = item;
+
+			serializedDictionary.Remove(pair);
+			return InternalList.Remove(pair);
 		}
 
 		public void Clear()
@@ -231,7 +235,7 @@ namespace SerializableDictionaryPackage.SerializableDictionary
 
 		public void CopyTo(Array array, int index)
 		{
-			((ICollection) InternalList).CopyTo(array, index);
+			((ICollection)InternalList).CopyTo(array, index);
 		}
 
 		#endregion
@@ -245,7 +249,7 @@ namespace SerializableDictionaryPackage.SerializableDictionary
 		public virtual void OnAfterDeserialize()
 		{
 			SerializableKeyValuePair<TKey, TValue> last;
-			
+
 			foreach (SerializableKeyValuePair<TKey, TValue> serializableKeyValuePair in serializedDictionary)
 			{
 				last = serializableKeyValuePair;
@@ -265,7 +269,7 @@ namespace SerializableDictionaryPackage.SerializableDictionary
 
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-		IDictionaryEnumerator IDictionary.GetEnumerator() => ((Dictionary<TKey, TValue>) this).GetEnumerator();
+		IDictionaryEnumerator IDictionary.GetEnumerator() => ((Dictionary<TKey, TValue>)this).GetEnumerator();
 
 		#endregion
 
@@ -275,7 +279,7 @@ namespace SerializableDictionaryPackage.SerializableDictionary
 		{
 			VerifyKey(key);
 
-			int index = FindEntry((TKey) key);
+			int index = FindEntry((TKey)key);
 
 			if (index >= 0)
 			{
@@ -331,7 +335,7 @@ namespace SerializableDictionaryPackage.SerializableDictionary
 
 		private IEnumerable<KeyValuePair<TKey, TValue>> ToKeyValuePair()
 		{
-			return InternalList.Select(pair => (KeyValuePair<TKey, TValue>) pair);
+			return InternalList.Select(pair => (KeyValuePair<TKey, TValue>)pair);
 		}
 
 		private SerializableKeyValuePair<TKey, TValue> GetPair(TKey key)
