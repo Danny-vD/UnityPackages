@@ -119,7 +119,7 @@ namespace GridPackage.Grid.Core
 
 		private AbstractTile InstantiateTile(GridData data, Transform parent, TileType type, Vector2Int gridPosition)
 		{
-			GameObject prefab = tileTypePrefabs.PrefabsPerTileType[type].GetRandomItem();
+			GameObject prefab = tileTypePrefabs.PrefabsPerTileType[type].GetRandomElement();
 
 			if (prefab == null)
 			{
