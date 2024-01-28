@@ -45,6 +45,7 @@ namespace FMODUtilityPackage.Audioplayers.UI
 		private void OnDisable()
 		{
 			clickSound.release();
+            isInitialized = false;
 		}
 
 		private void OnDestroy()
