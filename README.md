@@ -1,9 +1,6 @@
 # UnityPackages
 ## Disclaimer
 Most packages have a dependency on the VDFramework which can be found [here](https://github.com/Danny-vD/VDFramework/releases/latest).
-
-### Note
-main branch is empty and used as a 'base' for any future packages.
 ___
 ## Folder Structure
 A package whose sole purpose is to setup all necessary folders at the beginning of a project.  
