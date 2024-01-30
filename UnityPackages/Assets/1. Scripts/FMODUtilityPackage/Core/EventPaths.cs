@@ -8,7 +8,6 @@ using UnityEditor;
 using UnityEngine;
 using VDFramework.Extensions;
 using VDFramework.Utility;
-using EventType = FMODUtilityPackage.Enums.EventType;
 
 namespace FMODUtilityPackage.Core
 {
@@ -58,9 +57,9 @@ namespace FMODUtilityPackage.Core
 			}
 		}
 
-		public EventReference GetEventReference(EventType eventType)
+		public EventReference GetEventReference(AudioEventType audioEventType)
 		{
-			return events.First(item => item.Key.Equals(eventType)).Value;
+			return events.First(item => item.Key.Equals(audioEventType)).Value;
 		}
 
 		public string GetPath(BusType busType)
@@ -75,8 +74,8 @@ namespace FMODUtilityPackage.Core
 
 		private EventReference GetEventReferenceForEmitter(EmitterType emitterType)
 		{
-			EventType eventType = emitterEvents.First(item => item.Key == emitterType).Value;
-			return GetEventReference(eventType);
+			AudioEventType audioEventType = emitterEvents.First(item => item.Key == emitterType).Value;
+			return GetEventReference(audioEventType);
 		}
 
 #if UNITY_EDITOR
@@ -157,11 +156,11 @@ namespace FMODUtilityPackage.Core
 
 		private void UpdateDictionaries()
 		{
-			EnumDictionaryUtil.PopulateEnumDictionary<EventReferencePerEvent, EventType, EventReference>(events);
+			EnumDictionaryUtil.PopulateEnumDictionary<EventReferencePerEvent, AudioEventType, EventReference>(events);
 
 			EnumDictionaryUtil.PopulateEnumDictionary<BusPathPerBus, BusType, string>(buses);
 
-			EnumDictionaryUtil.PopulateEnumDictionary<EventsPerEmitter, EmitterType, EventType>(emitterEvents);
+			EnumDictionaryUtil.PopulateEnumDictionary<EventsPerEmitter, EmitterType, AudioEventType>(emitterEvents);
 		}
 
 		public void OnBeforeSerialize()

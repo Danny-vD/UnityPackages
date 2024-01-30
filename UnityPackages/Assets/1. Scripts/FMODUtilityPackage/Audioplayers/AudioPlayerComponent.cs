@@ -1,17 +1,18 @@
 ﻿using FMOD.Studio;
 using FMODUtilityPackage.Core;
+using FMODUtilityPackage.Enums;
+using FMODUtilityPackage.ExtentionMethods;
 using FMODUtilityPackage.Interfaces;
+using FMODUtilityPackage.Structs;
 using UnityEngine;
-using UtilityPackage.Interfaces;
 using VDFramework;
-using EventType = FMODUtilityPackage.Enums.EventType;
 
 namespace FMODUtilityPackage.Audioplayers
 {
-	public class AudioEventPlayer : BetterMonoBehaviour, IAudioplayer
+	public class AudioPlayerComponent : BetterMonoBehaviour, IAudioplayer
 	{
 		[SerializeField]
-		private EventType eventType;
+		private AudioEventType audioEventType;
 
 		private EventInstance eventInstance;
 
@@ -20,9 +21,9 @@ namespace FMODUtilityPackage.Audioplayers
 			CacheEventInstance();
 		}
 
-		public void SetEventType(EventType newEventType)
+		public void SetEventType(AudioEventType newAudioEventType)
 		{
-			eventType = newEventType;
+			audioEventType = newAudioEventType;
 			CacheEventInstance();
 		}
 		
@@ -56,10 +57,15 @@ namespace FMODUtilityPackage.Audioplayers
 			eventInstance.stop(stopMode);
 		}
 
+		public void SetParameters(EventParameters parameters)
+		{
+			eventInstance.SetParameters(parameters);
+		}
+
 		private void CacheEventInstance()
 		{
 			eventInstance.release();
-			eventInstance = AudioPlayer.GetEventInstance(eventType);
+			eventInstance = AudioPlayer.GetEventInstance(audioEventType);
 		}
 
 		private void OnDestroy()

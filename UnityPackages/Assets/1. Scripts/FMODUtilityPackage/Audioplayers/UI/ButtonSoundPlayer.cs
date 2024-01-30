@@ -1,13 +1,12 @@
 ﻿using FMOD.Studio;
 using FMODUtilityPackage.Core;
+using FMODUtilityPackage.Enums;
 using FMODUtilityPackage.ExtentionMethods;
 using FMODUtilityPackage.Interfaces;
 using FMODUtilityPackage.Structs;
 using UnityEngine;
 using UnityEngine.UI;
-using UtilityPackage.Interfaces;
 using VDFramework;
-using EventType = FMODUtilityPackage.Enums.EventType;
 
 namespace FMODUtilityPackage.Audioplayers.UI
 {
@@ -18,7 +17,7 @@ namespace FMODUtilityPackage.Audioplayers.UI
 		private bool clickRestartsSound = true;
 
 		[SerializeField]
-		private EventType eventToPlayOnClick;
+		private AudioEventType audioEventToPlayOnClick;
 
 		[SerializeField]
 		private EventParameters parameters;
@@ -36,7 +35,7 @@ namespace FMODUtilityPackage.Audioplayers.UI
 
 		private void Initialize()
 		{
-			clickSound = AudioPlayer.GetEventInstance(eventToPlayOnClick);
+			clickSound = AudioPlayer.GetEventInstance(audioEventToPlayOnClick);
 			clickSound.SetParameters(parameters);
 
 			isInitialized = true;

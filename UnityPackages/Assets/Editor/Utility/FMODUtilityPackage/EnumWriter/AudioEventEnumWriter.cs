@@ -4,17 +4,17 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using FMODUnity;
+using FMODUtilityPackage.Enums;
 using UnityEditor.Compilation;
 using UnityEngine;
 using Utility.EditorPackage;
-using EventType = FMODUtilityPackage.Enums.EventType;
 
 namespace Utility.FMODUtilityPackage.EnumWriter
 {
 	/// <summary>
 	/// Used to write all the event paths to a file in the resources folder to be able to retrieve the eventpaths without having to put an instantiated AudioManager in the scene
 	/// </summary>
-	public static class AudioEnumWriter
+	public static class AudioEventEnumWriter
 	{
 		private const string scriptsFolder = "1. Scripts";
 		private const string subFolder = "";
@@ -31,7 +31,7 @@ namespace Utility.FMODUtilityPackage.EnumWriter
 
 			WriteToResourcesUtil.WriteToResources(pathNames, "EventPaths.txt", "FMODUtilityPackage/");
 
-			WriteToFile(typePath, nameof(EventType), eventNames, pathNames, '/'); // everything starts with 'event:/'
+			WriteToFile(typePath, nameof(AudioEventType), eventNames, pathNames, '/'); // everything starts with 'event:/'
 		}
 
 		public static void WriteToFile(string path, string typeName, string[] values, string[] documentation, char startValueCharacter)

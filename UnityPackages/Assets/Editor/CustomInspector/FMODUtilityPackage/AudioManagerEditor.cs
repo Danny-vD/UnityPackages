@@ -7,7 +7,6 @@ using UnityEditor;
 using UnityEngine;
 using Utility.FMODUtilityPackage.EnumWriter;
 using VDFramework.Extensions;
-using EventType = FMODUtilityPackage.Enums.EventType;
 using static Utility.EditorPackage.EditorUtils;
 
 namespace CustomInspector.FMODUtilityPackage
@@ -117,7 +116,7 @@ namespace CustomInspector.FMODUtilityPackage
 		{
 			if (IsFoldOut(ref showEventPaths, showEventPaths ? folderIconOpen : folderIconClosed, "Event Paths"))
 			{
-				DrawFoldoutKeyValueArray<EventType>(events, "key", "value", eventPathsFoldout, eventIcon, new GUIContent("Path"));
+				DrawFoldoutKeyValueArray<AudioEventType>(events, "key", "value", eventPathsFoldout, eventIcon, new GUIContent("Path"));
 			}
 		}
 
@@ -196,11 +195,11 @@ namespace CustomInspector.FMODUtilityPackage
 		/// <returns>Whether or not a recompile is necessary</returns>
 		private static bool ValidateEventTypeEnum()
 		{
-			bool needRecompile = default(EventType).GetValues().Count() != EventManager.Events.Count;
+			bool needRecompile = default(AudioEventType).GetValues().Count() != EventManager.Events.Count;
 
 			if (needRecompile)
 			{
-				AudioEnumWriter.WriteFmodEventsToEnum();
+				AudioEventEnumWriter.WriteFmodEventsToEnum();
 			}
 
 			return needRecompile;
