@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using FMOD.Studio;
 using FMODUnity;
 using FMODUtilityPackage.Enums;
@@ -10,6 +11,10 @@ namespace FMODUtilityPackage.Core
 {
 	public static class AudioPlayer
 	{
+		// Reflection because the StudioEventEmitter internally caches the event after setting (and playing) it once, so you cannot normally set it again
+		private static readonly MethodInfo lookup = typeof(StudioEventEmitter).GetMethod("Lookup", BindingFlags.Instance | BindingFlags.NonPublic);
+		private static readonly FieldInfo eventInstance = typeof(StudioEventEmitter).GetField("instance", BindingFlags.Instance | BindingFlags.NonPublic);
+		
 		public static void PlayEmitter(EmitterType emitter)
 		{
 			AudioManager.Instance.EventPaths.GetEmitter(emitter).Play();
@@ -39,7 +44,14 @@ namespace FMODUtilityPackage.Core
 			bool isPlaying = studioEventEmitter.IsPlaying();
 
 			studioEventEmitter.Stop(); // By telling the emitter to stop we also tell it to release the current instance
-			studioEventEmitter.EventReference = AudioManager.Instance.EventPaths.GetEventReference(audioEvent);
+			
+			EventReference eventReference = AudioManager.Instance.EventPaths.GetEventReference(audioEvent);
+			studioEventEmitter.EventReference = eventReference;
+
+			eventReference.GetEventDescription().createInstance(out EventInstance instance);
+			
+			lookup.Invoke(studioEventEmitter, null);
+			eventInstance.SetValue(studioEventEmitter, instance);
 			
 			if (isPlaying)
 			{
