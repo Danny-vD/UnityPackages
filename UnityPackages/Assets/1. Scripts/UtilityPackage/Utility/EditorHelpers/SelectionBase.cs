@@ -8,6 +8,6 @@ namespace UtilityPackage.Utility.EditorHelpers
 	[SelectionBase]
 	public class SelectionBase : RemoveInBuild
 	{
-		protected override bool RemoveObject => true;
+		protected override bool RemoveObject => false;
 	}
 }

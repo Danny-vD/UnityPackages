@@ -9,11 +9,14 @@ using UnityEngine;
 
 namespace FMODUtilityPackage.Core
 {
+	/// <summary>
+	/// A static class that serves as an API for playing audio and managing the global event emitters, it also provides EventReferences and EventInstances for manual control
+	/// </summary>
 	public static class AudioPlayer
 	{
 		// Reflection because the StudioEventEmitter internally caches the event after setting (and playing) it once, so you cannot normally set it again
 		private static readonly MethodInfo lookup = typeof(StudioEventEmitter).GetMethod("Lookup", BindingFlags.Instance | BindingFlags.NonPublic);
-		private static readonly FieldInfo eventInstance = typeof(StudioEventEmitter).GetField("instance", BindingFlags.Instance | BindingFlags.NonPublic);
+		private static readonly FieldInfo emitterEventInstance = typeof(StudioEventEmitter).GetField("instance", BindingFlags.Instance | BindingFlags.NonPublic);
 		
 		public static void PlayEmitter(EmitterType emitter)
 		{
@@ -50,8 +53,10 @@ namespace FMODUtilityPackage.Core
 
 			eventReference.GetEventDescription().createInstance(out EventInstance instance);
 			
+			emitterEventInstance.SetValue(studioEventEmitter, instance);
+			
+			// Lookup updates the emitters internal eventDescription
 			lookup.Invoke(studioEventEmitter, null);
-			eventInstance.SetValue(studioEventEmitter, instance);
 			
 			if (isPlaying)
 			{
@@ -141,7 +146,10 @@ namespace FMODUtilityPackage.Core
 		/// </summary>
 		public static EventInstance GetEventInstance(AudioEventType audioEvent)
 		{
-			return RuntimeManager.CreateInstance(GetEventReference(audioEvent));
+			EventReference eventReference = GetEventReference(audioEvent);
+			eventReference.GetEventDescription().createInstance(out EventInstance instance);
+
+			return instance;
 		}
 
 		/// <summary>
