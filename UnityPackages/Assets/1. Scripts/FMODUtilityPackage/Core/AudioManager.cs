@@ -48,7 +48,10 @@ namespace FMODUtilityPackage.Core
 			base.Awake();
 			EventPaths.AddEmitters(gameObject);
 
-			DontDestroyOnLoad(gameObject);
+			if (!transform.parent)
+			{
+				DontDestroyOnLoad(gameObject);
+			}
 
 			SetInitialVolumes();
 		}
