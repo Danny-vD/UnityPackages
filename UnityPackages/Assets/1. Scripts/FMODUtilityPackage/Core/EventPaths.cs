@@ -4,6 +4,7 @@ using System.Linq;
 using FMODUnity;
 using FMODUtilityPackage.Enums;
 using FMODUtilityPackage.Structs;
+using FMODUtilityPackage.Utility;
 using UnityEditor;
 using UnityEngine;
 using VDFramework.Extensions;
@@ -84,13 +85,26 @@ namespace FMODUtilityPackage.Core
 			try
 			{
 				List<EditorEventRef> eventRefs = EventManager.Events;
+				string[] eventPaths = eventRefs.Select(eventref => eventref.Path).ToArray();
 
-				for (int i = 0; i < events.Count; i++)
+				AudioEventType[] enumValues = EventPathToEnumValueUtil.ConvertEventPathToEnumValues(eventPaths);
+
+				for (int i = 0; i < enumValues.Length; i++)
 				{
-					EventReferencePerEvent pair = events[i];
+					EventReferencePerEvent pair = default;
+					pair.Key = enumValues[i];
 
-					pair.Value = EventReference.Find(eventRefs[i].Path);
-					events[i]  = pair;
+					int index = events.FindIndex(referencePerEvent => referencePerEvent.Key.Equals(enumValues[i]));
+
+					if (index == -1)
+					{
+						// Technically should never happen since UpdateDictionaries was called before this | If it does, there is a problem in FindIndex above
+						Debug.LogError($"Event paths do not contain a pair for {enumValues[i].ToString()}");
+						continue;
+					}
+
+					pair.Value    = EventReference.Find(eventRefs[i].Path);
+					events[index] = pair;
 				}
 			}
 			catch (Exception e)
@@ -100,7 +114,7 @@ namespace FMODUtilityPackage.Core
 					Debug.LogException(e);
 				}
 
-				// ignore all outside of playmode
+				// ignore all exceptions outside of playmode
 			}
 		}
 #else
@@ -156,6 +170,7 @@ namespace FMODUtilityPackage.Core
 
 		private void UpdateDictionaries()
 		{
+			//TODO replace the lists with SerializableDictionaries (check the serializableDictionary drawer how to properly display it in the inspector)
 			EnumDictionaryUtil.PopulateEnumDictionary<EventReferencePerEvent, AudioEventType, EventReference>(events);
 
 			EnumDictionaryUtil.PopulateEnumDictionary<BusPathPerBus, BusType, string>(buses);
