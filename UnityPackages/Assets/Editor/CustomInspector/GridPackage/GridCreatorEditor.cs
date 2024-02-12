@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static Utility.EditorPackage.EditorUtils;
+using static Utility.UtilityPackage.EditorUtils;
 
 namespace CustomInspector.GridPackage
 {

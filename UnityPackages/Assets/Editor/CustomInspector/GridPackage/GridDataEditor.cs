@@ -2,7 +2,7 @@
 using GridPackage.Grid.Core;
 using UnityEditor;
 using UnityEngine;
-using static Utility.EditorPackage.EditorUtils;
+using static Utility.UtilityPackage.EditorUtils;
 
 namespace CustomInspector.GridPackage
 {

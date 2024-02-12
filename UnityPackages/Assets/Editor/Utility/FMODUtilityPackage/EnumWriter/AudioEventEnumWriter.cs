@@ -8,7 +8,7 @@ using FMODUtilityPackage.Enums;
 using FMODUtilityPackage.Utility;
 using UnityEditor.Compilation;
 using UnityEngine;
-using Utility.EditorPackage;
+using Utility.UtilityPackage;
 
 namespace Utility.FMODUtilityPackage.EnumWriter
 {

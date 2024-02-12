@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using VDFramework.Extensions;
 
-namespace Utility.EditorPackage
+namespace Utility.UtilityPackage
 {
 	public static class EditorUtils
 	{

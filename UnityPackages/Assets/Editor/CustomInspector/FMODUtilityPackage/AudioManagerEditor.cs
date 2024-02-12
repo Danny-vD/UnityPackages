@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using Utility.FMODUtilityPackage.EnumWriter;
 using VDFramework.Extensions;
-using static Utility.EditorPackage.EditorUtils;
+using static Utility.UtilityPackage.EditorUtils;
 
 namespace CustomInspector.FMODUtilityPackage
 {

@@ -94,6 +94,7 @@ namespace FMODUtilityPackage.Core
 					EventReferencePerEvent pair = default;
 					pair.Key = enumValues[i];
 
+					// Use the enum representation of the eventPath because EventManager.Events returns the events in a different order on different systems which would cause a mismapping of the EventReferences
 					int index = events.FindIndex(referencePerEvent => referencePerEvent.Key.Equals(enumValues[i]));
 
 					if (index == -1)

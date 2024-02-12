@@ -3,7 +3,7 @@ using UnityEngine;
 using UtilityPackage.Attributes;
 using VDFramework.Extensions;
 
-namespace PropertyDrawers.Attributes.EditorPackage
+namespace PropertyDrawers.Attributes.UtilityPackage
 {
 	[CustomPropertyDrawer(typeof(DisplayNameAttribute))]
 	public class DisplayNameEditor : PropertyDrawer
