@@ -63,9 +63,9 @@ namespace Structs.Utility.SerializableDictionary
 			value = pairValue;
 		}
 
-		public bool Equals(IKeyValuePair<TKey, TValue> other) => other != null && Key.Equals(other.Key);
+		public bool Equals(IKeyValuePair<TKey, TValue> other) => other != null && Key != null && Key.Equals(other.Key);
 
-		public bool Equals(SerializableKeyValuePair<TKey, TValue> other) => Key.Equals(other.Key);
+		public bool Equals(SerializableKeyValuePair<TKey, TValue> other) => Key != null && Key.Equals(other.Key);
 
 		public override bool Equals(object obj)
 		{
