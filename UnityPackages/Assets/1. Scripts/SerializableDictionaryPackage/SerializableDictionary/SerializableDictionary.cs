@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Structs.Utility.SerializableDictionary;
+using SerializableDictionaryPackage.Structs;
 using UnityEngine;
 
 namespace SerializableDictionaryPackage.SerializableDictionary

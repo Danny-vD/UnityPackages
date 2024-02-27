@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using GridPackage.Enums.Grid;
 using GridPackage.Grid.BaseTiles;
 using GridPackage.ScriptableObjects;
-using Structs.Utility.SerializableDictionary;
+using SerializableDictionaryPackage.Structs;
 using UnityEngine;
 using VDFramework;
 using VDFramework.Extensions;

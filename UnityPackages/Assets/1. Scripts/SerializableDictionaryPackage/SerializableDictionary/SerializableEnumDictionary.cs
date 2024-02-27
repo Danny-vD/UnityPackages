@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Structs.Utility.SerializableDictionary;
+using SerializableDictionaryPackage.Structs;
 using VDFramework.Utility;
 
 namespace SerializableDictionaryPackage.SerializableDictionary

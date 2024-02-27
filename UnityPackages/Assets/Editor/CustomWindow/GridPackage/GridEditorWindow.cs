@@ -2,7 +2,7 @@
 using GridPackage.Comparisons;
 using GridPackage.Enums.Grid;
 using GridPackage.Grid.Core;
-using Structs.Utility.SerializableDictionary;
+using SerializableDictionaryPackage.Structs;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;

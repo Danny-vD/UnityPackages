@@ -1,6 +1,6 @@
 ﻿using System;
 using GridPackage.Enums.Grid;
-using Structs.Utility.SerializableDictionary;
+using SerializableDictionaryPackage.Structs;
 using UnityEngine;
 
 namespace GridPackage.Comparisons

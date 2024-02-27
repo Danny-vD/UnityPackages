@@ -5,7 +5,7 @@ using VDFramework;
 namespace UtilityPackage.Utility.UnityFunctionHandlers
 {
 	/// <summary>
-	/// Invoke the <see cref="ReactToEvent"/> function as a reaction to given <see cref="Enums.UnityFunction"/>s
+	/// Invoke the <see cref="ReactToEvent"/> function as a reaction to a <see cref="Enums.UnityFunction"/>s
 	/// </summary>
 	public abstract class AbstractFunctionHandler : BetterMonoBehaviour
 	{
@@ -53,7 +53,7 @@ namespace UtilityPackage.Utility.UnityFunctionHandlers
 		}
 
 		/// <summary>
-		/// Will be called by the <see cref="AbstractFunctionHandler"/> as a reaction to given <see cref="Enums.UnityFunction"/>s in the inspector
+		/// Will be called by the <see cref="AbstractFunctionHandler"/> as a reaction to a <see cref="Enums.UnityFunction"/>
 		/// </summary>
 		/// <param name="unityFunction">The function that caused this invoke to happen</param>
 		protected abstract void ReactToEvent(UnityFunction unityFunction);
