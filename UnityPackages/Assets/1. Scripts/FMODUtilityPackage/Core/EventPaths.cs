@@ -126,7 +126,7 @@ namespace FMODUtilityPackage.Core
 				TextAsset file = Resources.Load<TextAsset>("FmodUtils/EventPaths");
 
 				string[] lines = file.ToString().Split(Environment.NewLine);
-				EventType[] eventTypes = default(EventType).GetValues().ToArray();
+				AudioEventType[] eventTypes = default(AudioEventType).GetValues().ToArray();
 
 				for (int i = 0; i < events.Count; i++)
 				{
@@ -184,7 +184,7 @@ namespace FMODUtilityPackage.Core
 			UpdateDictionaries();
 
 #if UNITY_EDITOR
-			if (FMODUnity.RuntimeManager.IsInitialized)
+			if (FMODUnity.EventManager.IsInitialized && !UnityEditor.EditorApplication.isPlaying) //EventManager is an editor script
 #endif
 				SetEventPaths();
 		}
