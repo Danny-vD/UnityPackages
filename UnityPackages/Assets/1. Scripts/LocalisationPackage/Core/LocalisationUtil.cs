@@ -7,11 +7,11 @@ namespace LocalisationPackage.Core
 {
 	public static class LocalisationUtil
 	{
-		public const char ENTRY_OPENING_CHAR = '{';
-		public const char ENTRY_CLOSING_CHAR = '}';
+		public const char ENTRY_OPENING_CHAR = '[';
+		public const char ENTRY_CLOSING_CHAR = ']';
 		
-		public const string ENTRY_OPENING_STRING = "{";
-		public const string ENTRY_CLOSING_STRING = "}";
+		public const string ENTRY_OPENING_STRING = "[";
+		public const string ENTRY_CLOSING_STRING = "]";
 		
 		/// <summary>
 		/// Returns the string for a specific key for the current language
