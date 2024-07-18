@@ -55,14 +55,14 @@ namespace LocalisationPackage.UIComponents
 			{
 				for (int i = 0; i < entryIDs.Length; i++)
 				{
-					dropdownTMP.options[i].text = LocalisationUtil.GetLocalisedString(entryIDs[i]);
+					dropdownTMP.options[i].text = LocalisationUtil.GetNestedLocalisedString(entryIDs[i], LocalisationUtil.ENTRY_OPENING_STRING, LocalisationUtil.ENTRY_CLOSING_STRING);
 				}
 			}
 			else // use legacy dropdown if no TMP dropdown
 			{
 				for (int i = 0; i < entryIDs.Length; i++)
 				{
-					dropdown.options[i].text = LocalisationUtil.GetLocalisedString(entryIDs[i]);
+					dropdown.options[i].text = LocalisationUtil.GetNestedLocalisedString(entryIDs[i], LocalisationUtil.ENTRY_OPENING_STRING, LocalisationUtil.ENTRY_CLOSING_STRING);
 				}
 			}
 		}

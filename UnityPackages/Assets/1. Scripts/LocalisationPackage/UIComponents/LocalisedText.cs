@@ -14,22 +14,22 @@ namespace LocalisationPackage.UIComponents
 		private bool UseTextAsEntryID = false;
 
 		[SerializeField]
-		private string textType = "PLACEHOLDER";
+		private string entryID = "PLACEHOLDER";
 
-		private Text text;
-		private TMP_Text textTMP;
+		private Text labelLegacy;
+		private TMP_Text labelTMP;
 
 		private void Awake()
 		{
-			text    = GetComponent<Text>();
-			textTMP = GetComponent<TMP_Text>();
+			labelLegacy    = GetComponent<Text>();
+			labelTMP = GetComponent<TMP_Text>();
 		}
 
 		private void Start()
 		{
 			if (UseTextAsEntryID)
 			{
-				textType = text.text;
+				entryID = labelLegacy.text;
 			}
 
 			ReloadText();
@@ -38,19 +38,18 @@ namespace LocalisationPackage.UIComponents
 
 		private void ReloadText()
 		{
-			SetText(LocalisationUtil.GetLocalisedString(textType));
+			SetText(LocalisationUtil.GetNestedLocalisedString(entryID, LocalisationUtil.ENTRY_OPENING_STRING, LocalisationUtil.ENTRY_CLOSING_STRING));
 		}
 
 		private void SetText(string newText)
 		{
-			if (text)
+			if (labelTMP)
 			{
-				text.text = newText;
+				labelTMP.text = newText;
 			}
-
-			if (textTMP)
+			else if (labelLegacy)
 			{
-				textTMP.text = newText;
+				labelLegacy.text = newText;
 			}
 		}
 
