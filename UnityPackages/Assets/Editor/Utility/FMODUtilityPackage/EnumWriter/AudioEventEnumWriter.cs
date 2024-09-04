@@ -18,7 +18,7 @@ namespace Utility.FMODUtilityPackage.EnumWriter
 	public static class AudioEventEnumWriter
 	{
 		private const string scriptsFolder = "1. Scripts";
-		private const string subFolder = "";
+		private const string subFolder = "/zPackages"; // First slash is required so that it is possible to leave this empty
 
 		private static readonly string typePath = @$"{Application.dataPath}/{scriptsFolder}{subFolder}/FMODUtilityPackage/Enums/";
 
