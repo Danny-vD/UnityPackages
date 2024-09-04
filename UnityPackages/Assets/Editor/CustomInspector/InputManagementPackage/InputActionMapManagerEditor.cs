@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using InputManagementPackage;
 using InputManagementPackage.Enums;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Utilities;
 using Utility.UtilityPackage;
 using VDFramework.Extensions;
 
