@@ -33,3 +33,10 @@ ___
 ## Console
 Contains a UI Console with an input field and a way to easily add new commands to the console.  
 It also supports selecting objects in the scene and perform commands on that object.
+___
+## Loot Table Scriptable Objects
+A package that uses scriptable objects for easier usage of loot tables.  
+Also includes support for nested loot tables.
+___
+## Input Management Package
+Provides a system for Unity's new Input System that automatically maps `InputActionAsset`s to a matching enum value and makes it easier to switch between `InputActionMaps`
