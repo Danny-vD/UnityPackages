@@ -29,6 +29,9 @@
 .cxx
 *.csproj
 
+#Save Files
+**/[Aa]ssets/StreamingAssets/savefiles/
+
 #FMOD
 # Never ignore DLLs in the FMOD subfolder.
 !**/[Aa]ssets/Plugins/FMOD/**/lib/*
@@ -56,3 +59,9 @@ FMOD/**/.cache/
 .*
 
 FMOD/**
+
+#Screenshots
+**/Screenshots/
+
+#Never ignore this file
+!.gitignore

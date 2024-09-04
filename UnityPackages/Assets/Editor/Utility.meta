@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 23fe7b91a1d09044d820c73f9f26af9b
+<<<<<<<< HEAD:UnityPackages/Assets/10. Audio.meta
+guid: b6c30fc710d123241b04dee53fca495b
+========
+guid: f183a9529e3a11745a18166e7da81580
+>>>>>>>> main:UnityPackages/Assets/Editor/Utility.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
