@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using InputManagementPackage.Enum;
+using InputManagementPackage.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using VDFramework.Extensions;
@@ -27,6 +27,11 @@ namespace InputManagementPackage
 			SetControls(default);
 		}
 
+		/// <summary>
+		/// Disables the current action map and enables the action map mapped to the given <see cref="ControlType"/><br/>
+		/// This function does not do anything if the given <see cref="ControlType"/> is already the currently used action map
+		/// </summary>
+		/// <param name="controlType"></param>
 		public void ChangeControls(ControlType controlType)
 		{
 			if (controlType == CurrentControlType)
@@ -96,7 +101,7 @@ namespace InputManagementPackage
 				++enumValue;
 			}
 
-			EnumWriter.WriteToEnum<ControlType>(enumNames, null);
+			EnumWriter.WriteToEnum<ControlType>("/zPackages/InputManagementPackage/Enums/", enumNames, null);
 		}
 #endif
 	}
