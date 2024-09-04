@@ -5,25 +5,30 @@ using System.Linq;
 using System.Text;
 using UnityEditor.Compilation;
 using UnityEngine;
-#if UNITY_EDITOR
-#endif
 
-namespace InputManagementPackage
+namespace Utility.UtilityPackage
 {
 	public static class EnumWriter
 	{
-#if UNITY_EDITOR
 		private const string scriptsFolder = "1. Scripts";
 
 		private static readonly string typePath = @$"{Application.dataPath}\{scriptsFolder}\";
 
-		public static void WriteToEnum<TEnum>(string subPath, IEnumerable<string> values, IEnumerable<string> documentation) where TEnum : System.Enum
+		public static void WriteEnumValues<TEnum>(string subPath, IEnumerable<string> values, IEnumerable<string> documentation, string documentationTag = "summary") where TEnum : System.Enum
 		{
 			if (subPath != null)
 			{
-				if (subPath != string.Empty && !subPath.EndsWith('\\') && !subPath.EndsWith('/'))
+				if (subPath != string.Empty)
 				{
-					subPath += '\\';
+					if (!subPath.StartsWith('\\') && !subPath.StartsWith('/'))
+					{
+						subPath = "\\" + subPath;
+					}
+					
+					if (!subPath.EndsWith('\\') && !subPath.EndsWith('/'))
+					{
+						subPath += '\\';
+					}
 				}
 			}
 			else
@@ -31,26 +36,26 @@ namespace InputManagementPackage
 				subPath = string.Empty;
 			}
 
-			WriteToFile(typePath + subPath, typeof(TEnum).Name, values, documentation);
+			WriteToFile(typePath + subPath, typeof(TEnum).Name, values, documentation, documentationTag);
 		}
 
-		public static void WriteToEnum<TEnum>(IEnumerable<string> values, IEnumerable<string> documentation) where TEnum : System.Enum
+		public static void WriteEnumValues<TEnum>(IEnumerable<string> values, IEnumerable<string> documentation, string documentationTag = "summary") where TEnum : System.Enum
 		{
 			Type type = typeof(TEnum);
 
 			string subPath = string.IsNullOrEmpty(type.Namespace) ? string.Empty : type.Namespace.Replace('.', '\\') + "\\";
 
-			WriteToFile(typePath + subPath, type.Name, values, documentation);
+			WriteToFile(typePath + subPath, type.Name, values, documentation, documentationTag);
 		}
 
-		public static void WriteToFile(string path, string typeName, IEnumerable<string> values, IEnumerable<string> documentation)
+		public static void WriteToFile(string path, string typeName, IEnumerable<string> values, IEnumerable<string> documentation, string documentationTag)
 		{
-			WriteEnumValues(path, typeName, values, documentation);
+			WriteEnumValues(path, typeName, values, documentation, documentationTag);
 
 			CompilationPipeline.RequestScriptCompilation();
 		}
 
-		private static void WriteEnumValues(string path, string typeName, IEnumerable<string> values, IEnumerable<string> documentation)
+		private static void WriteEnumValues(string path, string typeName, IEnumerable<string> values, IEnumerable<string> documentation, string documentationTag = "summary")
 		{
 			string fullPath = $"{path}{typeName}.cs";
 
@@ -95,9 +100,9 @@ namespace InputManagementPackage
 			{
 				if (hasDocumentation)
 				{
-					builder.AppendLine("\t\t/// <summary>");
+					builder.AppendLine($"\t\t/// <{documentationTag}>");
 					builder.AppendLine($"\t\t/// {enumDocumentation[i].Replace("&", "&amp;").Replace("'", "&apos;")}"); // XML does not allow special characters directly
-					builder.AppendLine("\t\t/// </summary>");
+					builder.AppendLine($"\t\t/// </{documentationTag}>");
 				}
 
 				builder.AppendLine($"\t\t{enumValues[i]},");
@@ -114,11 +119,9 @@ namespace InputManagementPackage
 			}
 
 			builder.Append("\t");
-
 			builder.Append(afterEnum);
 
 			File.WriteAllText(fullPath, builder.ToString());
 		}
-#endif
 	}
 }

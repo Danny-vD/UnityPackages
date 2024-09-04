@@ -8,7 +8,7 @@ using VDFramework.Singleton;
 
 namespace InputManagementPackage
 {
-	public class InputControllerManager : Singleton<InputControllerManager>
+	public class InputActionMapManager : Singleton<InputActionMapManager>
 	{
 		[SerializeField]
 		private InputActionAsset inputActionAsset;
@@ -101,7 +101,7 @@ namespace InputManagementPackage
 				++enumValue;
 			}
 
-			EnumWriter.WriteToEnum<ControlType>("/zPackages/InputManagementPackage/Enums/", enumNames, null);
+			//EnumWriter.WriteToEnum<ControlType>("/zPackages/InputManagementPackage/Enums/", enumNames, null);
 		}
 #endif
 	}

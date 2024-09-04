@@ -5,7 +5,7 @@ using FMODUtilityPackage.Core;
 using FMODUtilityPackage.Enums;
 using UnityEditor;
 using UnityEngine;
-using Utility.FMODUtilityPackage.EnumWriter;
+using Utility.FMODUtilityPackage;
 using VDFramework.Extensions;
 using static Utility.UtilityPackage.EditorUtils;
 
