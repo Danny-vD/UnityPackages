@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using InputManagementPackage.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -70,39 +69,5 @@ namespace InputManagementPackage
 
 			controlTypes.Dispose();
 		}
-
-#if UNITY_EDITOR
-		private void OnValidate()
-		{
-			if (inputActionAsset != null)
-			{
-				CreateEnums();
-			}
-		}
-
-		private void CreateEnums()
-		{
-			if (default(ControlType).GetValues().Count() == inputActionAsset.actionMaps.Count)
-			{
-				return;
-			}
-
-			int enumValue = 0;
-			List<string> enumNames = new List<string>();
-
-			foreach (InputActionMap inputActionMap in inputActionAsset.actionMaps)
-			{
-				ControlType controlType = (ControlType)enumValue;
-
-				actionMapsByType[controlType] = inputActionMap;
-
-				enumNames.Add(inputActionMap.name);
-
-				++enumValue;
-			}
-
-			//EnumWriter.WriteToEnum<ControlType>("/zPackages/InputManagementPackage/Enums/", enumNames, null);
-		}
-#endif
 	}
 }
