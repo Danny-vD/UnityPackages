@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
---- !u!1 &1647843043
+--- !u!1 &2147361388
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -322,37 +322,333 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1647843045}
-  - component: {fileID: 1647843044}
+  - component: {fileID: 2147361390}
+  - component: {fileID: 2147361389}
   m_Layer: 0
-  m_Name: Input Manager
+  m_Name: AudioManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1647843044
+--- !u!114 &2147361389
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1647843043}
+  m_GameObject: {fileID: 2147361388}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db6a22fc696842c4b10a99fb4e30b50d, type: 3}
+  m_Script: {fileID: 11500000, guid: 192818366e274e34969aa4b801ee7558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputActionAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
---- !u!4 &1647843045
+  EventPaths:
+    events:
+    - key: 0
+      value:
+        Guid:
+          Data1: -1986122210
+          Data2: 1122146882
+          Data3: 384501692
+          Data4: -68198672
+        Path: event:/Ambient/BirdsAmbience
+    - key: 1
+      value:
+        Guid:
+          Data1: 928657966
+          Data2: 1182466290
+          Data3: -361864050
+          Data4: -740336306
+        Path: event:/Ambient/Disaster/Rain&WindBlowing
+    - key: 2
+      value:
+        Guid:
+          Data1: -927148737
+          Data2: 1137821160
+          Data3: -1425372232
+          Data4: 862194420
+        Path: event:/Ambient/Disaster/WindBlowing
+    - key: 3
+      value:
+        Guid:
+          Data1: 901673314
+          Data2: 1121163574
+          Data3: 369594786
+          Data4: -1612583319
+        Path: event:/Ambient/Disaster/HeavyRain
+    - key: 4
+      value:
+        Guid:
+          Data1: -550709015
+          Data2: 1225086312
+          Data3: -444613224
+          Data4: -528363913
+        Path: event:/Ambient/Disaster/Earthquake
+    - key: 5
+      value:
+        Guid:
+          Data1: 250601230
+          Data2: 1294551562
+          Data3: 260610722
+          Data4: -522115280
+        Path: event:/Music/TitleMusic
+    - key: 6
+      value:
+        Guid:
+          Data1: 881198281
+          Data2: 1223414892
+          Data3: 1228102830
+          Data4: -876474812
+        Path: event:/Music/ItemStoreExit
+    - key: 7
+      value:
+        Guid:
+          Data1: 1180627415
+          Data2: 1172696977
+          Data3: -843120218
+          Data4: -969421639
+        Path: event:/Music/MenuMusic
+    - key: 8
+      value:
+        Guid:
+          Data1: -892757020
+          Data2: 1290401248
+          Data3: -661071472
+          Data4: 1347570219
+        Path: event:/Music/ItemStore
+    - key: 9
+      value:
+        Guid:
+          Data1: -1613435115
+          Data2: 1134550391
+          Data3: 1047610028
+          Data4: 118619794
+        Path: event:/SFX/AudioResponse/KCAF
+    - key: 10
+      value:
+        Guid:
+          Data1: 2098292002
+          Data2: 1201407004
+          Data3: 455069328
+          Data4: 896909242
+        Path: event:/SFX/AudioResponse/ClosingInventory
+    - key: 11
+      value:
+        Guid:
+          Data1: 280249394
+          Data2: 1290259238
+          Data3: -508424576
+          Data4: 671865474
+        Path: event:/SFX/AudioResponse/PayingCoins
+    - key: 12
+      value:
+        Guid:
+          Data1: 1333062736
+          Data2: 1093887687
+          Data3: -926713463
+          Data4: 1238913633
+        Path: event:/SFX/AudioResponse/OpeningInventory
+    - key: 13
+      value:
+        Guid:
+          Data1: -1057324459
+          Data2: 1233587293
+          Data3: 551709574
+          Data4: -585879480
+        Path: event:/SFX/AudioResponse/HouseUpgrade
+    - key: 14
+      value:
+        Guid:
+          Data1: -1618366359
+          Data2: 1315263947
+          Data3: 1013757602
+          Data4: -1539487798
+        Path: event:/SFX/FoundationCrack
+    - key: 15
+      value:
+        Guid:
+          Data1: 424094828
+          Data2: 1270528274
+          Data3: 732302759
+          Data4: -1700863408
+        Path: event:/SFX/AudioResponse/Click
+    - key: 16
+      value:
+        Guid:
+          Data1: 573096856
+          Data2: 1075165231
+          Data3: -1439399545
+          Data4: -1780175305
+        Path: event:/SFX/AudioResponse/MonsterFood
+    - key: 17
+      value:
+        Guid:
+          Data1: -1802232158
+          Data2: 1292665616
+          Data3: 1652922784
+          Data4: 741603647
+        Path: event:/SFX/AudioResponse/BuildingSoil
+    - key: 18
+      value:
+        Guid:
+          Data1: -133287513
+          Data2: 1085894905
+          Data3: 695437191
+          Data4: 1312757300
+        Path: event:/SFX/AudioResponse/Repairing
+    - key: 19
+      value:
+        Guid:
+          Data1: 1620630951
+          Data2: 1204005252
+          Data3: 1023895717
+          Data4: 1113112856
+        Path: event:/SFX/AudioResponse/SelectingPlots
+    - key: 20
+      value:
+        Guid:
+          Data1: 1922639018
+          Data2: 1284221982
+          Data3: -633710677
+          Data4: -78665944
+        Path: event:/SFX/CarEngine
+    - key: 21
+      value:
+        Guid:
+          Data1: -1352321110
+          Data2: 1305477770
+          Data3: 452927930
+          Data4: 1089972821
+        Path: event:/NewsReport
+    - key: 22
+      value:
+        Guid:
+          Data1: -210377557
+          Data2: 1078507749
+          Data3: -1074591336
+          Data4: 58015753
+        Path: event:/SFX/HouseCrack
+    - key: 23
+      value:
+        Guid:
+          Data1: -1053851728
+          Data2: 1321425218
+          Data3: -1075678537
+          Data4: -266623697
+        Path: event:/SFX/QuakeMix
+    - key: 24
+      value:
+        Guid:
+          Data1: 830247875
+          Data2: 1113670033
+          Data3: -1519771254
+          Data4: 1470565128
+        Path: event:/SFX/AudioResponse/BuildingFoundation
+    - key: 25
+      value:
+        Guid:
+          Data1: 1283089604
+          Data2: 1238449420
+          Data3: 945930653
+          Data4: -1007244292
+        Path: event:/SFX/AudioResponse/Breaking
+    - key: 26
+      value:
+        Guid:
+          Data1: 1580677577
+          Data2: 1169846206
+          Data3: 1193971619
+          Data4: -1382531665
+        Path: event:/SFX/MonsterGrowl
+    - key: 27
+      value:
+        Guid:
+          Data1: -1789911861
+          Data2: 1107879843
+          Data3: -306313830
+          Data4: -1248642515
+        Path: event:/SFX/ThunderMix
+    - key: 28
+      value:
+        Guid:
+          Data1: -115992626
+          Data2: 1074681325
+          Data3: -1998283103
+          Data4: -2014019824
+        Path: event:/SFX/AchievementUnlocked
+    - key: 29
+      value:
+        Guid:
+          Data1: -643787301
+          Data2: 1094405510
+          Data3: 664543872
+          Data4: -599257570
+        Path: event:/SFX/AudioResponse/TimeFreeze
+    - key: 30
+      value:
+        Guid:
+          Data1: 1925202141
+          Data2: 1289866622
+          Data3: 1290009994
+          Data4: 1870958195
+        Path: event:/SFX/AudioResponse/CollectingRent
+    - key: 31
+      value:
+        Guid:
+          Data1: -866997280
+          Data2: 1098006506
+          Data3: 2000335793
+          Data4: -1073654736
+        Path: event:/SFX/SoilSinking
+    - key: 32
+      value:
+        Guid:
+          Data1: 725221352
+          Data2: 1137221362
+          Data3: 949921705
+          Data4: 669319423
+        Path: event:/SFX/AudioResponse/BuildingHouse
+    - key: 33
+      value:
+        Guid:
+          Data1: 1757940715
+          Data2: 1250332138
+          Data3: -284286074
+          Data4: -167874671
+        Path: event:/SFX/MonsterEating
+    buses:
+    - key: 0
+      value: bus:/
+    - key: 1
+      value: bus:/Ambient
+    - key: 2
+      value: bus:/Music
+    - key: 3
+      value: bus:/SFX
+    emitterEvents: []
+  initialVolumes:
+  - key: 0
+    value: 1
+    isMuted: 0
+  - key: 1
+    value: 1
+    isMuted: 0
+  - key: 2
+    value: 1
+    isMuted: 0
+  - key: 3
+    value: 1
+    isMuted: 0
+--- !u!4 &2147361390
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1647843043}
+  m_GameObject: {fileID: 2147361388}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.23568368, y: 0.36728823, z: -9.388889}
+  m_LocalPosition: {x: -6.759291, y: -1.0592737, z: -10.012649}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

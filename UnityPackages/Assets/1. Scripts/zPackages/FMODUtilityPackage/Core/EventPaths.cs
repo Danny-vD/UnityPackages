@@ -5,7 +5,6 @@ using FMODUnity;
 using FMODUtilityPackage.Enums;
 using FMODUtilityPackage.Structs;
 using FMODUtilityPackage.Utility;
-using UnityEditor;
 using UnityEngine;
 using VDFramework.Extensions;
 using VDFramework.Utility;
@@ -110,7 +109,7 @@ namespace FMODUtilityPackage.Core
 			}
 			catch (Exception e)
 			{
-				if (EditorApplication.isPlaying)
+				if (UnityEditor.EditorApplication.isPlaying)
 				{
 					Debug.LogException(e);
 				}

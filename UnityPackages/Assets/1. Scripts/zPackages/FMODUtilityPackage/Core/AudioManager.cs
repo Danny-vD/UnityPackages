@@ -121,5 +121,11 @@ namespace FMODUtilityPackage.Core
 		public void OnAfterDeserialize()
 		{
 		}
+
+		[ContextMenu("Update Data")]
+		private void UpdateDictionaries()
+		{
+			EventPaths.OnBeforeSerialize();
+		}
 	}
 }
