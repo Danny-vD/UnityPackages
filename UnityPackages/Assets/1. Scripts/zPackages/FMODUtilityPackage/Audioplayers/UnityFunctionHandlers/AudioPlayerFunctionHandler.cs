@@ -14,10 +14,19 @@ namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers
 	{
 		[SerializeField]
 		private AudioEventType audioEventType;
+
+		[Header("Playback settings"), SerializeField, Tooltip("Share this event instance between all AudioPlayerFunctionHandlers")]
+		private bool useGlobalInstance = false;
+
+		[SerializeField, Tooltip("Free the memory of the global instance when this object is destroyed")]
+		private bool freeGlobalInstanceOnDestroy = true;
 		
+		[SerializeField, Tooltip("Stop playing when this object is destroyed")]
+		private bool stopGlobalInstanceOnDestroy = true;
+
 		[Header("On Destroy"), SerializeField, Tooltip("Stop all instances when this object is destroyed")]
 		private bool stopInstancesOnDestroy;
-		
+
 		[SerializeField, Tooltip("Allow the playing events to fade out when this object is destroyed")]
 		private bool allowFadeoutOnDestroy = true;
 
@@ -27,7 +36,14 @@ namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers
 
 		private void Awake()
 		{
-			eventInstance = AudioPlayer.GetEventInstance(audioEventType);
+			if (useGlobalInstance)
+			{
+				eventInstance = GlobalEventInstanceManager.CacheNewInstanceIfNeeded(audioEventType);
+			}
+			else
+			{
+				eventInstance = AudioPlayer.GetEventInstance(audioEventType);
+			}
 		}
 
 		protected override void ReactToEvent(UnityFunction unityFunction)
@@ -39,14 +55,28 @@ namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers
 		{
 			base.OnDestroy();
 
-			if (stopInstancesOnDestroy)
-			{
-				STOP_MODE stopMode = allowFadeoutOnDestroy ? STOP_MODE.ALLOWFADEOUT : STOP_MODE.IMMEDIATE;
-
-				eventInstance.stop(stopMode);
-			}
+			STOP_MODE stopMode = allowFadeoutOnDestroy ? STOP_MODE.ALLOWFADEOUT : STOP_MODE.IMMEDIATE;
 			
-			eventInstance.release();
+			if (useGlobalInstance)
+			{
+				if (freeGlobalInstanceOnDestroy)
+				{
+					GlobalEventInstanceManager.FreeAndRemoveInstance(audioEventType, stopInstancesOnDestroy, stopMode);
+				}
+				else if (stopGlobalInstanceOnDestroy)
+				{
+					eventInstance.stop(stopMode);
+				}
+			}
+			else
+			{
+				if (stopInstancesOnDestroy)
+				{
+					eventInstance.stop(stopMode);
+				}
+
+				eventInstance.release();
+			}
 		}
 	}
 }

@@ -10,6 +10,7 @@ using SerializableDictionaryPackage.SerializableDictionary;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using VDFramework;
 using VDFramework.UnityExtensions;
 
@@ -26,7 +27,7 @@ namespace FMODUtilityPackage.Audioplayers.UI
 			[Tooltip("Share this event instance between all EventTriggerSoundPlayers")]
 			public bool IsGlobalInstance;
 
-			public AudioEventType audioAudioEvent;
+			public AudioEventType AudioEvent;
 			public PlayState PlayState;
 			public EventParameters Parameters;
 		}
@@ -165,23 +166,23 @@ namespace FMODUtilityPackage.Audioplayers.UI
 		{
 			if (audioEventData.IsGlobalInstance)
 			{
-				if (!staticInstancePerEventType.ContainsKey(audioEventData.audioAudioEvent))
+				if (!staticInstancePerEventType.ContainsKey(audioEventData.AudioEvent))
 				{
-					staticInstancePerEventType.Add(audioEventData.audioAudioEvent, AudioPlayer.GetEventInstance(audioEventData.audioAudioEvent));
+					staticInstancePerEventType.Add(audioEventData.AudioEvent, AudioPlayer.GetEventInstance(audioEventData.AudioEvent));
 				}
 			}
 			else
 			{
-				if (!instancePerEventType.ContainsKey(audioEventData.audioAudioEvent))
+				if (!instancePerEventType.ContainsKey(audioEventData.AudioEvent))
 				{
-					instancePerEventType.Add(audioEventData.audioAudioEvent, AudioPlayer.GetEventInstance(audioEventData.audioAudioEvent));
+					instancePerEventType.Add(audioEventData.AudioEvent, AudioPlayer.GetEventInstance(audioEventData.AudioEvent));
 				}
 			}
 		}
 
 		private UnityAction<BaseEventData> GetCallback(AudioEventData audioEventData)
 		{
-			EventInstance instance = audioEventData.IsGlobalInstance ? staticInstancePerEventType[audioEventData.audioAudioEvent] : instancePerEventType[audioEventData.audioAudioEvent];
+			EventInstance instance = audioEventData.IsGlobalInstance ? staticInstancePerEventType[audioEventData.AudioEvent] : instancePerEventType[audioEventData.AudioEvent];
 
 			return audioEventData.PlayState switch
 			{
