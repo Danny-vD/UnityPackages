@@ -3,6 +3,7 @@ using System.Linq;
 using ConsolePackage.Console;
 using UnityEngine;
 using UtilityPackage.CursorManagement.CursorUtility;
+using UtilityPackage.CursorManagement.CursorUtility.Singletons;
 using VDFramework;
 
 namespace ConsolePackage.ObjectSelection
@@ -108,7 +109,7 @@ namespace ConsolePackage.ObjectSelection
 
 		private bool RayCast(out GameObject objectHit)
 		{
-			Ray ray = RaycastFrom.ScreenPointToRay(MouseButtonUtil.MousePosition);
+			Ray ray = RaycastFrom.ScreenPointToRay(CursorUtil.MousePosition);
 
 			if (Physics.Raycast(ray, out RaycastHit hit, float.MaxValue, SelectableLayers))
 			{

@@ -8,13 +8,12 @@ using Mouse = UnityEngine.InputSystem.Mouse;
 
 namespace UtilityPackage.CursorManagement.CursorUtility
 {
-	[DisallowMultipleComponent]
+	[DisallowMultipleComponent, DefaultExecutionOrder(-1)] // Default execution order makes sure it runs before anything else (this is great for the query functions since it prevents it being a frame off)
 	public class MouseButtonUtil : Singleton<MouseButtonUtil>
 	{
 		#region Nested Types
 
 #if UNITY_INPUT_SYSTEM
-
 		// Necessary for convenience of other scripts trying to interact with MouseUtil
 
 		/// <summary>
@@ -302,16 +301,6 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 		public static bool IsAnyMouseButtonDown => mouseButtonHandlers.Any(handler => handler.ButtonPressed);
 
 		/// <summary>
-		/// The current mouse position in ScreenSpace
-		/// </summary>
-		public static Vector3 MousePosition => GetMousePosition();
-
-		/// <summary>
-		/// The current mouse position in ScreenSpace with 0 as Z value
-		/// </summary>
-		public static Vector2 MousePosition2D => GetMousePosition2D();
-
-		/// <summary>
 		///<para>The amount the scroll wheel was scrolled relative to the last frame</para>
 		///<para>X value can be non-zero for horizontal scrolls (e.g. with touchpad)</para>
 		/// </summary>
@@ -327,40 +316,6 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 		#region Private fields
 
 		private static readonly MouseInputEventHandler[] mouseButtonHandlers = new MouseInputEventHandler[5];
-
-		#endregion
-
-		#region MouseWorldPosition Methods
-
-		/// <summary>
-		/// Get the MousePosition in world space
-		/// </summary>
-		/// <param name="camera">The camera from which to calculate mouse world position</param>
-		/// <param name="eye">By default, <see cref="Camera.MonoOrStereoscopicEye.Mono"/>. Can be set to <see cref="Camera.MonoOrStereoscopicEye.Left"/> or <see cref="Camera.MonoOrStereoscopicEye.Right"/> for use in stereoscopic rendering (e.g., for VR).</param>
-		/// <returns>The mouse position in 3D world space</returns>
-		public static Vector3 GetMouseWorldPosition(Camera camera, Camera.MonoOrStereoscopicEye eye = Camera.MonoOrStereoscopicEye.Mono)
-		{
-			Vector3 mousePosition = GetMousePosition();
-
-#if UNITY_INPUT_SYSTEM
-
-			// Mouse position is a vector 2 in the new input system
-			mousePosition.z = camera.nearClipPlane;
-#endif
-
-			return camera.ScreenToWorldPoint(mousePosition, eye);
-		}
-
-		/// <summary>
-		/// Returns a ray going from camera through the mouse position.
-		/// </summary>
-		/// <param name="camera">The camera from which the ray starts</param>
-		/// <param name="eye">By default, <see cref="Camera.MonoOrStereoscopicEye.Mono"/>. Can be set to <see cref="Camera.MonoOrStereoscopicEye.Left"/> or <see cref="Camera.MonoOrStereoscopicEye.Right"/> for use in stereoscopic rendering (e.g., for VR).</param>
-		/// <returns>A ray from the camera to the mouse position</returns>
-		public static Ray GetMouseToWorldRay(Camera camera, Camera.MonoOrStereoscopicEye eye = Camera.MonoOrStereoscopicEye.Mono)
-		{
-			return camera.ScreenPointToRay(GetMousePosition(), eye);
-		}
 
 		#endregion
 
@@ -560,16 +515,6 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 			}
 		}
 
-		private static Vector3 GetMousePosition()
-		{
-			return GetMousePosition2D();
-		}
-
-		private static Vector2 GetMousePosition2D()
-		{
-			return Mouse.current.position.ReadValue();
-		}
-
 		private static Vector2 GetMouseScroll()
 		{
 			return Mouse.current.scroll.ReadValue();
@@ -618,31 +563,21 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 			}
 
 			/*
-			* [0] == Left
-			* [1] == Right
-			* [2] == Mouse Wheel button
-			* [3] == Mouse Back
-			* [4] == Mouse Forward
-			*/
+			 * [0] == Left
+			 * [1] == Right
+			 * [2] == Mouse Wheel button
+			 * [3] == Mouse Back
+			 * [4] == Mouse Forward
+			 */
 			for (int i = 0; i < mouseButtonHandlers.Length; i++)
 			{
 				mouseButtonHandlers[i] = new MouseInputEventHandler(GetMouseButtonDown(i), GetMouseButtonUp(i));
 			}
-			
+
 			if (!transform.parent)
 			{
 				DontDestroyOnLoad(true);
 			}
-		}
-
-		private static Vector3 GetMousePosition()
-		{
-			return Input.mousePosition;
-		}
-
-		private static Vector2 GetMousePosition2D()
-		{
-			return Input.mousePosition;
 		}
 
 		private static Vector2 GetMouseScroll()

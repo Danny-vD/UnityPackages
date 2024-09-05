@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UtilityPackage.CursorManagement.CursorUtility;
+using UtilityPackage.CursorManagement.CursorUtility.Singletons;
 using VDFramework.Singleton;
 
 namespace UtilityPackage.CursorManagement.Singletons
@@ -21,7 +22,7 @@ namespace UtilityPackage.CursorManagement.Singletons
 		{
 			StartCoroutine(CheckMoving());
 
-			lastMousePosition = MouseButtonUtil.MousePosition2D;
+			lastMousePosition = CursorUtil.MousePosition2D;
 		}
 
 		private IEnumerator CheckMoving()
@@ -33,7 +34,7 @@ namespace UtilityPackage.CursorManagement.Singletons
 					yield return null;
 				}
 
-				Vector2 currentMousePosition = MouseButtonUtil.MousePosition2D;
+				Vector2 currentMousePosition = CursorUtil.MousePosition2D;
 
 				Vector2 delta = currentMousePosition - lastMousePosition;
 				IsCursorMoving = delta.magnitude >= movementThreshold;
