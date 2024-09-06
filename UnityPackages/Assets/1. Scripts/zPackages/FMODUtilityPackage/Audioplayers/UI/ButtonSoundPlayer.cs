@@ -1,4 +1,5 @@
 ﻿using FMOD.Studio;
+using FMODUtilityPackage.Audioplayers.Managers;
 using FMODUtilityPackage.Core;
 using FMODUtilityPackage.Enums;
 using FMODUtilityPackage.ExtentionMethods;
@@ -22,10 +23,19 @@ namespace FMODUtilityPackage.Audioplayers.UI
 		[SerializeField]
 		private EventParameters parameters;
 
+		[Header("Global Instance settings")]
+		[SerializeField]
+		private bool useGlobalInstance;
+
+		[SerializeField]
+		private bool releaseGlobalInstanceOnDisable;
+
 		private Button button;
 
-		private EventInstance clickSound;
+		private EventInstance localClickSoundEvent;
 		private bool isInitialized;
+
+		private EventInstance AudioEventInstance => useGlobalInstance ? GlobalEventInstanceManager.GetEventInstance(audioEventToPlayOnClick) : localClickSoundEvent;
 
 		private void Awake()
 		{
@@ -35,21 +45,38 @@ namespace FMODUtilityPackage.Audioplayers.UI
 
 		private void Initialize()
 		{
-			clickSound = AudioPlayer.GetEventInstance(audioEventToPlayOnClick);
-			clickSound.SetParameters(parameters);
-
+			EventInstance clickSoundEventInstance;
+			
+			if (!useGlobalInstance)
+			{
+				localClickSoundEvent    = AudioPlayer.GetEventInstance(audioEventToPlayOnClick);
+				clickSoundEventInstance = localClickSoundEvent;
+			}
+			else
+			{
+				clickSoundEventInstance = GlobalEventInstanceManager.GetEventInstance(audioEventToPlayOnClick);
+			}
+			
 			isInitialized = true;
+			
+			clickSoundEventInstance.SetParameters(parameters);
 		}
 
 		private void OnDisable()
 		{
-			clickSound.release();
-            isInitialized = false;
-		}
-
-		private void OnDestroy()
-		{
-			Stop();
+			if (useGlobalInstance)
+			{
+				if (releaseGlobalInstanceOnDisable)
+				{
+					GlobalEventInstanceManager.ReleaseAndRemoveInstance(audioEventToPlayOnClick, false);
+				}
+			}
+			else
+			{
+				localClickSoundEvent.release();
+			}
+			
+			isInitialized = false;
 		}
 
 		public void Play()
@@ -59,7 +86,7 @@ namespace FMODUtilityPackage.Audioplayers.UI
 				Initialize();
 			}
 
-			clickSound.start();
+			AudioEventInstance.start();
 		}
 
 		public void PlayIfNotPlaying()
@@ -69,28 +96,37 @@ namespace FMODUtilityPackage.Audioplayers.UI
 				Initialize();
 			}
 
-			clickSound.getPlaybackState(out PLAYBACK_STATE state);
+			EventInstance clickSoundEventInstance = AudioEventInstance;
+			
+			clickSoundEventInstance.getPlaybackState(out PLAYBACK_STATE state);
 
 			if (state is PLAYBACK_STATE.STOPPED or PLAYBACK_STATE.STOPPING)
 			{
-				clickSound.start();
+				clickSoundEventInstance.start();
 			}
 		}
 
 		public void Stop()
 		{
-			clickSound.stop(STOP_MODE.ALLOWFADEOUT);
+			AudioEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
 		}
 
 		public void SetPause(bool paused)
 		{
-			clickSound.setPaused(paused);
+			AudioEventInstance.setPaused(paused);
 		}
 
 		public void SetParameters(EventParameters eventParameters)
 		{
 			parameters = eventParameters;
-			clickSound.SetParameters(parameters);
+			AudioEventInstance.SetParameters(parameters);
+		}
+
+		private void OnDestroy()
+		{
+			Stop();
+
+			button.onClick.RemoveListener(clickRestartsSound ? Play : PlayIfNotPlaying);
 		}
 	}
 }

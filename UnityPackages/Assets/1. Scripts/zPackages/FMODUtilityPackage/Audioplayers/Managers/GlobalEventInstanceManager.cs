@@ -29,6 +29,9 @@ namespace FMODUtilityPackage.Audioplayers.Managers
 			return globalEventInstances.TryGetValue(audioEventType, out eventInstance);
 		}
 
+		/// <summary>
+		/// Will return the globally accessible instance for this <see cref="AudioEventType"/> or create a new one if one is not cached
+		/// </summary>
 		public static EventInstance GetEventInstance(AudioEventType audioEventType)
 		{
 			if (globalEventInstances.TryGetValue(audioEventType, out EventInstance eventInstance))
