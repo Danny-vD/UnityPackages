@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FMOD.Studio;
+using FMODUtilityPackage.Audioplayers.Managers;
 using FMODUtilityPackage.Core;
 using FMODUtilityPackage.Enums;
 using FMODUtilityPackage.ExtentionMethods;
@@ -106,7 +107,7 @@ namespace FMODUtilityPackage.Audioplayers.UI
 			{
 				if (releaseMemory)
 				{
-					GlobalEventInstanceManager.FreeAndRemoveInstance(audioEventType, true, stopMode);
+					GlobalEventInstanceManager.ReleaseAndRemoveInstance(audioEventType, true, stopMode);
 				}
 				else
 				{

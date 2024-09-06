@@ -1,4 +1,5 @@
 ﻿using FMOD.Studio;
+using FMODUtilityPackage.Audioplayers.Managers;
 using FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.BaseClasses;
 using FMODUtilityPackage.Core;
 using FMODUtilityPackage.Enums;
@@ -74,7 +75,7 @@ namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers
 			{
 				if (freeGlobalInstanceOnDestroy)
 				{
-					GlobalEventInstanceManager.FreeAndRemoveInstance(audioEventType, stopPlayingOnDestroy, stopMode);
+					GlobalEventInstanceManager.ReleaseAndRemoveInstance(audioEventType, stopPlayingOnDestroy, stopMode);
 				}
 				else if (stopPlayingOnDestroy)
 				{

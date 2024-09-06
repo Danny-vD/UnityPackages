@@ -3,7 +3,7 @@ using FMOD.Studio;
 using FMODUtilityPackage.Core;
 using FMODUtilityPackage.Enums;
 
-namespace FMODUtilityPackage.Audioplayers
+namespace FMODUtilityPackage.Audioplayers.Managers
 {
 	/// <summary>
 	/// A manager class responsible for taking care of the 'global' event instances (the EventInstances that are used by multiple classes)
@@ -52,7 +52,7 @@ namespace FMODUtilityPackage.Audioplayers
 			globalEventInstances.Clear();
 		}
 
-		public static void FreeAndRemoveInstance(AudioEventType audioEventType, bool stopInstance, STOP_MODE stopMode = STOP_MODE.ALLOWFADEOUT)
+		public static void ReleaseAndRemoveInstance(AudioEventType audioEventType, bool stopInstance, STOP_MODE stopMode = STOP_MODE.ALLOWFADEOUT)
 		{
 			if (globalEventInstances.TryGetValue(audioEventType, out EventInstance eventInstance))
 			{
