@@ -12,9 +12,12 @@ namespace Utility.UtilityPackage
 	{
 		private const string scriptsFolder = "1. Scripts";
 
-		private static readonly string typePath = @$"{Application.dataPath}\{scriptsFolder}\";
+		private static readonly string typePath = @$"{Application.dataPath}/{scriptsFolder}/";
 
-		public static void WriteEnumValues<TEnum>(string subPath, IEnumerable<string> values, IEnumerable<string> documentation, string documentationTag = "summary") where TEnum : System.Enum
+		/// <summary>
+		/// Write the given enum values to the enum, optionally with additional XML documentation
+		/// </summary>
+		public static void WriteEnumValues<TEnum>(string subPath, IEnumerable<string> values, IEnumerable<string> documentation = null, string documentationTag = "summary") where TEnum : System.Enum
 		{
 			if (subPath != null)
 			{
@@ -22,12 +25,12 @@ namespace Utility.UtilityPackage
 				{
 					if (!subPath.StartsWith('\\') && !subPath.StartsWith('/'))
 					{
-						subPath = "\\" + subPath;
+						subPath = "/" + subPath;
 					}
 					
 					if (!subPath.EndsWith('\\') && !subPath.EndsWith('/'))
 					{
-						subPath += '\\';
+						subPath += '/';
 					}
 				}
 			}
@@ -39,23 +42,51 @@ namespace Utility.UtilityPackage
 			WriteToFile(typePath + subPath, typeof(TEnum).Name, values, documentation, documentationTag);
 		}
 
-		public static void WriteEnumValues<TEnum>(IEnumerable<string> values, IEnumerable<string> documentation, string documentationTag = "summary") where TEnum : System.Enum
+		/// <summary>
+		/// Write the given values to the enum <br/>
+		/// The path to the enum will be automatically determined from the namespace (using '<paramref name="noNamespaceFolders"/>' folders after the scripts folder)
+		/// </summary>
+		public static void WriteEnumValuesAutomaticPath<TEnum>(string noNamespaceFolders, IEnumerable<string> values, IEnumerable<string> documentation, string documentationTag = "summary") where TEnum : System.Enum
 		{
 			Type type = typeof(TEnum);
 
-			string subPath = string.IsNullOrEmpty(type.Namespace) ? string.Empty : type.Namespace.Replace('.', '\\') + "\\";
+			if (!noNamespaceFolders.EndsWith('\\') && !noNamespaceFolders.EndsWith('/'))
+			{
+				noNamespaceFolders += '/';
+			}
+			
+			string subPath = string.IsNullOrEmpty(type.Namespace) ? string.Empty : type.Namespace.Replace('.', '/') + "/";
 
+			string path = typePath + noNamespaceFolders + subPath;
+			WriteToFile(path, type.Name, values, documentation, documentationTag);
+		}
+		
+		/// <summary>
+		/// Write the given values to the enum <br/>
+		/// The path to the enum will be automatically determined from the namespace
+		/// </summary>
+		public static void WriteEnumValuesAutomaticPath<TEnum>(IEnumerable<string> values, IEnumerable<string> documentation, string documentationTag = "summary") where TEnum : System.Enum
+		{
+			Type type = typeof(TEnum);
+
+			string subPath = string.IsNullOrEmpty(type.Namespace) ? string.Empty : type.Namespace.Replace('.', '/') + "/";
+
+			Debug.Log(typePath + subPath);
 			WriteToFile(typePath + subPath, type.Name, values, documentation, documentationTag);
 		}
 
-		public static void WriteToFile(string path, string typeName, IEnumerable<string> values, IEnumerable<string> documentation, string documentationTag)
+		/// <summary>
+		/// Write the enum values to a specific file, all the formatting is done automatically <br/>
+		/// Optionally, a custom XML documentation can be added above each value
+		/// </summary>
+		public static void WriteToFile(string path, string typeName, IEnumerable<string> values, IEnumerable<string> documentation, string documentationTag = "summary")
 		{
-			WriteEnumValues(path, typeName, values, documentation, documentationTag);
+			WriteEnumValuesToFile(path, typeName, values, documentation, documentationTag);
 
 			CompilationPipeline.RequestScriptCompilation();
 		}
 
-		private static void WriteEnumValues(string path, string typeName, IEnumerable<string> values, IEnumerable<string> documentation, string documentationTag = "summary")
+		private static void WriteEnumValuesToFile(string path, string typeName, IEnumerable<string> values, IEnumerable<string> documentation, string documentationTag = "summary")
 		{
 			string fullPath = $"{path}{typeName}.cs";
 
@@ -67,7 +98,7 @@ namespace Utility.UtilityPackage
 
 			if (startIndex == -1)
 			{
-				Debug.LogError("No valid enum declaration found in file");
+				Debug.LogError($"No valid enum declaration found in file\n{fullPath}");
 				return;
 			}
 

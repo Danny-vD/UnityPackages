@@ -18,37 +18,50 @@ namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers
 		[Header("Playback settings"), SerializeField, Tooltip("Share this event instance between all AudioPlayerFunctionHandlers")]
 		private bool useGlobalInstance = false;
 
-		[SerializeField, Tooltip("Free the memory of the global instance when this object is destroyed")]
-		private bool freeGlobalInstanceOnDestroy = true;
+		[SerializeField, Tooltip("Don't restart the instance if it is already playing")]
+		private bool onlyPlayIfNotPlaying = false;
 		
-		[SerializeField, Tooltip("Stop playing when this object is destroyed")]
-		private bool stopGlobalInstanceOnDestroy = true;
-
-		[Header("On Destroy"), SerializeField, Tooltip("Stop all instances when this object is destroyed")]
-		private bool stopInstancesOnDestroy;
+		[Header("On Destroy"), SerializeField, Tooltip("Stop playing the event when this object is destroyed")]
+		private bool stopPlayingOnDestroy;
 
 		[SerializeField, Tooltip("Allow the playing events to fade out when this object is destroyed")]
 		private bool allowFadeoutOnDestroy = true;
 
-		private EventInstance eventInstance;
+		[Header("Global Instance settings")]
+		[SerializeField, Tooltip("Free the memory of the global instance when this object is destroyed")]
+		private bool freeGlobalInstanceOnDestroy = true;
 
-		public EventInstance AudioEventInstance => eventInstance;
+		private EventInstance localInstance;
+
+		public EventInstance AudioEventInstance => useGlobalInstance ? GlobalEventInstanceManager.GetEventInstance(audioEventType) : localInstance;
 
 		private void Awake()
 		{
 			if (useGlobalInstance)
 			{
-				eventInstance = GlobalEventInstanceManager.CacheNewInstanceIfNeeded(audioEventType);
+				GlobalEventInstanceManager.CacheNewInstanceIfNeeded(audioEventType);
 			}
 			else
 			{
-				eventInstance = AudioPlayer.GetEventInstance(audioEventType);
+				localInstance = AudioPlayer.GetEventInstance(audioEventType);
 			}
 		}
 
 		protected override void ReactToEvent(UnityFunction unityFunction)
 		{
-			eventInstance.start();
+			EventInstance audioEventInstance = AudioEventInstance;
+			
+			if (onlyPlayIfNotPlaying)
+			{
+				audioEventInstance.getPlaybackState(out PLAYBACK_STATE state);
+
+				if (state is PLAYBACK_STATE.PLAYING or PLAYBACK_STATE.STARTING)
+				{
+					return;
+				}
+			}
+
+			audioEventInstance.start();
 		}
 
 		protected override void OnDestroy()
@@ -56,26 +69,26 @@ namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers
 			base.OnDestroy();
 
 			STOP_MODE stopMode = allowFadeoutOnDestroy ? STOP_MODE.ALLOWFADEOUT : STOP_MODE.IMMEDIATE;
-			
+
 			if (useGlobalInstance)
 			{
 				if (freeGlobalInstanceOnDestroy)
 				{
-					GlobalEventInstanceManager.FreeAndRemoveInstance(audioEventType, stopInstancesOnDestroy, stopMode);
+					GlobalEventInstanceManager.FreeAndRemoveInstance(audioEventType, stopPlayingOnDestroy, stopMode);
 				}
-				else if (stopGlobalInstanceOnDestroy)
+				else if (stopPlayingOnDestroy)
 				{
-					eventInstance.stop(stopMode);
+					AudioEventInstance.stop(stopMode);
 				}
 			}
 			else
 			{
-				if (stopInstancesOnDestroy)
+				if (stopPlayingOnDestroy)
 				{
-					eventInstance.stop(stopMode);
+					localInstance.stop(stopMode); // Using localInstance here to prevent another UseGlobalInstance check 
 				}
 
-				eventInstance.release();
+				localInstance.release();
 			}
 		}
 	}

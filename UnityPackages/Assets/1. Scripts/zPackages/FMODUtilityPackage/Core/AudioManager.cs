@@ -10,6 +10,7 @@ namespace FMODUtilityPackage.Core
 	/// <summary>
 	/// A Singleton that allows setting the EventReferences, BusPaths and Bus volumes in the inspector 
 	/// </summary>
+	[DefaultExecutionOrder(-1)] // Ensure the AudioManager is initialized before others
 	public class AudioManager : Singleton<AudioManager>, ISerializationCallbackReceiver
 	{
 		public EventPaths EventPaths;

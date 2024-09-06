@@ -29,7 +29,7 @@ namespace Utility.FMODUtilityPackage
 
 			eventNames = EventPathToEnumValueUtil.ConvertEventPathToEnumValuesString(eventNames);
 			
-			EnumWriter.WriteEnumValues<AudioEventType>(typePath, eventNames, pathNames, "FMODEventPath");
+			EnumWriter.WriteEnumValuesAutomaticPath<AudioEventType>("zPackages/", eventNames, pathNames, "FMODEventPath");
 		}
 	}
 }

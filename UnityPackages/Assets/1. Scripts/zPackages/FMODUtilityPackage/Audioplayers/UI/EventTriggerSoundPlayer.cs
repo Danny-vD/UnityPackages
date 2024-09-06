@@ -10,7 +10,6 @@ using SerializableDictionaryPackage.SerializableDictionary;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using VDFramework;
 using VDFramework.UnityExtensions;
 
@@ -53,10 +52,8 @@ namespace FMODUtilityPackage.Audioplayers.UI
 		[Space, SerializeField]
 		private SerializableDictionary<EventTriggerType, AudioEventData[]> audioDataPerTriggerType;
 
-		// Static to allow sharing between different classes
-		private static readonly Dictionary<AudioEventType, EventInstance> staticInstancePerEventType = new Dictionary<AudioEventType, EventInstance>();
-
 		private readonly Dictionary<AudioEventType, EventInstance> instancePerEventType = new Dictionary<AudioEventType, EventInstance>();
+		private readonly List<AudioEventType> globalEvents = new List<AudioEventType>(); // Need to keep track of which events we use globally to get them from the GlobalInstanceManager in a loop
 
 		private EventTrigger eventTrigger;
 
@@ -96,45 +93,33 @@ namespace FMODUtilityPackage.Audioplayers.UI
 
 			if (stopGlobalInstancesOnDisable)
 			{
-				foreach (KeyValuePair<AudioEventType, EventInstance> keyValuePair in staticInstancePerEventType)
+				foreach (AudioEventType audioEventType in globalEvents)
 				{
-					keyValuePair.Value.stop(stopMode);
+					StopStaticInstance(audioEventType, stopMode, false);
 				}
 			}
 		}
 
 		public static void StopStaticInstance(AudioEventType audioEventType, STOP_MODE stopMode = STOP_MODE.ALLOWFADEOUT, bool releaseMemory = true)
 		{
-			if (staticInstancePerEventType.ContainsKey(audioEventType))
+			if (GlobalEventInstanceManager.TryGetEventInstance(audioEventType, out EventInstance instance))
 			{
-				EventInstance instance = staticInstancePerEventType[audioEventType];
-				instance.stop(stopMode);
-
 				if (releaseMemory)
 				{
-					instance.release();
-					staticInstancePerEventType.Remove(audioEventType);
+					GlobalEventInstanceManager.FreeAndRemoveInstance(audioEventType, true, stopMode);
+				}
+				else
+				{
+					instance.stop(stopMode);
 				}
 			}
 		}
 
-		public static void StopAllStaticInstances(STOP_MODE stopMode = STOP_MODE.ALLOWFADEOUT, bool releaseMemory = true)
+		public void StopAllStaticInstances(STOP_MODE stopMode = STOP_MODE.ALLOWFADEOUT, bool releaseMemory = true)
 		{
-			foreach (KeyValuePair<AudioEventType, EventInstance> keyValuePair in staticInstancePerEventType)
+			foreach (AudioEventType audioEventType in globalEvents)
 			{
-				EventInstance instance = keyValuePair.Value;
-
-				instance.stop(stopMode);
-
-				if (releaseMemory)
-				{
-					instance.release();
-				}
-			}
-
-			if (releaseMemory)
-			{
-				staticInstancePerEventType.Clear();
+				StopStaticInstance(audioEventType, stopMode, releaseMemory);
 			}
 		}
 
@@ -166,10 +151,8 @@ namespace FMODUtilityPackage.Audioplayers.UI
 		{
 			if (audioEventData.IsGlobalInstance)
 			{
-				if (!staticInstancePerEventType.ContainsKey(audioEventData.AudioEvent))
-				{
-					staticInstancePerEventType.Add(audioEventData.AudioEvent, AudioPlayer.GetEventInstance(audioEventData.AudioEvent));
-				}
+				GlobalEventInstanceManager.CacheNewInstanceIfNeeded(audioEventData.AudioEvent);
+				globalEvents.Add(audioEventData.AudioEvent);
 			}
 			else
 			{
@@ -182,7 +165,7 @@ namespace FMODUtilityPackage.Audioplayers.UI
 
 		private UnityAction<BaseEventData> GetCallback(AudioEventData audioEventData)
 		{
-			EventInstance instance = audioEventData.IsGlobalInstance ? staticInstancePerEventType[audioEventData.AudioEvent] : instancePerEventType[audioEventData.AudioEvent];
+			EventInstance instance = audioEventData.IsGlobalInstance ? GlobalEventInstanceManager.GetEventInstance(audioEventData.AudioEvent) : instancePerEventType[audioEventData.AudioEvent];
 
 			return audioEventData.PlayState switch
 			{

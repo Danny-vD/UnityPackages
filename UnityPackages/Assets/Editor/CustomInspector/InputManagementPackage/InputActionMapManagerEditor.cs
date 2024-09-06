@@ -35,7 +35,7 @@ namespace CustomInspector.InputManagementPackage
 				
 				if (ControlTypesEnumNeedsUpdating(actionMapNames))
 				{
-					EnumWriter.WriteEnumValues<ControlType>(enumSubPath, actionMapNames, null);
+					EnumWriter.WriteEnumValuesAutomaticPath<ControlType>("zPackages/", actionMapNames, null);
 				}
 			}
 		}

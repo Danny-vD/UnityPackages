@@ -10,15 +10,23 @@ namespace FMODUtilityPackage.Audioplayers
 	/// </summary>
 	public static class GlobalEventInstanceManager
 	{
-		private static Dictionary<AudioEventType, EventInstance> globalEventInstances;
+		private static readonly Dictionary<AudioEventType, EventInstance> globalEventInstances = new Dictionary<AudioEventType, EventInstance>();
 
 		public static EventInstance CacheNewInstanceIfNeeded(AudioEventType audioEventType)
 		{
-			EventInstance eventInstance;
-
-			eventInstance = !globalEventInstances.ContainsKey(audioEventType) ? CacheNewInstance(audioEventType) : GetEventInstance(audioEventType);
+			EventInstance eventInstance = !globalEventInstances.ContainsKey(audioEventType) ? CacheNewInstance(audioEventType) : GetEventInstance(audioEventType);
 
 			return eventInstance;
+		}
+
+		public static bool HasInstanceOfEvent(AudioEventType audioEventType)
+		{
+			return globalEventInstances.ContainsKey(audioEventType);
+		}
+
+		public static bool TryGetEventInstance(AudioEventType audioEventType, out EventInstance eventInstance)
+		{
+			return globalEventInstances.TryGetValue(audioEventType, out eventInstance);
 		}
 
 		public static EventInstance GetEventInstance(AudioEventType audioEventType)
@@ -30,17 +38,17 @@ namespace FMODUtilityPackage.Audioplayers
 
 			return CacheNewInstance(audioEventType);
 		}
-
+		
 		public static void StopAllInstances(STOP_MODE stopMode = STOP_MODE.ALLOWFADEOUT)
 		{
 			foreach (KeyValuePair<AudioEventType, EventInstance> pair in globalEventInstances)
 			{
 				EventInstance eventInstance = pair.Value;
-				
-				eventInstance.release();
+
 				eventInstance.stop(stopMode);
+				eventInstance.release();
 			}
-			
+
 			globalEventInstances.Clear();
 		}
 
@@ -48,12 +56,12 @@ namespace FMODUtilityPackage.Audioplayers
 		{
 			if (globalEventInstances.TryGetValue(audioEventType, out EventInstance eventInstance))
 			{
-				eventInstance.release();
-
 				if (stopInstance)
 				{
 					eventInstance.stop(stopMode);
 				}
+
+				eventInstance.release();
 
 				globalEventInstances.Remove(audioEventType);
 			}
