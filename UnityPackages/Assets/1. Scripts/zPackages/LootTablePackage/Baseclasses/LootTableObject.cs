@@ -2,11 +2,18 @@
 using VDFramework.LootTables;
 using VDFramework.LootTables.Interfaces;
 using VDFramework.LootTables.LootTableItems;
+using VDFramework.RandomWrapper.Interface;
 
 namespace LootTablePackage.Baseclasses
 {
 	public abstract class LootTableObject<TLootType> : ScriptableObject, ILoot<TLootType>
 	{
+		public IRandomNumberGenerator RandomNumberGenerator
+		{
+			get => GetLootTable().RandomNumberGenerator;
+			set => GetLootTable().RandomNumberGenerator = value;
+		}
+		
 		protected WeightedLootTable<TLootType> lootTable;
 		
 		protected abstract WeightedLootTable<TLootType> GetNewLootTable();
@@ -16,6 +23,7 @@ namespace LootTablePackage.Baseclasses
 			return lootTable ??= GetNewLootTable();
 		}
 
+		/// <inheritdoc cref="VDFramework.LootTables.WeightedLootTable{TLootType}.GetLoot()"/>
 		public virtual TLootType GetLoot()
 		{
 			return GetLootTable().GetLoot();
