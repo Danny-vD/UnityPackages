@@ -108,6 +108,236 @@
             <para>(makes the object DontDestroyOnLoad)</para>
             </summary>
         </member>
+        <member name="T:VDFramework.RandomWrapper.UnityRandom">
+            <summary>
+            Provides a implementation of <see cref="T:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator"/> using <see cref="T:UnityEngine.Random">UnityEngine.Random</see>
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.UnityRandom.SetSeed(System.Int32)">
+            <inheritdoc cref="M:UnityEngine.Random.InitState(System.Int32)" />
+            <seealso cref="P:UnityEngine.Random.state"/>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.UnityRandom.GetSeed">
+            <inheritdoc />
+            <seealso cref="P:UnityEngine.Random.state"/>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.UnityRandom.Next">
+            <inheritdoc cref="M:System.Random.Next" />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.UnityRandom.Next(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.UnityRandom.Next(System.Int32,System.Int32)">
+            <inheritdoc cref="M:UnityEngine.Random.Range(System.Int32,System.Int32)"/>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.UnityRandom.Next(System.Single)">
+            <summary>
+            Returns a random non-negative floating point number between 0 (inclusive) and the upper bound (inclusive)
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.UnityRandom.Next(System.Single,System.Single)">
+            <inheritdoc cref="M:UnityEngine.Random.Range(System.Single,System.Single)"/>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.UnityRandom.NextBytes(System.Span{System.Byte})">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.UnityRandom.NextBytes(System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.UnityRandom.NextDouble">
+            <summary>
+            Returns a random double precision floating-point number between 0 (inclusive) and 1 (inclusive)
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.UnityRandom.NextFloat">
+            <summary>
+            Returns a random single precision floating-point number between 0 (inclusive) and 1 (inclusive)
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.UnityRandom.GetPercentage">
+            <inheritdoc />
+        </member>
+        <member name="T:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator">
+            <summary>
+            Provides an interface for an RNG so that it is easy to swap it out with a different implementation
+            </summary>
+            <seealso cref="T:VDFramework.RandomWrapper.SystemRandom"/>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator.SetSeed(System.Int32)">
+            <summary>
+            Set the seed of the associated random number generator
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator.GetSeed">
+            <summary>
+            Get the seed of the associated random number generator
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator.Next">
+            <summary>
+            Returns a random integer<br/>
+            The bounds are implementation defined
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator.Next(System.Int32)">
+            <summary>
+            Returns a random non-negative integer between 0 and the upper bound (exclusive)
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator.Next(System.Int32,System.Int32)">
+            <summary>
+            Returns a random integer between the lower bound (inclusive) and the upper bound (exclusive)
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator.Next(System.Single)">
+            <summary>
+            Returns a random non-negative floating point number between 0 and the upper bound<br/>
+            Which bounds are inclusive and exclusive is implementation defined
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator.Next(System.Single,System.Single)">
+            <summary>
+            Returns a random floating point number between the lower bound and the upper bound<br/>
+            Which bounds are inclusive and exclusive is implementation defined
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator.NextBytes(System.Span{System.Byte})">
+            <summary>
+            Fills the elements of a specified span of bytes with random numbers
+            </summary>
+            <param name="buffer">The span to be filled with random numbers.</param>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator.NextBytes(System.Byte[])">
+            <summary>
+            Fills the elements of a specified array of bytes with random numbers.
+            </summary>
+            <param name="buffer">The array to be filled with random numbers.</param>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator.NextDouble">
+            <summary>
+            Returns a random double precision floating-point number between 0 and 1<br/>
+            Which bounds are inclusive and exclusive is implementation defined
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator.NextFloat">
+            <summary>
+            Returns a random single precision floating-point number between 0 and 1<br/>
+            Which bounds are inclusive and exclusive is implementation defined
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator.GetPercentage">
+            <summary>
+            Returns a random double precision floating-point number between 0 (inclusive) and 1 (exclusive)<br/>
+            This allows for a reliable range for the purposes of, for example, a % chance
+            </summary>
+            <returns>A double-precision floating point number that is greater than or equal to 0.0, and less than 1.0.</returns>
+        </member>
+        <member name="T:VDFramework.RandomWrapper.RandomDelegator">
+            <summary>
+            Provides an implementation of <see cref="T:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator"/> that delegates all implementation to an underlying field.<br/>
+            The idea is that you can reuse a single instance but still change the implementation of the random
+            </summary>
+        </member>
+        <member name="F:VDFramework.RandomWrapper.RandomDelegator.RandomNumberGenerator">
+            <summary>
+            The implementation of <see cref="T:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator"/> that is used for all the functions
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.RandomDelegator.#ctor(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator)">
+            <summary>
+            Create a new instance of this class using the provided <see cref="T:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator"/> implementation
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.RandomDelegator.SetSeed(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.RandomDelegator.GetSeed">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.RandomDelegator.Next">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.RandomDelegator.Next(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.RandomDelegator.Next(System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.RandomDelegator.Next(System.Single)">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.RandomDelegator.Next(System.Single,System.Single)">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.RandomDelegator.NextBytes(System.Span{System.Byte})">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.RandomDelegator.NextBytes(System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.RandomDelegator.NextDouble">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.RandomDelegator.NextFloat">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.RandomDelegator.GetPercentage">
+            <inheritdoc />
+        </member>
+        <member name="T:VDFramework.RandomWrapper.SystemRandom">
+            <summary>
+            Provides a implementation of <see cref="T:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator"/> using <see cref="T:System.Random">System.Random</see>
+            </summary>
+            <seealso cref="P:VDFramework.RandomWrapper.SystemRandom.StaticInstance">SystemRandom.StaticInstance</seealso>
+        </member>
+        <member name="P:VDFramework.RandomWrapper.SystemRandom.StaticInstance">
+            <summary>
+            Returns a static instance of this class <br/>
+            A new instance will be created the first time this field is used
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.SystemRandom.SetSeed(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.SystemRandom.GetSeed">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.SystemRandom.Next">
+            <inheritdoc cref="M:System.Random.Next" />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.SystemRandom.Next(System.Int32)">
+            <inheritdoc cref="M:System.Random.Next(System.Int32)" />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.SystemRandom.Next(System.Int32,System.Int32)">
+            <inheritdoc cref="M:System.Random.Next(System.Int32,System.Int32)" />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.SystemRandom.Next(System.Single)">
+            <summary>
+            Returns a random non-negative floating point number between 0 and the upper bound (exclusive)
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.SystemRandom.Next(System.Single,System.Single)">
+            <summary>
+            Returns a random floating point number between the lower bound (inclusive) and the upper bound (exclusive)
+            </summary>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.SystemRandom.NextBytes(System.Span{System.Byte})">
+            <summary>Fills the elements of a specified span of bytes with random numbers.</summary>
+            <param name="buffer">The span to be filled with random numbers.</param>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.SystemRandom.NextBytes(System.Byte[])">
+            <inheritdoc cref="M:System.Random.NextBytes(System.Byte[])" />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.SystemRandom.NextDouble">
+            <inheritdoc cref="M:System.Random.NextDouble" />
+        </member>
+        <member name="M:VDFramework.RandomWrapper.SystemRandom.NextFloat">
+            <inheritdoc cref="M:System.Random.NextDouble" />
+            <returns>A single-precision floating point number that is greater than or equal to 0.0, and less than 1.0.</returns>
+        </member>
+        <member name="M:VDFramework.RandomWrapper.SystemRandom.GetPercentage">
+            <inheritdoc />
+        </member>
         <member name="T:VDFramework.Singleton.Singleton`1">
             <summary>
             A abstract generic implementation of the singleton pattern
@@ -490,62 +720,174 @@
             Return the absolute value of this vector
             </summary>
         </member>
-        <member name="T:VDFramework.Utility.QuaternionMathUtil">
+        <member name="T:VDFramework.Utility.MathUtility.Shapes.BoundsUtils">
             <summary>
-            Contains helper functions for <see cref="T:UnityEngine.Quaternion"/> math
+            Provides helper functions for the <see cref="T:UnityEngine.Bounds"/> struct
             </summary>
         </member>
-        <member name="M:VDFramework.Utility.QuaternionMathUtil.IsApproximate(UnityEngine.Quaternion,UnityEngine.Quaternion,System.Single)">
+        <member name="M:VDFramework.Utility.MathUtility.Shapes.BoundsUtils.IsPointWithinBounds(UnityEngine.Bounds,UnityEngine.Vector3,System.Boolean)">
             <summary>
-            Checks if two quaternions are approximately the same
+            Tests whether the given point is inside the bounds
             </summary>
-            <param name="lhs">The first quaternion to compare</param>
-            <param name="rhs">The second quaternion to compare</param>
-            <param name="precision">
-            <para>An acceptable range for quaternions to still be counted as equal</para>
-            <para>0.1 degree difference is a difference of 0.0000004f</para>
-            </param>
-            <credit>https://discussions.unity.com/t/how-do-i-compare-quaternions/47274/6</credit>
+            <param name="bounds">The bounds to test against</param>
+            <param name="point">The point to test against the bounds</param>
+            <param name="acceptPointOnEdge">If true, the function will return true if the point is on the edge of the bounds</param>
+            <returns>TRUE or FALSE depending on if the given point falls within the bounds</returns>
         </member>
-        <member name="T:VDFramework.Utility.DataTypes.StringUtil">
+        <member name="M:VDFramework.Utility.MathUtility.Shapes.EllipseUtil.IsPointWithinEllipse(UnityEngine.Vector2,System.Single,System.Single,UnityEngine.Vector2,System.Boolean,System.Boolean@)">
             <summary>
-            Contains utility functions for the built-in <see cref="T:System.String"/> type
+            Tests whether the given point is within the axis-alligned ellipse
+            </summary>
+            <param name="origin">The centre of the ellipse</param>
+            <param name="xRadius">The radius of the x side of the ellipse</param>
+            <param name="yRadius">The radius of the y side of the ellipse</param>
+            <param name="point">The point to check against the ellipse</param>
+            <param name="acceptPointOnEdge">If the point is on the edge, should the function still return true?</param>
+            <param name="pointIsOnEdge">Whether or not the point is located on the edge of the ellipse</param>
+            <returns>Whether or not the point is inside the ellipse</returns>
+            <credit>https://math.stackexchange.com/a/243525</credit>
+        </member>
+        <member name="M:VDFramework.Utility.MathUtility.Shapes.EllipseUtil.GetBoundingBoxOfEllipse(UnityEngine.Vector2,System.Single,System.Single)">
+            <summary>
+            Returns the axis-alligned bounding-box of the given ellipse
+            </summary>
+            <param name="origin">The centre of the ellipse</param>
+            <param name="xRadius">The radius of the x side of the ellipse</param>
+            <param name="yRadius">The radius of the y side of the ellipse</param>
+            <returns>The bounding box of the ellipse</returns>
+        </member>
+        <member name="M:VDFramework.Utility.MathUtility.Shapes.EllipseUtil.ProjectPointOntoEllipse(UnityEngine.Vector2,System.Single,System.Single,UnityEngine.Vector2,System.Boolean)">
+            <summary>
+            Projects a point onto the ellipse and returns the point on the epplipse, optionally returns the point itself if it is within the ellipse
+            </summary>
+            <param name="origin">The centre of the ellipse</param>
+            <param name="xRadius">The radius of the x side of the ellipse</param>
+            <param name="yRadius">The radius of the y side of the ellipse</param>
+            <param name="point">The point to project on the ellipse</param>
+            <param name="returnPointIfWithinEllipse">If the point falls within the ellipse, should the point itself be returned?</param>
+            <returns>A point on the edge of the ellipse, closest to the given point. Or, optionally, the given point if it falls within the ellipse</returns>
+            <credit>https://gist.github.com/JohannesMP/777bdc8e84df6ddfeaa4f0ddb1c7adb3</credit>
+        </member>
+        <member name="M:VDFramework.Utility.MathUtility.Shapes.EllipseUtil.GetDistanceToEllipse(UnityEngine.Vector2,System.Single,System.Single,UnityEngine.Vector2,System.Boolean)">
+            <summary>
+            Calculates the distance from the given point to the ellipse, or optionally the distance from the point to the edge of the ellipse if the point falls within the ellipse
+            </summary>
+            <param name="origin">The centre of the ellipse</param>
+            <param name="semiMajor">The radius of the longest side of the ellipse</param>
+            <param name="semiMinor">The radius of the shortest side of the ellipse</param>
+            <param name="point">The point to project on the ellipse</param>
+            <param name="measureDistanceToEdgeIfWithinEllipse">If the point falls within the ellipse, should the distance to the edge be calculated?</param>
+            <returns>The distance from the given point to the ellipse</returns>
+        </member>
+        <member name="M:VDFramework.Utility.MathUtility.Shapes.PolygonUtil.ProjectPointOntoPolygon2D(UnityEngine.Vector2[],UnityEngine.Vector2,System.Boolean)">
+            <summary>
+            Projects a point onto the polygon and returns the point on the polygon, optionally returns the point itself if it is within the polygon
+            </summary>
+            <param name="polygon">An array of vertices of the polygon</param>
+            <param name="point">The point to project onto the polygon</param>
+            <param name="returnPointIfWithinPolygon">If the point falls within the polygon, should the point itself be returned?</param>
+            <returns>A point on the edge of the polygon, closest to the given point. Or, optionally, the given point if it falls within the polygon</returns>
+        </member>
+        <member name="M:VDFramework.Utility.MathUtility.Shapes.PolygonUtil.ProjectPointOntoPolygon(UnityEngine.Vector3[],UnityEngine.Vector3,System.Boolean)">
+            <summary>
+            Projects a point onto the polygon and returns the point on the polygon, optionally returns the point itself if it is within the polygon
+            </summary>
+            <param name="polygon">An array of vertices of the polygon</param>
+            <param name="point">The point to project onto the polygon</param>
+            <param name="returnPointIfWithinPolygon">If the point falls within the polygon, should the point itself be returned?</param>
+            <returns>A point on the edge of the polygon, closest to the given point. Or, optionally, the given point if it falls within the polygon</returns>
+        </member>
+        <member name="T:VDFramework.Utility.MathUtility.Shapes.RectUtils">
+            <summary>
+            Provides helper functions for the <see cref="T:UnityEngine.Rect"/> struct
             </summary>
         </member>
-        <member name="M:VDFramework.Utility.DataTypes.StringUtil.EnforceLength(System.String,System.Int32,System.Char,System.Collections.Generic.IReadOnlyCollection{System.String})">
+        <member name="M:VDFramework.Utility.MathUtility.Shapes.RectUtils.IsPointWithinRect(UnityEngine.Rect,UnityEngine.Vector2,System.Boolean)">
             <summary>
-            Returns a string with specified length where certain substrings will only count as 1 char
+            Tests whether the given point is inside the rect
             </summary>
-            <param name="desiredLength">The length that you want the returned string to be</param>
-            <param name="addCharToEnd">In case the string is too short, add character to get the desired length</param>
-            <param name="countAs1Char">A collection of substrings that will only count as 1 char for the purposes of returning the desired length</param>
-            <param name="string">The string whose length to enforce</param>
+            <param name="rect">The rectangle to test against</param>
+            <param name="point">The point to test against the rectangle</param>
+            <param name="acceptPointOnRect">If true, the function will return true if the point is on the edge of the rectangle</param>
+            <returns>TRUE or FALSE depending on if the given point falls within the rectangle</returns>
         </member>
-        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringBetweenAandB(System.String,System.String,System.String,System.Int32,System.Boolean)">
+        <member name="T:VDFramework.Utility.MathUtility.VectorMath.VectorProjectionUtil">
             <summary>
-            Get the string between two given strings, optionally including the two strings
-            </summary>
-        </member>
-        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringBetweenAandB(System.String,System.Char,System.Char,System.Int32,System.Boolean,System.Boolean)">
-            <summary>
-            Get all characters between two characters, optionally including the two characters
+            Provides helper functions to do vector math
             </summary>
         </member>
-        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringsBetweenAandB(System.String,System.Char,System.Char,System.Int32,System.Boolean,System.Boolean)">
+        <member name="M:VDFramework.Utility.MathUtility.VectorMath.VectorProjectionUtil.ProjectPointOntoLine(UnityEngine.Vector3,UnityEngine.Vector3,UnityEngine.Vector3,System.Boolean)">
             <summary>
-            Get the strings between all pairs of two characters, optionally including the two characters
+            Projects a point onto a line and returns the projected point, optionally clamps the returned point to the line
+            </summary>
+            <param name="lineStart">The start point of the line</param>
+            <param name="line">The line to project to</param>
+            <param name="point">The point to project onto the line</param>
+            <param name="ensureReturnedPointIsOnLine">Should the projected point be clamped between the end points of the line?</param>
+            <returns>A point on the line closest to the given point</returns>
+        </member>
+        <member name="M:VDFramework.Utility.MathUtility.VectorMath.VectorProjectionUtil.ProjectPointOntoLineBetweenPoints(UnityEngine.Vector3,UnityEngine.Vector3,UnityEngine.Vector3,System.Boolean)">
+            <summary>
+            Projects a point onto a line and returns the projected point, optionally clamps the returned point to the line
+            </summary>
+            <param name="lineStart">The start point of the line</param>
+            <param name="lineEnd">The end point of the line</param>
+            <param name="point">The point to project onto the line</param>
+            <param name="ensureReturnedPointIsOnLine">Should the projected point be clamped between the end points of the line?</param>
+            <returns>A point on the line closest to the given point</returns>
+            <returns></returns>
+        </member>
+        <member name="T:VDFramework.Utility.MathUtility.LinearInterpolationUtil">
+            <summary>
+            Provides helper functions for linear interpolation between values
             </summary>
         </member>
-        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringsBetweenAandB(System.String,System.String,System.String,System.Int32,System.Boolean)">
+        <member name="M:VDFramework.Utility.MathUtility.LinearInterpolationUtil.Lerp(System.Double,System.Double,System.Double)">
             <summary>
-            Get the strings between all pairs of two strings, optionally including the two strings
+            Provides the value at t% between a and b
             </summary>
         </member>
-        <member name="M:VDFramework.Utility.EnumDictionaryUtil.PopulateEnumDictionary``3(System.Collections.Generic.List{``0})">
+        <member name="M:VDFramework.Utility.MathUtility.LinearInterpolationUtil.Lerp(System.Single,System.Single,System.Single)">
             <summary>
-            Will add a KeyValuePair for every enumValue to the list
+            Provides the value at t% between a and b
             </summary>
-            <returns>The same list</returns>
+        </member>
+        <member name="M:VDFramework.Utility.MathUtility.LinearInterpolationUtil.InverseLerp(System.Double,System.Double,System.Double)">
+            <summary>
+            Provides the % between a and b at value
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.MathUtility.LinearInterpolationUtil.InverseLerp(System.Single,System.Single,System.Single)">
+            <summary>
+            Provides the % between a and b at value
+            </summary>
+        </member>
+        <member name="T:VDFramework.Utility.MathUtility.MathConstants">
+            <summary>
+            Contains constants used for mathematical operations
+            </summary>
+        </member>
+        <member name="F:VDFramework.Utility.MathUtility.MathConstants.THIRD">
+            <summary>
+            The constant 1/3
+            </summary>
+        </member>
+        <member name="T:VDFramework.Utility.MathUtility.MathFunctions">
+            <summary>
+            Provides implementations of mathematical functions
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.MathUtility.MathFunctions.CubicRoot(System.Double)">
+            <summary>
+            Returns the cubic root of the given value
+            </summary>
+            <math>³√x</math>
+        </member>
+        <member name="M:VDFramework.Utility.MathUtility.MathFunctions.CubicRoot(System.Numerics.Complex)">
+            <summary>
+            Returns the cubic root of the given complex number
+            </summary>
+            <math>³√x</math>
         </member>
         <member name="T:VDFramework.Utility.MathUtility.MathUtil">
             <summary>
@@ -593,8 +935,8 @@
             Returns the Least Common Multiple of the given floating point numbers
             </summary>
             <theory>
-            <para>https://en.wikipedia.org/wiki/Euclidean_algorithm</para>
-            <para>https://en.wikipedia.org/wiki/Least_common_multiple</para>
+            https://en.wikipedia.org/wiki/Euclidean_algorithm<br/>
+            https://en.wikipedia.org/wiki/Least_common_multiple
             </theory>
         </member>
         <member name="M:VDFramework.Utility.MathUtility.NumberUtil.GetLeastCommonMultiple(System.Collections.Generic.IEnumerable{System.Single},System.Int32)">
@@ -602,8 +944,8 @@
             Returns the Least Common Multiple of the given floating point numbers
             </summary>
             <theory>
-            <para>https://en.wikipedia.org/wiki/Euclidean_algorithm</para>
-            <para>https://en.wikipedia.org/wiki/Least_common_multiple</para>
+            https://en.wikipedia.org/wiki/Euclidean_algorithm<br/>
+            https://en.wikipedia.org/wiki/Least_common_multiple
             </theory>
         </member>
         <member name="M:VDFramework.Utility.MathUtility.NumberUtil.GetLeastCommonMultiple(System.Collections.Generic.IEnumerable{System.Int64})">
@@ -612,8 +954,8 @@
             </summary>
             <credit>https://stackoverflow.com/questions/147515/least-common-multiple-for-3-or-more-numbers/29717490#29717490</credit>
             <theory>
-            <para>https://en.wikipedia.org/wiki/Euclidean_algorithm</para>
-            <para>https://en.wikipedia.org/wiki/Least_common_multiple</para>
+            https://en.wikipedia.org/wiki/Euclidean_algorithm<br/>
+            https://en.wikipedia.org/wiki/Least_common_multiple
             </theory>
         </member>
         <member name="M:VDFramework.Utility.MathUtility.NumberUtil.GetLeastCommonMultiple(System.Int64,System.Int64)">
@@ -621,26 +963,225 @@
             Returns the Least Common Multiple of the given numbers
             </summary>
             <theory>
-            <para>https://en.wikipedia.org/wiki/Euclidean_algorithm</para>
-            <para>https://en.wikipedia.org/wiki/Least_common_multiple</para>
+            https://en.wikipedia.org/wiki/Euclidean_algorithm<br/>
+            https://en.wikipedia.org/wiki/Least_common_multiple
             </theory>
+        </member>
+        <member name="T:VDFramework.Utility.QuaternionMathUtil">
+            <summary>
+            Contains helper functions for <see cref="T:UnityEngine.Quaternion"/> math
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.QuaternionMathUtil.IsApproximate(UnityEngine.Quaternion,UnityEngine.Quaternion,System.Single)">
+            <summary>
+            Checks if two quaternions are approximately the same
+            </summary>
+            <param name="lhs">The first quaternion to compare</param>
+            <param name="rhs">The second quaternion to compare</param>
+            <param name="precision">
+            <para>An acceptable range for quaternions to still be counted as equal</para>
+            <para>0.1 degree difference is a difference of 0.0000004f</para>
+            </param>
+            <credit>https://discussions.unity.com/t/how-do-i-compare-quaternions/47274/6</credit>
+        </member>
+        <member name="T:VDFramework.Utility.DataTypes.DoubleUtil">
+            <summary>
+            Provides utility functions specifically aimed at double precision floating-point numbers
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.DoubleUtil.AreClose(System.Double,System.Double)">
+            <summary>
+            Tests whether the given values are very close to eachother (almost equal)
+            </summary>
+            <reference>https://stackoverflow.com/a/35418564</reference>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.DoubleUtil.LessThan(System.Double,System.Double)">
+            <summary>
+            Tests whether the left value is less than the right value (and not almost equal)
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.DoubleUtil.GreaterThan(System.Double,System.Double)">
+            <summary>
+            Tests whether the left value is greater than the right value (and not almost equal)
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.DoubleUtil.LesserThanOrClose(System.Double,System.Double)">
+            <summary>
+            Tests whether the left value is less than or close to the right value
+            </summary>
+            <seealso cref="M:VDFramework.Utility.DataTypes.DoubleUtil.AreClose(System.Double,System.Double)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.DoubleUtil.LesserThanOrClose(System.Double,System.Double,System.Boolean@)">
+            <summary>
+            Tests whether the left value is less than or close to the right value.<br/>
+            Returns whether or not the values are close as an out parameter
+            </summary>
+            <seealso cref="M:VDFramework.Utility.DataTypes.DoubleUtil.AreClose(System.Double,System.Double)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.DoubleUtil.GreaterThanOrClose(System.Double,System.Double)">
+            <summary>
+            Tests whether the left value is greater than or close to the right value
+            </summary>
+            <seealso cref="M:VDFramework.Utility.DataTypes.DoubleUtil.AreClose(System.Double,System.Double)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.DoubleUtil.GreaterThanOrClose(System.Double,System.Double,System.Boolean@)">
+            <summary>
+            Tests whether the left value is greater than or close to the right value.<br/>
+            Returns whether or not the values are close as an out parameter
+            </summary>
+            <seealso cref="M:VDFramework.Utility.DataTypes.DoubleUtil.AreClose(System.Double,System.Double)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.DoubleUtil.IsOne(System.Double)">
+            <summary>
+            Tests whether the given value is almost equal to 1
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.DoubleUtil.IsZero(System.Double)">
+            <summary>
+            Tests whether the given value is almost equal to 0
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.DoubleUtil.AreClose(System.Drawing.Point,System.Drawing.Point)">
+            <summary>
+            Tests whether the given points are almost equal
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.DoubleUtil.AreClose(System.Drawing.Size,System.Drawing.Size)">
+            <summary>
+            Tests whether the given sizes are almost equal
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.DoubleUtil.IsBetweenZeroAndOne(System.Double,System.Boolean,System.Boolean)">
+            <summary>
+            Tests whether the given value is between 0.0 and 1.0.<br/>
+            Which bounds are inclusive and exclusive are set through the parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.DoubleUtil.RoundToInt(System.Double)">
+            <summary>
+            Rounds the given value to the nearest int
+            </summary>
+        </member>
+        <member name="T:VDFramework.Utility.DataTypes.FloatUtil">
+            <summary>
+            Provides utility functions specifically aimed at single precision floating-point numbers
+            </summary>
+            <seealso cref="T:VDFramework.Utility.DataTypes.DoubleUtil"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.FloatUtil.AreClose(System.Single,System.Single)">
+            <inheritdoc cref="M:VDFramework.Utility.DataTypes.DoubleUtil.AreClose(System.Double,System.Double)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.FloatUtil.LessThan(System.Single,System.Single)">
+            <inheritdoc cref="M:VDFramework.Utility.DataTypes.DoubleUtil.LessThan(System.Double,System.Double)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.FloatUtil.GreaterThan(System.Single,System.Single)">
+            <inheritdoc cref="M:VDFramework.Utility.DataTypes.DoubleUtil.GreaterThan(System.Double,System.Double)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.FloatUtil.LesserThanOrClose(System.Single,System.Single)">
+            <inheritdoc cref="M:VDFramework.Utility.DataTypes.DoubleUtil.LesserThanOrClose(System.Double,System.Double)"/>
+            <seealso cref="M:VDFramework.Utility.DataTypes.FloatUtil.AreClose(System.Single,System.Single)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.FloatUtil.LesserThanOrClose(System.Single,System.Single,System.Boolean@)">
+            <inheritdoc cref="M:VDFramework.Utility.DataTypes.DoubleUtil.LesserThanOrClose(System.Double,System.Double,System.Boolean@)"/>
+            <seealso cref="M:VDFramework.Utility.DataTypes.FloatUtil.AreClose(System.Single,System.Single)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.FloatUtil.GreaterThanOrClose(System.Single,System.Single)">
+            <inheritdoc cref="M:VDFramework.Utility.DataTypes.DoubleUtil.GreaterThanOrClose(System.Double,System.Double)"/>
+            <seealso cref="M:VDFramework.Utility.DataTypes.FloatUtil.AreClose(System.Single,System.Single)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.FloatUtil.GreaterThanOrClose(System.Single,System.Single,System.Boolean@)">
+            <inheritdoc cref="M:VDFramework.Utility.DataTypes.DoubleUtil.GreaterThanOrClose(System.Double,System.Double,System.Boolean@)"/>
+            <seealso cref="M:VDFramework.Utility.DataTypes.FloatUtil.AreClose(System.Single,System.Single)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.FloatUtil.IsOne(System.Double)">
+            <inheritdoc cref="M:VDFramework.Utility.DataTypes.DoubleUtil.IsOne(System.Double)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.FloatUtil.IsZero(System.Double)">
+            <inheritdoc cref="M:VDFramework.Utility.DataTypes.DoubleUtil.IsZero(System.Double)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.FloatUtil.IsBetweenZeroAndOne(System.Double,System.Boolean,System.Boolean)">
+            <inheritdoc cref="M:VDFramework.Utility.DataTypes.DoubleUtil.IsBetweenZeroAndOne(System.Double,System.Boolean,System.Boolean)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.FloatUtil.RoundToInt(System.Single)">
+            <summary>
+            Rounds the given value to the nearest int
+            </summary>
+        </member>
+        <member name="T:VDFramework.Utility.DataTypes.StringUtil">
+            <summary>
+            Contains utility functions for the built-in <see cref="T:System.String"/> type
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.StringUtil.EnforceLength(System.String,System.Int32,System.Char,System.Collections.Generic.IReadOnlyCollection{System.String})">
+            <summary>
+            Returns a string with specified length where certain substrings will only count as 1 char
+            </summary>
+            <param name="desiredLength">The length that you want the returned string to be</param>
+            <param name="addCharToEnd">In case the string is too short, add character to get the desired length</param>
+            <param name="countAs1Char">A collection of substrings that will only count as 1 char for the purposes of returning the desired length</param>
+            <param name="string">The string whose length to enforce</param>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringBetweenAandB(System.String,System.String,System.String,System.Int32,System.Boolean)">
+            <summary>
+            Get the string between two given strings, optionally including the two strings
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringBetweenAandB(System.String,System.Char,System.Char,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Get all characters between two characters, optionally including the two characters
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringsBetweenAandB(System.String,System.Char,System.Char,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Get the strings between all pairs of two characters, optionally including the two characters
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringsBetweenAandB(System.String,System.String,System.String,System.Int32,System.Boolean)">
+            <summary>
+            Get the strings between all pairs of two strings, optionally including the two strings
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.EnumDictionaryUtil.PopulateEnumDictionary``3(System.Collections.Generic.List{``0})">
+            <summary>
+            Will add a KeyValuePair for every enumValue to the list
+            </summary>
+            <returns>The same list</returns>
         </member>
         <member name="T:VDFramework.Utility.RandomUtil">
             <summary>
             Utility methods to randomly get an item from a given set of objects
             </summary>
         </member>
-        <member name="M:VDFramework.Utility.RandomUtil.RandomBool">
+        <member name="M:VDFramework.Utility.RandomUtil.RandomBool(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator)">
             <summary>
             Returns a random bool value
             </summary>
+            <param name="rng">The random number generator to use</param>
             <returns>TRUE or FALSE</returns>
         </member>
-        <member name="M:VDFramework.Utility.RandomUtil.GetRandom(System.Object[])">
+        <member name="M:VDFramework.Utility.RandomUtil.RandomBool">
+            <summary>
+            Returns a random bool value (using <see cref="T:System.Random">System.Random</see>)
+            </summary>
+            <returns>TRUE or FALSE</returns>
+        </member>
+        <member name="M:VDFramework.Utility.RandomUtil.GetRandom(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator,System.Object[])">
             <summary>
             Returns randomly from the parameters given
             </summary>
-            <returns>Any of the parameters, randomly selected</returns>
+            <param name="rng">The random number generator to use</param>
+            <param name="array">The collection to randomly select an object from</param>
+            <returns>Any of the given objects, randomly selected</returns>
+        </member>
+        <member name="M:VDFramework.Utility.RandomUtil.GetRandom``1(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator,``0[])">
+            <inheritdoc cref="M:VDFramework.Utility.RandomUtil.GetRandom(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator,System.Object[])"/>
+        </member>
+        <member name="M:VDFramework.Utility.RandomUtil.GetRandom(System.Object[])">
+            <summary>
+            Returns randomly from the parameters given (using <see cref="T:System.Random">System.Random</see>)
+            </summary>
+            <param name="array">The collection to randomly select an object from</param>
+            <returns>Any of the given objects, randomly selected</returns>
         </member>
         <member name="M:VDFramework.Utility.RandomUtil.GetRandom``1(``0[])">
             <inheritdoc cref="M:VDFramework.Utility.RandomUtil.GetRandom(System.Object[])"/>
@@ -3319,6 +3860,12 @@
             <para>VIRTUAL FOLDER: no path available</para>
             </summary>
         </member>
+        <member name="T:VDFramework.EventSystem.EventHandler`1">
+            <summary>
+            Wrapper class for a <see cref="T:VDFramework.ObserverPattern.CallbackHandler"/> that uses a callback that takes an eventInstance as parameter
+            </summary>
+            <typeparam name="TEvent">The type of the event</typeparam>
+        </member>
         <member name="T:VDFramework.EventSystem.EventManager">
             <summary>
             The manager class for the global event system, use this class to add and remove listeners from events and to raise an event
@@ -3398,7 +3945,7 @@
         </member>
         <member name="M:VDFramework.Extensions.EnumerableExtensions.GetMinMax``1(System.Collections.Generic.IEnumerable{``0},``0@,``0@)">
             <summary>
-            Calculate the Min and the Max values in the collection using <see cref="T:System.IComparable`1"/>
+            Calculate the Min and the Max values in the collection using <see cref="M:System.IComparable`1.CompareTo(`0)"/>
             </summary>
             <param name="collection">The collection to calculate the Min and Max against</param>
             <param name="minElement">The element in the collection that precedes all other elements in the sort order</param>
@@ -3417,7 +3964,7 @@
         </member>
         <member name="M:VDFramework.Extensions.EnumExtensions.GetValues``1(``0)">
             <summary>
-            Returns an IEnumerable of <see cref="!:TEnum"/> that has all the values of the enum
+            Returns an IEnumerable of <typeparamref name="TEnum"/> that has all the values of the enum
             </summary>
         </member>
         <member name="M:VDFramework.Extensions.EnumExtensions.GetRandomValue``1(``0)">
@@ -3509,6 +4056,16 @@
             <typeparam name="TItem">The type of elements in the list</typeparam>
             <returns>the same list to support chaining methods</returns>
         </member>
+        <member name="M:VDFramework.Extensions.ListExtensions.AddSorted``1(System.Collections.Generic.List{``0},``0,System.Boolean)">
+            <summary>
+            Insert the item in a location so that the list remains sorted (insertionSort) <br/>
+            The comparisions are made using the <see cref="M:System.IComparable`1.CompareTo(`0)"/> function
+            </summary>
+            <param name="list">The list to insert the item in</param>
+            <param name="itemToAdd">The item to insert into the list</param>
+            <param name="addToEndOfEquals">If true, the item will be inserted after all other items that are equal. Otherwise at the beginning</param>
+            <typeparam name="TItem">The type of elements in the list</typeparam>
+        </member>
         <member name="T:VDFramework.Extensions.ObjectExtensions">
             <summary>
             Contains extension methods for System.<see cref="T:System.Object"/>
@@ -3527,22 +4084,72 @@
             Extension methods for collections that allow getting a random element or randomly sorting the collection 
             </summary>
         </member>
-        <member name="M:VDFramework.Extensions.RandomElement.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0},System.Int32@)">
+        <member name="M:VDFramework.Extensions.RandomElement.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0},VDFramework.RandomWrapper.Interface.IRandomNumberGenerator,System.Int32@)">
             <summary>
             Returns a random element from this collection
+            </summary>
+            <param name="collection">The collection to return a random element from</param>
+            <param name="rng">The random number generator to use</param>
+            <param name="randomIndex">the index of the element returned</param>
+        </member>
+        <member name="M:VDFramework.Extensions.RandomElement.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0},VDFramework.RandomWrapper.Interface.IRandomNumberGenerator)">
+            <summary>
+            Returns a random element from this collection
+            </summary>
+            <param name="collection">The collection to return a random element from</param>
+            <param name="rng">The random number generator to use</param>
+        </member>
+        <member name="M:VDFramework.Extensions.RandomElement.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0},VDFramework.RandomWrapper.Interface.IRandomNumberGenerator,System.Int32@,System.Int32[])">
+            <summary>
+            Returns a random element from this collection
+            </summary>
+            <param name="collection">The collection to return a random element from</param>
+            <param name="rng">The random number generator to use</param>
+            <param name="randomIndex">the index of the element returned</param>
+            <param name="ignoreIndices">[OPTIONAL] the indices of elements that cannot be returned by this function</param>
+        </member>
+        <member name="M:VDFramework.Extensions.RandomElement.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0},VDFramework.RandomWrapper.Interface.IRandomNumberGenerator,System.Int32[])">
+            <summary>
+            Returns a random element from this collection
+            </summary>
+            <param name="collection">The collection to return a random element from</param>
+            <param name="rng">The random number generator to use</param>
+            <param name="ignoreIndices">[OPTIONAL] the indices of elements that cannot be returned by this function</param>
+        </member>
+        <member name="M:VDFramework.Extensions.RandomElement.Randomize``1(System.Collections.Generic.IEnumerable{``0},VDFramework.RandomWrapper.Interface.IRandomNumberGenerator)">
+            <summary>
+            Randomly sorts the IEnumerable
+            </summary>
+            <returns>The same list, for the purposes of chaining</returns>
+        </member>
+        <member name="M:VDFramework.Extensions.RandomElement.Randomize``1(System.Collections.Generic.List{``0},VDFramework.RandomWrapper.Interface.IRandomNumberGenerator)">
+            <summary>
+            Randomly sorts the list
+            </summary>
+            <returns>The same list, for the purposes of chaining</returns>
+        </member>
+        <member name="M:VDFramework.Extensions.RandomElement.Randomize``1(System.Collections.Generic.List{``0})">
+            <summary>
+            Randomly sorts the list
+            </summary>
+            <returns>The same list, for the purposes of chaining</returns>
+        </member>
+        <member name="M:VDFramework.Extensions.RandomElement.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0},System.Int32@)">
+            <summary>
+            Returns a random element from this collection (using <see cref="T:System.Random">System.Random</see>)
             </summary>
             <param name="collection">The collection to return a random element from</param>
             <param name="randomIndex">the index of the element returned</param>
         </member>
         <member name="M:VDFramework.Extensions.RandomElement.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})">
             <summary>
-            Returns a random element from this collection
+            Returns a random element from this collection (using <see cref="T:System.Random">System.Random</see>)
             </summary>
             <param name="collection">The collection to return a random element from</param>
         </member>
         <member name="M:VDFramework.Extensions.RandomElement.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0},System.Int32@,System.Int32[])">
             <summary>
-            Returns a random element from this collection
+            Returns a random element from this collection (using <see cref="T:System.Random">System.Random</see>)
             </summary>
             <param name="collection">The collection to return a random element from</param>
             <param name="randomIndex">the index of the element returned</param>
@@ -3550,20 +4157,16 @@
         </member>
         <member name="M:VDFramework.Extensions.RandomElement.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0},System.Int32[])">
             <summary>
-            Returns a random element from this collection
+            Returns a random element from this collection (using <see cref="T:System.Random">System.Random</see>)
             </summary>
             <param name="collection">The collection to return a random element from</param>
             <param name="ignoreIndices">[OPTIONAL] the indices of elements that cannot be returned by this function</param>
         </member>
         <member name="M:VDFramework.Extensions.RandomElement.Randomize``1(System.Collections.Generic.IEnumerable{``0})">
             <summary>
-            Randomly sorts the IEnumberable
+            Randomly sorts the IEnumerable (using <see cref="T:System.Random">System.Random</see>)
             </summary>
-        </member>
-        <member name="M:VDFramework.Extensions.RandomElement.Randomize``1(System.Collections.Generic.List{``0})">
-            <summary>
-            Randomly sorts the list
-            </summary>
+            <returns>The same list, for the purposes of chaining</returns>
         </member>
         <member name="T:VDFramework.Extensions.StringExtensions">
             <summary>
@@ -3750,6 +4353,73 @@
             This function does not gracefully handle cutting off a multi-byte character, it will split the bytes of these characters if it reached the <paramref name="bytesToWrite"/>
             </warning>
         </member>
+        <member name="T:VDFramework.LootTables.AliasMethod.AliasTable`1">
+            <summary>
+            Provides an implementation of a Alias table for the purposes of sampling discrete distributions.
+            </summary>
+            <theory>
+            https://research.nvidia.com/labs/rtr/publication/wyman2021alias/
+            </theory>
+        </member>
+        <member name="P:VDFramework.LootTables.AliasMethod.AliasTable`1.TotalWeight">
+            <summary>
+            The combined weight of every sample in the table.
+            </summary>
+        </member>
+        <member name="P:VDFramework.LootTables.AliasMethod.AliasTable`1.AverageWeight">
+            <summary>
+            The average weight per sample in the table.
+            </summary>
+        </member>
+        <member name="P:VDFramework.LootTables.AliasMethod.AliasTable`1.IsValid">
+            <summary>
+            Whether or not the table is empty.
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.AliasMethod.AliasTable`1.#ctor(System.Collections.Generic.IEnumerable{VDFramework.LootTables.Structs.LootTablePair{`0}})">
+            <summary>
+            A constructor that immediately constructs the alias table using the given collection.
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.AliasMethod.AliasTable`1.#ctor">
+            <summary>
+            The default constructor that does not immediately construct a table.
+            </summary>
+            <seealso cref="M:VDFramework.LootTables.AliasMethod.AliasTable`1.Construct(System.Collections.Generic.IEnumerable{VDFramework.LootTables.Structs.LootTablePair{`0}})"/>
+        </member>
+        <member name="M:VDFramework.LootTables.AliasMethod.AliasTable`1.Construct(System.Collections.Generic.IEnumerable{VDFramework.LootTables.Structs.LootTablePair{`0}})">
+            <summary>
+            Construct an alias table from the given pairs of {<see cref="T:VDFramework.LootTables.Interfaces.ILoot`1"/>, Weight}
+            </summary>
+            <param name="sortedCollection">A collection of {<see cref="T:VDFramework.LootTables.Interfaces.ILoot`1"/>, Weight} pairs</param>
+        </member>
+        <member name="M:VDFramework.LootTables.AliasMethod.AliasTable`1.Sample(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator)">
+            <summary>
+            Sample the alias table based on the weights and returns the result.<br/>
+            Uses the <paramref name="rng"/> or <see cref="T:VDFramework.RandomWrapper.SystemRandom"/> if that is null
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.AliasMethod.AliasTable`1.Sample">
+            <summary>
+            Sample the alias table based on the weights and returns the result.<br/>
+            Uses <see cref="T:System.Random">System.Random</see>
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.AliasMethod.AliasTable`1.Clear">
+            <summary>
+            Clears the entire alias table
+            </summary>
+        </member>
+        <member name="T:VDFramework.LootTables.AliasMethod.AliasTableEntry`1">
+            <summary>
+            An entry of an Alias table
+            </summary>
+        </member>
+        <member name="F:VDFramework.LootTables.AliasMethod.AliasTableEntry`1.Threshold">
+            <summary>
+            Value in the range of [0, 1) that is used to determine whether to use <see cref="F:VDFramework.LootTables.AliasMethod.AliasTableEntry`1.LowerSample"/> or <see cref="F:VDFramework.LootTables.AliasMethod.AliasTableEntry`1.HigherSample"/>
+            </summary>
+        </member>
         <member name="T:VDFramework.LootTables.Interfaces.ILoot`1">
             <summary>
             Represents an object that returns loot in some way
@@ -3782,7 +4452,59 @@
         <member name="M:VDFramework.LootTables.LootTableItems.LootTableItem`1.GetHashCode">
             <inheritdoc/>
         </member>
-        <member name="M:VDFramework.LootTables.Variations.PercentageLootTable`1.TryGetPair(VDFramework.LootTables.Interfaces.ILoot{`0},VDFramework.LootTables.Structs.PercentageLootTablePair{`0}@)">
+        <member name="T:VDFramework.LootTables.Structs.LootTablePair`1">
+            <summary>
+            A simple struct that holds the weight per <see cref="T:VDFramework.LootTables.Interfaces.ILoot`1"/>
+            </summary>
+        </member>
+        <member name="F:VDFramework.LootTables.Structs.LootTablePair`1.Loot">
+            <summary>
+            The loot that is assigned to this pair
+            </summary>
+        </member>
+        <member name="F:VDFramework.LootTables.Structs.LootTablePair`1.Weight">
+            <summary>
+            The weight that is associated with the loot of this pair
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.Structs.LootTablePair`1.#ctor(VDFramework.LootTables.Interfaces.ILoot{`0},System.Int64)">
+            <summary>
+            Create a new instance of this struct with the given loot and weight 
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.Structs.LootTablePair`1.op_Implicit(VDFramework.LootTables.Structs.LootTablePair{`0})~System.Collections.Generic.KeyValuePair{VDFramework.LootTables.Interfaces.ILoot{`0},System.Int64}">
+            <summary>
+            Convert into a KeyValuePair with Key = Loot and Value = Weight
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.Structs.LootTablePair`1.Equals(VDFramework.LootTables.Structs.LootTablePair{`0})">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.LootTables.Structs.LootTablePair`1.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.LootTables.Structs.LootTablePair`1.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.LootTables.Structs.LootTablePair`1.CompareTo(VDFramework.LootTables.Structs.LootTablePair{`0})">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.LootTables.Structs.PercentageLootTablePair`1.Equals(VDFramework.LootTables.Structs.PercentageLootTablePair{`0})">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.LootTables.Structs.PercentageLootTablePair`1.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.LootTables.Structs.PercentageLootTablePair`1.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.LootTables.Structs.PercentageLootTablePair`1.CompareTo(VDFramework.LootTables.Structs.PercentageLootTablePair{`0})">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.LootTables.Variations.PercentageLootTable`1.GetLootList">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.LootTables.Variations.PercentageLootTable`1.TryGetLootTablePair(VDFramework.LootTables.Interfaces.ILoot{`0},VDFramework.LootTables.Structs.PercentageLootTablePair{`0}@,System.Int32@)">
             <summary>
             Attempt to get the LootTablePair whose loot matches the given loot
             </summary>
@@ -3797,15 +4519,2092 @@
             Convert percentages to weight and add them to the lootTable
             </summary>
         </member>
-        <member name="M:VDFramework.LootTables.WeightedLootTable`1.GetLoot">
+        <member name="M:VDFramework.LootTables.Variations.PercentageLootTable`1.PercentageFloatToDecimal(System.Single)">
             <summary>
-            Grabs a random ILoot from the table based on the weights and returns it
+            Converts a float percentage (0% - 100%) to a decimal percentage factor (0 - 1)
             </summary>
         </member>
-        <member name="M:VDFramework.LootTables.WeightedLootTable`1.CalculateIndexArray">
+        <member name="M:VDFramework.LootTables.Variations.PercentageLootTable`1.GetEnumerator">
+            <inheritdoc />
+        </member>
+        <member name="T:VDFramework.LootTables.WeightedLootTable`1">
             <summary>
-            <para>Calculate an array of indices from the Loot Table</para>
-            <para>The amount of duplicate values is dependent on the weight</para>
+            A weighted loot table that allows you to grab an random element of type <typeparamref name="TLootType"/> with a probability based on the weight assigned to it.<br/>
+            Internally the Alias-method is used for the sampling.
+            </summary>
+            <seealso cref="T:VDFramework.LootTables.AliasMethod.AliasTable`1"/>
+        </member>
+        <member name="P:VDFramework.LootTables.WeightedLootTable`1.TotalWeight">
+            <summary>
+            The combined weight of every loot in the table
+            </summary>
+        </member>
+        <member name="P:VDFramework.LootTables.WeightedLootTable`1.ShouldReconstructAliasTable">
+            <summary>
+            Whether or not the internal alias table should be reconstructed first when <see cref="M:VDFramework.LootTables.WeightedLootTable`1.GetLoot"/> is called
+            </summary>
+        </member>
+        <member name="P:VDFramework.LootTables.WeightedLootTable`1.RandomNumberGenerator">
+            <summary>
+            The <see cref="T:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator"/> implementation that should be used when getting a random value from the loot table.<br/>
+            Will default to <see cref="T:VDFramework.RandomWrapper.SystemRandom"/> if not set.
+            </summary>
+        </member>
+        <member name="F:VDFramework.LootTables.WeightedLootTable`1.lootTable">
+            <summary>
+            The list of pairs that represents this loot table.<br/>
+            Similar to Dictionary{ILoot{TLootType}, int}
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.WeightedLootTable`1.#ctor">
+            <summary>
+            Creates a new instance of a weighted loot table with no loot
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.WeightedLootTable`1.#ctor(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{`0,System.Int64}})">
+            <summary>
+            Creates a new instance of a weighted loot table with the given loot
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.WeightedLootTable`1.#ctor(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{VDFramework.LootTables.Interfaces.ILoot{`0},System.Int64}})">
+            <summary>
+            Creates a new instance of a weighted loot table with the given loot
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.WeightedLootTable`1.GetLootList">
+            <summary>
+            Returns a copy of the loot table as a list.
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.WeightedLootTable`1.GetLoot">
+            <summary>
+            Grabs a random ILoot from the table based on the weights and returns it.<br/>
+            Uses the <see cref="P:VDFramework.LootTables.WeightedLootTable`1.RandomNumberGenerator"/> or <see cref="T:VDFramework.RandomWrapper.SystemRandom"/> if that is null.
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.WeightedLootTable`1.GetAliasTable">
+            <summary>
+            Returns the internal alias table of this loot table<br/>
+            The table will be constructed if <see cref="P:VDFramework.LootTables.WeightedLootTable`1.ShouldReconstructAliasTable"/> is true
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.WeightedLootTable`1.ConstructAliasTable">
+            <summary>
+            Calculate an array of indices from the Loot Table <br/>
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.WeightedLootTable`1.GetEnumerator">
+            <inheritdoc />
+        </member>
+        <member name="M:VDFramework.LootTables.WeightedLootTable`1.System#Collections#IEnumerable#GetEnumerator">
+            <inheritdoc />
+        </member>
+        <member name="T:VDFramework.ObserverPattern.Constants.Priority">
+            <summary>
+            A helper class that provides constants for priorities (can be used in for example the <see cref="T:VDFramework.EventSystem.EventManager"/> and <see cref="T:VDFramework.ObserverPattern.PrioritisedAction"/>
+            </summary>
+        </member>
+        <member name="F:VDFramework.ObserverPattern.Constants.Priority.HIGHEST">
+            <summary>
+            The highest possible priority, should always be first
+            </summary>
+        </member>
+        <member name="F:VDFramework.ObserverPattern.Constants.Priority.HIGH">
+            <summary>
+            A higher than default priority
+            </summary>
+        </member>
+        <member name="F:VDFramework.ObserverPattern.Constants.Priority.DEFAULT">
+            <summary>
+            The default priority
+            </summary>
+        </member>
+        <member name="F:VDFramework.ObserverPattern.Constants.Priority.LOW">
+            <summary>
+            A lower than default priority
+            </summary>
+        </member>
+        <member name="F:VDFramework.ObserverPattern.Constants.Priority.UI">
+            <summary>
+            The priority for UI based systems (low so it can use changes from other systems)
+            </summary>
+        </member>
+        <member name="F:VDFramework.ObserverPattern.Constants.Priority.LOWEST">
+            <summary>
+            The lowest possible priority, should always be last
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.CallbackHandler">
+            <summary>
+            A wrapper class for a callback with priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction.Invoke">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`1">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`1.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`1.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`1.AddCallback(System.Action{`0},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`1.RemoveCallback(System.Action{`0})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`1.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`1.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`1.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`1.Invoke(`0)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`2">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`2.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`2.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`2.AddCallback(System.Action{`0,`1},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`2.RemoveCallback(System.Action{`0,`1})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`2.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`2.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`2.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`2.Invoke(`0,`1)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`3">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`3.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`3.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`3.AddCallback(System.Action{`0,`1,`2},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`3.RemoveCallback(System.Action{`0,`1,`2})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`3.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`3.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`3.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`3.Invoke(`0,`1,`2)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`4">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`4.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`4.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`4.AddCallback(System.Action{`0,`1,`2,`3},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`4.RemoveCallback(System.Action{`0,`1,`2,`3})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`4.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`4.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`4.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`4.Invoke(`0,`1,`2,`3)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`5">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`5.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`5.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`5.AddCallback(System.Action{`0,`1,`2,`3,`4},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`5.RemoveCallback(System.Action{`0,`1,`2,`3,`4})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`5.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`5.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`5.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`5.Invoke(`0,`1,`2,`3,`4)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`6">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`6.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`6.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`6.AddCallback(System.Action{`0,`1,`2,`3,`4,`5},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`6.RemoveCallback(System.Action{`0,`1,`2,`3,`4,`5})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`6.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`6.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`6.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`6.Invoke(`0,`1,`2,`3,`4,`5)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`7">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`7.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`7.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`7.AddCallback(System.Action{`0,`1,`2,`3,`4,`5,`6},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`7.RemoveCallback(System.Action{`0,`1,`2,`3,`4,`5,`6})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`7.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`7.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`7.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`7.Invoke(`0,`1,`2,`3,`4,`5,`6)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`8">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`8.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`8.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`8.AddCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`8.RemoveCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`8.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`8.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`8.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`8.Invoke(`0,`1,`2,`3,`4,`5,`6,`7)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`9">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`9.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`9.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`9.AddCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`9.RemoveCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`9.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`9.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`9.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`9.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`10">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`10.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`10.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`10.AddCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`10.RemoveCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`10.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`10.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`10.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`10.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8,`9)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`11">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`11.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`11.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`11.AddCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`11.RemoveCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`11.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`11.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`11.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`11.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`12">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`12.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`12.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`12.AddCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`12.RemoveCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`12.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`12.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`12.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`12.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`13">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`13.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`13.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`13.AddCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`13.RemoveCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`13.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`13.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`13.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`13.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`14">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`14.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`14.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`14.AddCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`14.RemoveCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`14.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`14.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`14.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`14.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`15">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`15.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`15.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`15.AddCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13,`14},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`15.RemoveCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13,`14})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`15.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`15.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`15.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`15.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13,`14)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedAction`16">
+            <summary>
+            A class that mimics System.Action but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`16.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedAction`16.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`16.AddCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13,`14,`15},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`16.RemoveCallback(System.Action{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13,`14,`15})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`16.AddCallback(System.Action,System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`16.RemoveCallback(System.Action)">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+            <param name="callback">The callback to remove</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`16.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedAction`16.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13,`14,`15)">
+            <summary>
+            Invoke the callbacks according to their priority
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`1">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`1.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`1.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`1.AddCallback(System.Func{`0},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`1.RemoveCallback(System.Func{`0})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`1.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`1.Invoke">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`2">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`2.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`2.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`2.AddCallback(System.Func{`0,`1},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`2.RemoveCallback(System.Func{`0,`1})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`2.AddCallback(System.Func{`1},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`2.RemoveCallback(System.Func{`1})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`2.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`2.Invoke(`0)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`3">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`3.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`3.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`3.AddCallback(System.Func{`0,`1,`2},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`3.RemoveCallback(System.Func{`0,`1,`2})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`3.AddCallback(System.Func{`2},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`3.RemoveCallback(System.Func{`2})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`3.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`3.Invoke(`0,`1)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`4">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`4.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`4.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`4.AddCallback(System.Func{`0,`1,`2,`3},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`4.RemoveCallback(System.Func{`0,`1,`2,`3})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`4.AddCallback(System.Func{`3},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`4.RemoveCallback(System.Func{`3})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`4.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`4.Invoke(`0,`1,`2)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`5">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`5.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`5.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`5.AddCallback(System.Func{`0,`1,`2,`3,`4},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`5.RemoveCallback(System.Func{`0,`1,`2,`3,`4})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`5.AddCallback(System.Func{`4},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`5.RemoveCallback(System.Func{`4})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`5.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`5.Invoke(`0,`1,`2,`3)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`6">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`6.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`6.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`6.AddCallback(System.Func{`0,`1,`2,`3,`4,`5},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`6.RemoveCallback(System.Func{`0,`1,`2,`3,`4,`5})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`6.AddCallback(System.Func{`5},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`6.RemoveCallback(System.Func{`5})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`6.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`6.Invoke(`0,`1,`2,`3,`4)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`7">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`7.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`7.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`7.AddCallback(System.Func{`0,`1,`2,`3,`4,`5,`6},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`7.RemoveCallback(System.Func{`0,`1,`2,`3,`4,`5,`6})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`7.AddCallback(System.Func{`6},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`7.RemoveCallback(System.Func{`6})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`7.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`7.Invoke(`0,`1,`2,`3,`4,`5)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`8">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`8.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`8.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`8.AddCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`8.RemoveCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`8.AddCallback(System.Func{`7},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`8.RemoveCallback(System.Func{`7})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`8.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`8.Invoke(`0,`1,`2,`3,`4,`5,`6)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`9">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`9.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`9.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`9.AddCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`9.RemoveCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`9.AddCallback(System.Func{`8},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`9.RemoveCallback(System.Func{`8})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`9.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`9.Invoke(`0,`1,`2,`3,`4,`5,`6,`7)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`10">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`10.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`10.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`10.AddCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`10.RemoveCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`10.AddCallback(System.Func{`9},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`10.RemoveCallback(System.Func{`9})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`10.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`10.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`11">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`11.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`11.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`11.AddCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`11.RemoveCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`11.AddCallback(System.Func{`10},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`11.RemoveCallback(System.Func{`10})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`11.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`11.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8,`9)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`12">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`12.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`12.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`12.AddCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`12.RemoveCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`12.AddCallback(System.Func{`11},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`12.RemoveCallback(System.Func{`11})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`12.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`12.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`13">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`13.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`13.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`13.AddCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`13.RemoveCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`13.AddCallback(System.Func{`12},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`13.RemoveCallback(System.Func{`12})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`13.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`13.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`14">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`14.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`14.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`14.AddCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`14.RemoveCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`14.AddCallback(System.Func{`13},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`14.RemoveCallback(System.Func{`13})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`14.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`14.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`15">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`15.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`15.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`15.AddCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13,`14},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`15.RemoveCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13,`14})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`15.AddCallback(System.Func{`14},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`15.RemoveCallback(System.Func{`14})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`15.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`15.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`16">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`16.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`16.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`16.AddCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13,`14,`15},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`16.RemoveCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13,`14,`15})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`16.AddCallback(System.Func{`15},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`16.RemoveCallback(System.Func{`15})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`16.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`16.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13,`14)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:VDFramework.ObserverPattern.PrioritisedFunc`17">
+            <summary>
+            A class that mimics System.Func but allows giving a priority to the callbacks
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`17.Callbacks">
+            <summary>
+            The callbacks associated with this delegate
+            </summary>
+        </member>
+        <member name="E:VDFramework.ObserverPattern.PrioritisedFunc`17.ParameterlessCallbacks">
+            <summary>
+            The callbacks associated with this delegate that have no parameters
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`17.AddCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13,`14,`15,`16},System.Int32)">
+            <summary>
+            Add a new callback to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`17.RemoveCallback(System.Func{`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13,`14,`15,`16})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`17.AddCallback(System.Func{`16},System.Int32)">
+            <summary>
+            Add a new callback without parameters to this delegate
+            </summary>
+            <param name="callback">The callback to add</param>
+            <param name="priority">The priority of this callback, higher priority will be invoked before lower</param>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`17.RemoveCallback(System.Func{`16})">
+            <summary>
+            Remove a callback from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`17.ClearCallbacks">
+            <summary>
+             Removes all the callbacks from this delegate
+            </summary>
+        </member>
+        <member name="M:VDFramework.ObserverPattern.PrioritisedFunc`17.Invoke(`0,`1,`2,`3,`4,`5,`6,`7,`8,`9,`10,`11,`12,`13,`14,`15)">
+            <summary>
+            Invoke the callbacks according to their priority <br/>
+            Only the last result will be returned
+            </summary>
+        </member>
+        <member name="T:SeedFinder.Curve.Utility.CubicHermiteCalculator">
+            <summary>
+            Provides the under-the-hood calculations needed for a Cubic Hermite curve.<br/>
+            This is a Cubic curve that where the 2 control points are defined by a weight and a tangent from the start and end points
+            </summary>
+            <wikipedia>https://en.wikipedia.org/wiki/Cubic_Hermite_spline</wikipedia>
+            <plottedExample>https://www.desmos.com/calculator/hrswjq9qbe</plottedExample>
+        </member>
+        <member name="F:SeedFinder.Curve.Utility.CubicHermiteCalculator.Xi">
+            <summary>
+            A mathematical constant used for getting the roots of a cubic equation.<br/>
+            (-1 + √-3) / 2<br/>
+            Symbol: ξ
+            </summary>
+            <wikipedia>https://en.wikipedia.org/wiki/Cubic_equation#General_cubic_formula</wikipedia>
+        </member>
+        <member name="M:SeedFinder.Curve.Utility.CubicHermiteCalculator.CalculateControlPoints(SeedFinder.Curve.Structs.KeyFrame,SeedFinder.Curve.Structs.KeyFrame,SeedFinder.Curve.Structs.Point@,SeedFinder.Curve.Structs.Point@)">
+            <summary>
+            Calculates the right control point for the start keyframe and the left control point for the end keyframe and returns them as out parameters
+            </summary>
+        </member>
+        <member name="M:SeedFinder.Curve.Utility.CubicHermiteCalculator.CalculateControlPoint1(SeedFinder.Curve.Structs.KeyFrame,SeedFinder.Curve.Structs.KeyFrame)">
+            <summary>
+            Calculates the control point to the right of the start keyframe
+            </summary>
+        </member>
+        <member name="M:SeedFinder.Curve.Utility.CubicHermiteCalculator.CalculateControlPoint2(SeedFinder.Curve.Structs.KeyFrame,SeedFinder.Curve.Structs.KeyFrame)">
+            <summary>
+            Calculates the control point to the left of the end keyframe
+            </summary>
+        </member>
+        <member name="M:SeedFinder.Curve.Utility.CubicHermiteCalculator.EvaluateCurve(System.Double,SeedFinder.Curve.Structs.Point,SeedFinder.Curve.Structs.Point,SeedFinder.Curve.Structs.Point,SeedFinder.Curve.Structs.Point)">
+            <summary>
+            Evaluate the Cubic Hermite curve that is defined by the start and end points and 2 control points 
+            </summary>
+            <returns>the y value of the evaluated x coordinate on the curve</returns>
+        </member>
+        <member name="M:SeedFinder.Curve.Utility.CubicHermiteCalculator.GetPointOnCurve(System.Double,SeedFinder.Curve.Structs.Point,SeedFinder.Curve.Structs.Point,SeedFinder.Curve.Structs.Point,SeedFinder.Curve.Structs.Point)">
+            <summary>
+            Gives a point on the curve depending on the value of t. With t = 0 being the start and t = 1 being the end.<br/>
+            </summary>
+            <warning>While this does allow one to trace the curve easily, t does not equate to a % along the curve and should not be used for constant steps</warning>
+        </member>
+        <member name="M:SeedFinder.Curve.Utility.CubicHermiteCalculator.Delta(System.Double,SeedFinder.Curve.Structs.Point)">
+            <summary>
+            Returns the difference towards the start coordinate
+            </summary>
+        </member>
+        <member name="M:SeedFinder.Curve.Utility.CubicHermiteCalculator.RootPlus(System.Double,SeedFinder.Curve.Structs.Point,System.Double,System.Double,System.Double,System.Double,System.Int32)">
+            <summary>
+            Calculates a root of the polynomial equation using the complex number from <see cref="M:SeedFinder.Curve.Utility.CubicHermiteCalculator.ComplexPlus(System.Double,SeedFinder.Curve.Structs.Point,System.Double,System.Double,System.Double,System.Double)"/> and ensures the result is real.
+            </summary>
+        </member>
+        <member name="M:SeedFinder.Curve.Utility.CubicHermiteCalculator.RootMinus(System.Double,SeedFinder.Curve.Structs.Point,System.Double,System.Double,System.Double,System.Double,System.Int32)">
+            <summary>
+            Calculates a root of the polynomial equation using the complex number from <see cref="M:SeedFinder.Curve.Utility.CubicHermiteCalculator.ComplexMinus(System.Double,SeedFinder.Curve.Structs.Point,System.Double,System.Double,System.Double,System.Double)"/> and ensures the result is real.
+            </summary>
+        </member>
+        <member name="T:SeedFinder.Curve.CubicHermiteCurve">
+            <summary>
+            The implementation of a Cubic Hermite curve.<br/>
+            This is a Cubic curve that where the 2 control points are defined by a weight and a tangent from the start and end points.<br/>
+            The behaviour of this curve is identical to Unitys AnimationCurve
+            </summary>
+            <wikipedia>https://en.wikipedia.org/wiki/Cubic_Hermite_spline</wikipedia>
+            <plottedExample>https://www.desmos.com/calculator/hrswjq9qbe</plottedExample>
+        </member>
+        <member name="P:SeedFinder.Curve.CubicHermiteCurve.PreWrapMode">
+            <summary>
+            How evaluating a point that falls to the left of the curve should be handled
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.CubicHermiteCurve.PostWrapMode">
+            <summary>
+            How evaluating a point that falls to the right of the curve should be handled
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.CubicHermiteCurve.KeyFrames">
+            <summary>
+            All the keyframes that belong to this curve, sorted by their x coordinates.
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.CubicHermiteCurve.StartPoint">
+            <summary>
+            The first keyframe of this curve
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.CubicHermiteCurve.EndPoint">
+            <summary>
+            The last keyframe of this curve
+            </summary>
+        </member>
+        <member name="M:SeedFinder.Curve.CubicHermiteCurve.#ctor">
+            <summary>
+            Creates a new Cubic Hermite curve with no keyframes
+            </summary>
+        </member>
+        <member name="M:SeedFinder.Curve.CubicHermiteCurve.#ctor(SeedFinder.Curve.Structs.KeyFrame[])">
+            <summary>
+            Creates a new Cubic Hermite curve with the given keyframes
+            </summary>
+        </member>
+        <member name="M:SeedFinder.Curve.CubicHermiteCurve.#ctor(System.Collections.Generic.IEnumerable{SeedFinder.Curve.Structs.KeyFrame})">
+            <summary>
+            Creates a new Cubic Hermite curve with the given keyframes
+            </summary>
+        </member>
+        <member name="M:SeedFinder.Curve.CubicHermiteCurve.Evaluate(System.Double)">
+            <summary>
+            Evaluate the curve at the given x coordinate
+            </summary>
+            <param name="x">The X coordnate to evaluate</param>
+            <returns>The Y coordinate of the point on the curve that has the given X coordinate</returns>
+        </member>
+        <member name="M:SeedFinder.Curve.CubicHermiteCurve.Evaluate(System.Double,SeedFinder.Curve.Enums.CurveWrapMode,SeedFinder.Curve.Enums.CurveWrapMode)">
+            <summary>
+            Evaluate the curve at the given x coordinate
+            </summary>
+            <param name="x">The X coordnate to evaluate</param>
+            <param name="preWrapMode">How to handle a point that falls outside the curve, before the first keyframe</param>
+            <param name="postWrapMode">How to handle a point that falls outside the curve, after the last keyframe</param>
+            <returns>The Y coordinate of the point on the curve that has the given X coordinate</returns>
+        </member>
+        <member name="M:SeedFinder.Curve.CubicHermiteCurve.GetEnumerator">
+            <inheritdoc />
+        </member>
+        <member name="T:SeedFinder.Curve.Enums.CurveWrapMode">
+            <summary>
+            How to handle evaluating a point outside of the defined curve
+            </summary>
+        </member>
+        <member name="F:SeedFinder.Curve.Enums.CurveWrapMode.Loop">
+            <summary>
+            Repeat the curve ad ininitum
+            </summary>
+        </member>
+        <member name="F:SeedFinder.Curve.Enums.CurveWrapMode.PingPong">
+            <summary>
+            Repeat the curve ad infinitum, but reverse the curve every other cycle
+            </summary>
+        </member>
+        <member name="F:SeedFinder.Curve.Enums.CurveWrapMode.Clamp">
+            <summary>
+            Return the value at the start/end point
+            </summary>
+        </member>
+        <member name="T:SeedFinder.Curve.Structs.KeyFrame">
+            <summary>
+            Represents a x and y coordinate on the curve.<br/>
+            Also contains a weight and a tangent for a cubic hermite curve
+            </summary>
+            <seealso cref="P:SeedFinder.Curve.Structs.KeyFrame.InTangent"/>
+            <seealso cref="P:SeedFinder.Curve.Structs.KeyFrame.OutTangent"/>
+        </member>
+        <member name="M:SeedFinder.Curve.Structs.KeyFrame.#ctor(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Creates a new keyframe with the given coordinates, and optionally the weights and tangents
+            </summary>
+        </member>
+        <member name="M:SeedFinder.Curve.Structs.KeyFrame.#ctor(SeedFinder.Curve.Structs.Point,System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Creates a new keyframe with the coordinates from the given points, and optionally the weights and tangents
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.Structs.KeyFrame.x">
+            <summary>
+            The X coordinate (Time) of this keyframe
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.Structs.KeyFrame.y">
+            <summary>
+            The Y coordinate (Value) of this keyframe
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.Structs.KeyFrame.Position">
+            <summary>
+            The position of this keyframe
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.Structs.KeyFrame.UseWeightForLeftControlPoint">
+            <summary>
+            Whether or not the weight should be used when calculating the left control point of this keyframe
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.Structs.KeyFrame.UseWeightForRightControlPoint">
+            <summary>
+            Whether or not the weight should be used when calculating the right control point of this keyframe
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.Structs.KeyFrame.InTangent">
+            <summary>
+            The tangent on the left side of this keyframe.<br/><br/>
+            Use Infinity if you want to use a constant for this curve:<br/>
+            <see cref="F:System.Double.PositiveInfinity"/> = start value (other keyframe)<br/>
+            <see cref="F:System.Double.NegativeInfinity"/> = end value (this keyframe)
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.Structs.KeyFrame.InWeight">
+            <summary>
+            The weight used to calculate the control point on the left of this keyframe.<br/>
+            It is represented by a normalized value [0, 1] between this keyframe and the one before it
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.Structs.KeyFrame.OutTangent">
+            <summary>
+            The tangent on the right side of this keyframe.<br/><br/>
+            Use Infinity if you want to use a constant for this curve:<br/>
+            <see cref="F:System.Double.PositiveInfinity"/> = start value (this keyframe)<br/>
+            <see cref="F:System.Double.NegativeInfinity"/> = end value (other keyframe)
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.Structs.KeyFrame.OutWeight">
+            <summary>
+            The weight used to calculate the control point on the right of this keyframe.<br/>
+            It is represented by a normalized value [0, 1] between this keyframe and the one after it
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.Structs.KeyFrame.LeftControlPoint">
+            <summary>
+            The control point to the left of this keyframe
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.Structs.KeyFrame.RightControlPoint">
+            <summary>
+            The control point to the right of this keyframe
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.Structs.KeyFrame.HasCalculatedLeftControlPoint">
+            <summary>
+            Whether or not the left control point has been calculated with the latest data set
+            </summary>
+        </member>
+        <member name="P:SeedFinder.Curve.Structs.KeyFrame.HasCalculatedRightControlPoint">
+            <summary>
+            Whether or not the right control point has been calculated with the latest data set
+            </summary>
+        </member>
+        <member name="M:SeedFinder.Curve.Structs.KeyFrame.CompareTo(SeedFinder.Curve.Structs.KeyFrame)">
+            <inheritdoc />
+        </member>
+        <member name="M:SeedFinder.Curve.Structs.KeyFrame.CalculateLeftControlPoint(SeedFinder.Curve.Structs.KeyFrame)">
+            <summary>
+            Calculate the left control point of this keyframe
+            </summary>
+            <param name="startPoint">A keyframe to the left of this keyframe that will serve as the begin point of the cubic hermite curve</param>
+        </member>
+        <member name="M:SeedFinder.Curve.Structs.KeyFrame.CalculateRightControlPoint(SeedFinder.Curve.Structs.KeyFrame)">
+            <summary>
+            Calculate the right control point of this keyframe
+            </summary>
+            <param name="endPoint">A keyframe to the right of this keyframe that will serve as the end point of the cubic hermite curve</param>
+        </member>
+        <member name="T:SeedFinder.Curve.Structs.Point">
+            <summary>
+            Represents an ordered pair of integer x- and y-coordinates that defines a point in a two-dimensional plane.
+            </summary>
+        </member>
+        <member name="F:SeedFinder.Curve.Structs.Point.x">
+            <summary>
+            The x coordinate of this point
+            </summary>
+        </member>
+        <member name="F:SeedFinder.Curve.Structs.Point.y">
+            <summary>
+            The y coordinate of this point
+            </summary>
+        </member>
+        <member name="M:SeedFinder.Curve.Structs.Point.#ctor(System.Double,System.Double)">
+            <summary>
+            Create a new point with the given x and y coordinates
+            </summary>
+        </member>
+        <member name="M:SeedFinder.Curve.Structs.Point.#ctor(SeedFinder.Curve.Structs.Point)">
+            <summary>
+            Create a new point with the same coordinates as the given point
             </summary>
         </member>
     </members>

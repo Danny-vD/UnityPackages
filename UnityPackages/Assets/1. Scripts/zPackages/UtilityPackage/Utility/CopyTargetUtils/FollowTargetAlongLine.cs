@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using VDFramework;
+using VDFramework.Utility.MathUtility.VectorMath;
 
 namespace UtilityPackage.Utility.CopyTargetUtils
 {
@@ -55,17 +56,8 @@ namespace UtilityPackage.Utility.CopyTargetUtils
 		private Vector3 ProjectOntoLine(Vector3 position)
 		{
 			Vector3 line = point2 - point1;
-			Vector3 directionToPosition = position - point1;
 
-			float dot = Vector3.Dot(directionToPosition, line.normalized); // Project the target onto the line
-			dot /= line.magnitude;                                         // Normalize the result
-
-			if (clampBetweenPoints)
-			{
-				dot = Mathf.Clamp01(dot);
-			}
-
-			Vector3 newPosition = point1 + line * dot;
+			Vector3 newPosition = VectorProjectionUtil.ProjectPointOntoLine(point1, line, position, clampBetweenPoints);
 
 			if (drawDebugLines)
 			{

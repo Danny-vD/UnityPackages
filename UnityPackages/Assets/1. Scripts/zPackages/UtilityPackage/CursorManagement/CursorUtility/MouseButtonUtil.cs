@@ -286,7 +286,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 		#region Private Events
 
 		/// <seealso cref="OnScroll"/>
-		private static event Action<Vector2> onMouseScroll = delegate { };
+		private static event Action<Vector2> onMouseScroll; // We need it to be able to be null
 
 		private static event Action anyMouseButtonDown = delegate { };
 		private static event Action anyMouseButtonUp = delegate { };
@@ -298,7 +298,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 		/// <summary>
 		/// Is any mouse button currently down?
 		/// </summary>
-		public static bool IsAnyMouseButtonDown => mouseButtonHandlers.Any(handler => handler.ButtonPressed);
+		public static bool IsAnyMouseButtonDown => MouseButtonHandlers.Any(handler => handler.ButtonPressed);
 
 		/// <summary>
 		///<para>The amount the scroll wheel was scrolled relative to the last frame</para>
@@ -310,12 +310,25 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 		/// Returns true if the <see cref="MouseScrollDelta"/> has a value higher than 0
 		/// </summary>
 		public static bool IsScrolling => MouseScrollDelta.sqrMagnitude > 0.0f;
+		
+		private static MouseInputEventHandler[] MouseButtonHandlers
+		{
+			get
+			{
+				if (!IsInitialized)
+				{
+					ForceInitialize();
+				}
+
+				return mouseButtonHandlers;
+			}
+		}
 
 		#endregion
 
 		#region Private fields
 
-		private static readonly MouseInputEventHandler[] mouseButtonHandlers = new MouseInputEventHandler[5];
+		private static MouseInputEventHandler[] mouseButtonHandlers;
 
 		#endregion
 
@@ -382,7 +395,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 				ForceInitialize();
 			}
 
-			mouseButtonHandlers[(int)mouseButton].OnButtonDown += callback;
+			MouseButtonHandlers[(int)mouseButton].OnButtonDown += callback;
 		}
 
 		/// <summary>
@@ -392,14 +405,14 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 		/// <param name="mouseButton">The mousebutton whose MouseButtonDown event to unsubscribe from</param>
 		public static void RemoveButtonDownListener(Action callback, MouseButton mouseButton = MouseButton.Left)
 		{
-			MouseInputEventHandler handler = mouseButtonHandlers[(int)mouseButton];
-
-			if (handler == null) // If it is null, it has never been intialised yet so we can skip it
+			if (!IsInitialized || mouseButtonHandlers == null) // If it is null, it has never been intialised yet so we don't have to do anything
 			{
 				return;
 			}
+			
+			MouseInputEventHandler handler = mouseButtonHandlers[(int)mouseButton];
 
-			mouseButtonHandlers[(int)mouseButton].OnButtonDown -= callback;
+			handler.OnButtonDown -= callback;
 		}
 
 		/// <summary>
@@ -410,12 +423,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 		/// <param name="mouseButton">The mousebutton whose MouseButtonUp event to subscribe to</param>
 		public static void AddButtonUpListener(Action callback, MouseButton mouseButton = MouseButton.Left)
 		{
-			if (!IsInitialized)
-			{
-				ForceInitialize();
-			}
-
-			mouseButtonHandlers[(int)mouseButton].OnButtonUp += callback;
+			MouseButtonHandlers[(int)mouseButton].OnButtonUp += callback;
 		}
 
 		/// <summary>
@@ -425,14 +433,14 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 		/// <param name="mouseButton">The mousebutton whose MouseButtonUp event to unsubscribe from</param>
 		public static void RemoveButtonUpListener(Action callback, MouseButton mouseButton = MouseButton.Left)
 		{
-			MouseInputEventHandler handler = mouseButtonHandlers[(int)mouseButton];
-
-			if (handler == null) // If it is null, it has never been intialised yet so we can skip it
+			if (!IsInitialized || mouseButtonHandlers == null) // If it is null, it has never been intialised yet so we don't have to do anything
 			{
 				return;
 			}
+			
+			MouseInputEventHandler handler = mouseButtonHandlers[(int)mouseButton];
 
-			mouseButtonHandlers[(int)mouseButton].OnButtonUp -= callback;
+			handler.OnButtonUp -= callback;
 		}
 
 		/// <summary>
@@ -472,7 +480,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 		/// <returns></returns>
 		public static bool IsButtonPressed(MouseButton mouseButton = MouseButton.Left)
 		{
-			return mouseButtonHandlers[(int)mouseButton].ButtonPressed;
+			return MouseButtonHandlers[(int)mouseButton].ButtonPressed;
 		}
 
 		#endregion
@@ -498,10 +506,12 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 		{
 			base.Awake();
 
-			if (!mouseButtonHandlers.Any(handler => ReferenceEquals(handler, null))) // Since it's static it could already be initialised
+			if (mouseButtonHandlers != null) // Since it's static it could already be initialised
 			{
 				return;
 			}
+
+			mouseButtonHandlers = new MouseInputEventHandler[5];
 
 			for (int i = 0; i < mouseButtonHandlers.Length; i++)
 			{
@@ -557,11 +567,13 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 		{
 			base.Awake();
 
-			if (!mouseButtonHandlers.Any(handler => ReferenceEquals(handler, null))) // Since it's static it could already be initialised
+			if (mouseButtonHandlers != null) // Since it's static it could already be initialised
 			{
 				return;
 			}
 
+			mouseButtonHandlers = new MouseInputEventHandler[5];
+			
 			/*
 			 * [0] == Left
 			 * [1] == Right

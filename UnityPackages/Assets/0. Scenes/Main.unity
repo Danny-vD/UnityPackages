@@ -226,6 +226,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 463732261}
+  - component: {fileID: 463732263}
+  - component: {fileID: 463732262}
+  - component: {fileID: 463732265}
+  - component: {fileID: 463732266}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -241,13 +245,86 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 463732260}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 920.0439, y: 545.59534, z: -20.694012}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &463732262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463732260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2aa27c13dcc435d8692b7a367dc77f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keepUsingAfterStoppedMoving: 1
+  draggingData:
+    serializedDictionary:
+    - key: 0
+      value:
+        CursorTexture: {fileID: 2800000, guid: c783b763d12874147876e070661b66ab, type: 3}
+        Hotspot: {x: 0, y: 0}
+--- !u!114 &463732263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463732260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8efc290918b74a979b983c1cf300cbb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorMode: 0
+  cursorComponents:
+  - {fileID: 463732262}
+  - {fileID: 463732265}
+  - {fileID: 463732266}
+--- !u!114 &463732265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463732260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef0067047d464443b87cd2306c87caba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseClickData:
+    serializedDictionary:
+    - key: 2
+      value:
+        CursorTexture: {fileID: 2800000, guid: 33f32142c2c2d4662be5f5274db27158, type: 3}
+        Hotspot: {x: 0, y: 0}
+    - key: 1
+      value:
+        CursorTexture: {fileID: 2800000, guid: a7e06068a7215854a84bf5ed8280ed15, type: 3}
+        Hotspot: {x: 0, y: 0}
+--- !u!114 &463732266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463732260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca2170e213474195a6253b0cd4e169d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorDatum:
+    CursorTexture: {fileID: 2800000, guid: 70efeb6d97126f843b30b8ed62d18a4f, type: 3}
+    Hotspot: {x: 0, y: 0}
 --- !u!1 &974404256
 GameObject:
   m_ObjectHideFlags: 0

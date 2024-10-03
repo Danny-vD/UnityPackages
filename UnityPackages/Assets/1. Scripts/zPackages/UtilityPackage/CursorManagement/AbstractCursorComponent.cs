@@ -22,13 +22,13 @@ namespace UtilityPackage.CursorManagement
 		public abstract bool IsAdditiveEffect { get; }
 
 		/// <summary>
-		/// <para>Whether the <see cref="CursorComponentManager"/> should call <see cref="GetCursorData"/> to update the cursor texture</para>
+		/// Whether the <see cref="CursorComponentManager"/> should call <see cref="GetCursorData"/> to update the cursor texture
 		/// </summary>
 		public bool ShouldUpdateCursor { get; protected set; }
 		
 		/// <summary>
-		/// <para>If true, then this component is ready to be activated</para>
-		/// <para>This is called every <see cref="CursorComponentManager.LateUpdate"/> in the <see cref="CursorComponentManager"/></para>
+		/// If true, then this component is ready to be activated.<br/>
+		/// This is called every <see cref="CursorComponentManager.LateUpdate"/> in the <see cref="CursorComponentManager"/>
 		/// </summary>
 		public abstract bool AreConditionsMet();
 
