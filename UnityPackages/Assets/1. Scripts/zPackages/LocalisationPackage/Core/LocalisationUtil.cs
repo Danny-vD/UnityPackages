@@ -82,7 +82,7 @@ namespace LocalisationPackage.Core
 		{
 			string newText = text;
 			
-			foreach (string entryID in StringUtil.GetStringsBetweenAandB(text, entryOpening, entryClosing, 0, ignoreEscaped, false))
+			foreach (string entryID in StringUtil.GetStringsBetweenAandB(text, entryOpening, entryClosing, false, ignoreEscaped))
 			{
 				if (entryID.Equals(string.Empty))
 				{
@@ -116,7 +116,7 @@ namespace LocalisationPackage.Core
 		{
 			string newText = text;
 			
-			foreach (string entryID in StringUtil.GetStringsBetweenAandB(text, entryOpening, entryClosing, 0, false))
+			foreach (string entryID in StringUtil.GetStringsBetweenAandB(text, entryOpening, entryClosing))
 			{
 				if (entryID.Equals(string.Empty))
 				{

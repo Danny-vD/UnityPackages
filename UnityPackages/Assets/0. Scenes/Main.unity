@@ -227,8 +227,8 @@ GameObject:
   m_Component:
   - component: {fileID: 463732261}
   - component: {fileID: 463732263}
-  - component: {fileID: 463732262}
   - component: {fileID: 463732265}
+  - component: {fileID: 463732267}
   - component: {fileID: 463732266}
   m_Layer: 0
   m_Name: GameObject
@@ -252,25 +252,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &463732262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 463732260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2aa27c13dcc435d8692b7a367dc77f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keepUsingAfterStoppedMoving: 1
-  draggingData:
-    serializedDictionary:
-    - key: 0
-      value:
-        CursorTexture: {fileID: 2800000, guid: c783b763d12874147876e070661b66ab, type: 3}
-        Hotspot: {x: 0, y: 0}
 --- !u!114 &463732263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,8 +266,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorMode: 0
   cursorComponents:
-  - {fileID: 463732262}
   - {fileID: 463732265}
+  - {fileID: 463732267}
   - {fileID: 463732266}
 --- !u!114 &463732265
 MonoBehaviour:
@@ -302,13 +283,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseClickData:
     serializedDictionary:
-    - key: 2
+    - key: 0
       value:
-        CursorTexture: {fileID: 2800000, guid: 33f32142c2c2d4662be5f5274db27158, type: 3}
+        CursorTexture: {fileID: 2800000, guid: d2b54e4f7f80b9448a41d3c5985f5672, type: 3}
         Hotspot: {x: 0, y: 0}
     - key: 1
       value:
-        CursorTexture: {fileID: 2800000, guid: a7e06068a7215854a84bf5ed8280ed15, type: 3}
+        CursorTexture: {fileID: 2800000, guid: d2b54e4f7f80b9448a41d3c5985f5672, type: 3}
         Hotspot: {x: 0, y: 0}
 --- !u!114 &463732266
 MonoBehaviour:
@@ -324,6 +305,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDatum:
     CursorTexture: {fileID: 2800000, guid: 70efeb6d97126f843b30b8ed62d18a4f, type: 3}
+    Hotspot: {x: 0, y: 0}
+--- !u!114 &463732267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463732260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9419186a9e7e4504a7a802cc7308efc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollingDatum:
+    CursorTexture: {fileID: 2800000, guid: 6db042035460c4167a6ab8d1ac3c2681, type: 3}
     Hotspot: {x: 0, y: 0}
 --- !u!1 &974404256
 GameObject:
@@ -422,3 +418,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
+--- !u!1 &1574386314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1574386316}
+  - component: {fileID: 1574386315}
+  m_Layer: 0
+  m_Name: Timer Updater
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1574386315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574386314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 62906614, guid: a85713c54a8b39e47967138814e75e1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1574386316
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574386314}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.2765756, y: 0.4808015, z: 0.0009994507}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

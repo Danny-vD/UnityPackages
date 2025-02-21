@@ -205,6 +205,7 @@ namespace SerializableDictionaryPackage.SerializableDictionary
 		{
 			SerializableKeyValuePair<TKey, TValue> pair = item;
 
+			// ReSharper disable once InvertIf | Reason: I prefer it like this
 			if (!InternalList.Contains(pair))
 			{
 				InternalList.Add(pair);
@@ -225,7 +226,8 @@ namespace SerializableDictionaryPackage.SerializableDictionary
 			InternalList.Clear();
 			serializedDictionary.Clear();
 		}
-
+		
+		// ReSharper disable once UsageOfDefaultStructEquality | False positive, it actually uses the custom Equals function from SerializableKeyValuePair<,>
 		public bool Contains(KeyValuePair<TKey, TValue> item) => InternalList.Contains(item);
 
 		public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
@@ -248,15 +250,6 @@ namespace SerializableDictionaryPackage.SerializableDictionary
 
 		public virtual void OnAfterDeserialize()
 		{
-			SerializableKeyValuePair<TKey, TValue> last;
-
-			foreach (SerializableKeyValuePair<TKey, TValue> serializableKeyValuePair in serializedDictionary)
-			{
-				last = serializableKeyValuePair;
-
-				bool equals = serializableKeyValuePair.Equals(last);
-			}
-
 			InternalList = serializedDictionary.Distinct().ToList();
 		}
 

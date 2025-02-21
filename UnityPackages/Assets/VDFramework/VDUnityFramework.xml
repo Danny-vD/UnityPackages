@@ -872,6 +872,13 @@
             The constant 1/3
             </summary>
         </member>
+        <member name="F:VDFramework.Utility.MathUtility.MathConstants.GoldenRatio">
+            <summary>
+            The 'extreme and mean ratio' or 'divine proportion' calculated as<br/>(1 + √5) / 2<br/>1.618033988749...
+            </summary>
+            <symbol>φ (phi)</symbol>
+            <theory>https://en.wikipedia.org/wiki/Golden_ratio#Calculation</theory>
+        </member>
         <member name="T:VDFramework.Utility.MathUtility.MathFunctions">
             <summary>
             Provides implementations of mathematical functions
@@ -1121,24 +1128,124 @@
             <param name="countAs1Char">A collection of substrings that will only count as 1 char for the purposes of returning the desired length</param>
             <param name="string">The string whose length to enforce</param>
         </member>
-        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringBetweenAandB(System.String,System.String,System.String,System.Int32,System.Boolean)">
+        <member name="F:VDFramework.Utility.DataTypes.StringUtil.escapeCharacter">
             <summary>
-            Get the string between two given strings, optionally including the two strings
+            The backslash character '\'
             </summary>
         </member>
-        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringBetweenAandB(System.String,System.Char,System.Char,System.Int32,System.Boolean,System.Boolean)">
+        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetDepthAtIndex(System.String,System.String,System.String,System.Int32)">
             <summary>
-            Get all characters between two characters, optionally including the two characters
+            Tests how 'deep' the given index is determined by nested pairs of <paramref name="a"/> and <paramref name="b"/>
             </summary>
+            <param name="input">The string to search for pairs</param>
+            <param name="a">The string that represents the opening of a pair</param>
+            <param name="b">The string that represents the closing of a pair</param>
+            <param name="lookupIndex">The index to check the depth (nested-ness) for</param>
+            <returns>The depth of the given index<br/>0 means it is not within any pair (or no pair could be found)</returns>
         </member>
-        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringsBetweenAandB(System.String,System.Char,System.Char,System.Int32,System.Boolean,System.Boolean)">
+        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetMatchingPairs(System.String,System.String,System.String)">
             <summary>
-            Get the strings between all pairs of two characters, optionally including the two characters
+            Find all matching pairs of <paramref name="a"/> and <paramref name="b"/>
             </summary>
+            <param name="input">The string to search for pairs</param>
+            <param name="a">The string that represents the opening of a pair</param>
+            <param name="b">The string that represents the closing of a pair</param>
+            <returns>
+            A list of tuples that represent: (OpeningIndex, ClosingIndex, Depth)<br/>
+            with Depth=1 meaning it is not nested within another pair
+            </returns>
         </member>
-        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringsBetweenAandB(System.String,System.String,System.String,System.Int32,System.Boolean)">
+        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringsBetweenAandB(System.String,System.String,System.String,System.Boolean)">
             <summary>
             Get the strings between all pairs of two strings, optionally including the two strings
+            </summary>
+            <param name="input">The string to get the substrings from</param>
+            <param name="a">The string that represents the opening of a pair</param>
+            <param name="b">The string that represents the closing of a pair</param>
+            <param name="includeAandB">Whether <paramref name="a"/> and <paramref name="b"/> should be included in the result</param>
+            <returns>
+            A list of substrings of every occurance of pairs, sorted from most-nested to least-nested<br/>
+            Returns an empty list if no valid pair can be found
+            </returns>
+            <seealso cref="M:VDFramework.Utility.DataTypes.StringUtil.GetMatchingPairs(System.String,System.String,System.String)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringsBetweenAandBRange(System.String,System.String,System.String,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Get the strings between all pairs of two strings, optionally including the two strings
+            </summary>
+            <param name="input">The string to get the substrings from</param>
+            <param name="a">The string that represents the opening of a pair</param>
+            <param name="b">The string that represents the closing of a pair</param>
+            <param name="startIndex">The index from where to start looking for pairs</param>
+            <param name="endIndex">The index from where to stop looking for pairs</param>
+            <param name="includeAandB">Whether or not <paramref name="a"/> and <paramref name="b"/> should be included in the result</param>
+            <returns>
+            A list of substrings of every occurance of pairs, sorted from most-nested to least-nested<br/>
+            Returns an empty list if no valid pair is within the given range
+            </returns>
+            <seealso cref="M:VDFramework.Utility.DataTypes.StringUtil.GetMatchingPairs(System.String,System.String,System.String)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetDepthAtIndex(System.String,System.Char,System.Char,System.Int32,System.Boolean)">
+            <summary>
+            Tests how 'deep' the given index is determined by nested pairs of <paramref name="a"/> and <paramref name="b"/>
+            </summary>
+            <param name="input">The string to search for pairs</param>
+            <param name="a">The character that represents the opening of a pair</param>
+            <param name="b">The character that represents the closing of a pair</param>
+            <param name="lookupIndex">The index to check the depth (nested-ness) for</param>
+            <param name="ignoreEscaped">Whether a found closing or opening match should be ignored if it is preceded by the <see cref="F:VDFramework.Utility.DataTypes.StringUtil.escapeCharacter"/></param>
+            <returns>The depth of the given index<br/>0 means it is not within any pair (or no pair could be found)</returns>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetMatchingPairs(System.String,System.Char,System.Char,System.Boolean)">
+            <summary>
+            Find all matching pairs of <paramref name="a"/> and <paramref name="b"/>
+            </summary>
+            <param name="input">The string to search for pairs</param>
+            <param name="a">The character that represents the opening of a pair</param>
+            <param name="b">The character that represents the closing of a pair</param>
+            <param name="ignoreEscaped">Whether a found closing or opening match should be ignored if it is preceded by the <see cref="F:VDFramework.Utility.DataTypes.StringUtil.escapeCharacter"/></param>
+            <returns>
+            A list of tuples that represent: (OpeningIndex, ClosingIndex, Depth)<br/>
+            with Depth=1 meaning it is not nested within another pair
+            </returns>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringsBetweenAandB(System.String,System.Char,System.Char,System.Boolean,System.Boolean)">
+            <summary>
+            Get the strings between all pairs of two strings, optionally including the two strings
+            </summary>
+            <param name="input">The string to get the substrings from</param>
+            <param name="a">The character that represents the opening of a pair</param>
+            <param name="b">The character that represents the closing of a pair</param>
+            <param name="includeAandB">Whether <paramref name="a"/> and <paramref name="b"/> should be included in the result</param>
+            <param name="ignoreEscaped">Whether a found closing or opening match should be ignored if it is preceded by the <see cref="F:VDFramework.Utility.DataTypes.StringUtil.escapeCharacter"/></param>
+            <returns>
+            A list of substrings of every occurance of pairs, sorted from most-nested to least-nested<br/>
+            Returns an empty list if no valid pair can be found
+            </returns>
+            <seealso cref="M:VDFramework.Utility.DataTypes.StringUtil.GetMatchingPairs(System.String,System.String,System.String)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.StringUtil.GetStringsBetweenAandBRange(System.String,System.Char,System.Char,System.Int32,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Get the strings between all pairs of two strings, optionally including the two strings
+            </summary>
+            <param name="input">The string to get the substrings from</param>
+            <param name="a">The character that represents the opening of a pair</param>
+            <param name="b">The character that represents the closing of a pair</param>
+            <param name="startIndex">The index from where to start looking for pairs</param>
+            <param name="endIndex">The index from where to stop looking for pairs</param>
+            <param name="includeAandB">Whether or not <paramref name="a"/> and <paramref name="b"/> should be included in the result</param>
+            <param name="ignoreEscaped">Whether a found closing or opening match should be ignored if it is preceded by the <see cref="F:VDFramework.Utility.DataTypes.StringUtil.escapeCharacter"/></param>
+            <returns>
+            A list of substrings of every occurance of pairs, sorted from most-nested to least-nested<br/>
+            Returns an empty list if no valid pair is within the given range
+            </returns>
+            <seealso cref="M:VDFramework.Utility.DataTypes.StringUtil.GetMatchingPairs(System.String,System.String,System.String)"/>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.StringUtil.ReduceDepthBecauseOfInvalidOpenings(System.Collections.Generic.List{System.Tuple{System.Int32,System.Int32,System.Int32}},System.Collections.Generic.Stack{System.Int32})">
+            <summary>
+            Fix the invalid depth caused by unclosed openings.<br/>
+            Unresolved openings (those without a fitting closer to make a pair) falsely increase the depth of the matching pairs<br/>
+            This function fixes that discrepancy
             </summary>
         </member>
         <member name="M:VDFramework.Utility.EnumDictionaryUtil.PopulateEnumDictionary``3(System.Collections.Generic.List{``0})">
@@ -3972,6 +4079,15 @@
             Returns a random value of this enum
             </summary>
         </member>
+        <member name="M:VDFramework.Extensions.EnumExtensions.HasAnyFlag``1(``0,``0)">
+            <summary>Determines whether any of the given flags are set in the current instance</summary>
+            <param name="enum">The enumeration value to check for flags</param>
+            <param name="flag">An enumeration value</param>
+            <returns>
+            <see langword="true"/> if any bit fields that are set in <paramref name="flag" /> are also set in the current instance; otherwise, <see langword="false" />.
+            </returns>
+            <info>Differs from <see cref="M:System.Enum.HasFlag(System.Enum)"/> in that <see cref="M:System.Enum.HasFlag(System.Enum)"/> requires that every flag is set to return <see langword="true"/></info>
+        </member>
         <member name="T:VDFramework.Extensions.FloatingPointExtensions">
             <summary>
             Contains extension methods for floating-point numbers
@@ -4188,6 +4304,16 @@
             Get a count of how many times a specific character appears within the string
             </summary>
         </member>
+        <member name="M:VDFramework.Extensions.StringExtensions.CharCount(System.String,System.Char,System.Int32)">
+            <summary>
+            Get a count of how many times a specific character appears within the string up to a given index
+            </summary>
+        </member>
+        <member name="M:VDFramework.Extensions.StringExtensions.CharCount(System.String,System.Char,System.Int32,System.Int32)">
+            <summary>
+            Get a count of how many times a specific character appears within the string up to a given index
+            </summary>
+        </member>
         <member name="M:VDFramework.Extensions.StringExtensions.StringCount(System.String,System.String,System.StringComparison)">
             <summary>
             Get a count of how many times a specific string appears within the string
@@ -4391,7 +4517,7 @@
             <summary>
             Construct an alias table from the given pairs of {<see cref="T:VDFramework.LootTables.Interfaces.ILoot`1"/>, Weight}
             </summary>
-            <param name="sortedCollection">A collection of {<see cref="T:VDFramework.LootTables.Interfaces.ILoot`1"/>, Weight} pairs</param>
+            <param name="sortedCollection">A collection of {<see cref="T:VDFramework.LootTables.Interfaces.ILoot`1"/>, Weight} pairs, sorted by weight</param>
         </member>
         <member name="M:VDFramework.LootTables.AliasMethod.AliasTable`1.Sample(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator)">
             <summary>
@@ -4426,6 +4552,16 @@
             </summary>
         </member>
         <member name="M:VDFramework.LootTables.Interfaces.ILoot`1.GetLoot">
+            <summary>
+            Retrieves or calculates the loot and returns it
+            </summary>
+        </member>
+        <member name="T:VDFramework.LootTables.Interfaces.IRandomLoot`1">
+            <summary>
+            Represents an object that returns random loot in some way using a <see cref="T:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator"/>
+            </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.Interfaces.IRandomLoot`1.GetLoot(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator)">
             <summary>
             Retrieves or calculates the loot and returns it
             </summary>
@@ -4541,7 +4677,7 @@
         </member>
         <member name="P:VDFramework.LootTables.WeightedLootTable`1.ShouldReconstructAliasTable">
             <summary>
-            Whether or not the internal alias table should be reconstructed first when <see cref="M:VDFramework.LootTables.WeightedLootTable`1.GetLoot"/> is called
+            Whether or not the internal alias table should be reconstructed first when <see cref="M:VDFramework.LootTables.WeightedLootTable`1.GetAliasTable"/> is called
             </summary>
         </member>
         <member name="P:VDFramework.LootTables.WeightedLootTable`1.RandomNumberGenerator">
@@ -4579,8 +4715,25 @@
         <member name="M:VDFramework.LootTables.WeightedLootTable`1.GetLoot">
             <summary>
             Grabs a random ILoot from the table based on the weights and returns it.<br/>
-            Uses the <see cref="P:VDFramework.LootTables.WeightedLootTable`1.RandomNumberGenerator"/> or <see cref="T:VDFramework.RandomWrapper.SystemRandom"/> if that is null.
+            Uses the <see cref="P:VDFramework.LootTables.WeightedLootTable`1.RandomNumberGenerator"/> or <see cref="T:VDFramework.RandomWrapper.SystemRandom"/> if that is null
             </summary>
+        </member>
+        <member name="M:VDFramework.LootTables.WeightedLootTable`1.GetLoot(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator)">
+            <summary>
+            Grabs a random ILoot from the table based on the weights and returns it.<br/>
+            Uses the <see cref="P:VDFramework.LootTables.WeightedLootTable`1.RandomNumberGenerator"/> or <see cref="T:VDFramework.RandomWrapper.SystemRandom"/> if that is null.<br/>
+            Will use the provided <see cref="T:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator"/> for any nested <see cref="T:VDFramework.LootTables.Interfaces.IRandomLoot`1"/> as well.
+            </summary>
+            <param name="rng">The random number generator to use</param>
+        </member>
+        <member name="M:VDFramework.LootTables.WeightedLootTable`1.GetLoot(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator,System.Boolean)">
+            <summary>
+            Grabs a random ILoot from the table based on the weights and returns it.<br/>
+            Uses the <see cref="P:VDFramework.LootTables.WeightedLootTable`1.RandomNumberGenerator"/> or <see cref="T:VDFramework.RandomWrapper.SystemRandom"/> if that is null.<br/>
+            Will use the provided <see cref="T:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator"/> for any nested <see cref="T:VDFramework.LootTables.Interfaces.IRandomLoot`1"/> if <paramref name="useRNGForNested"/> is TRUE.
+            </summary>
+            <param name="rng">The random number generator to use</param>
+            <param name="useRNGForNested">Whether </param>
         </member>
         <member name="M:VDFramework.LootTables.WeightedLootTable`1.GetAliasTable">
             <summary>
