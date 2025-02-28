@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using VDFramework;
 using VDFramework.EventSystem;
+using VDFramework.Extensions;
 
 namespace LocalisationPackage.UIComponents
 {
@@ -23,13 +24,17 @@ namespace LocalisationPackage.UIComponents
 		[SerializeField, Tooltip("Used to determine the end of an area in the text that need to be localised")]
 		private string localisedEntryClose = LocalisationUtil.ENTRY_CLOSING_STRING;
 
+		[Header("Settings")]
+		[SerializeField]
+		private bool capitaliseFirstLetter;
+
 		private Text labelLegacy;
 		private TMP_Text labelTMP;
 
 		private void Awake()
 		{
-			labelLegacy    = GetComponent<Text>();
-			labelTMP = GetComponent<TMP_Text>();
+			labelLegacy = GetComponent<Text>();
+			labelTMP    = GetComponent<TMP_Text>();
 		}
 
 		private void Start()
@@ -50,6 +55,11 @@ namespace LocalisationPackage.UIComponents
 
 		private void SetText(string newText)
 		{
+			if (capitaliseFirstLetter)
+			{
+				newText = newText.CapitaliseFirstLetter();
+			}
+			
 			if (labelTMP)
 			{
 				labelTMP.text = newText;

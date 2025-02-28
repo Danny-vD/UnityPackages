@@ -4314,6 +4314,21 @@
             Contains extension methods for <see cref="T:System.String"/>
             </summary>
         </member>
+        <member name="M:VDFramework.Extensions.StringExtensions.CapitaliseFirstLetter(System.String)">
+            <summary>
+            Captalises the first letter in the string
+            </summary>
+            <param name="input">The string to capitalise</param>
+            <returns>The given string, with the first character capitalised</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="input"/> is null or empty</exception>
+        </member>
+        <member name="M:VDFramework.Extensions.StringExtensions.CapitaliseEveryWord(System.String)">
+            <summary>
+            Capitalises the first letter of every word
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:VDFramework.Extensions.StringExtensions.InsertSpaceBeforeCapitals(System.String)">
             <summary>
             Returns a new string where a space is inserted before each capital, skipping the first char
