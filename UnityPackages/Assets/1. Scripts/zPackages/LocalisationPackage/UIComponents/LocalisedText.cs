@@ -15,6 +15,13 @@ namespace LocalisationPackage.UIComponents
 
 		[SerializeField]
 		private string entryID = "PLACEHOLDER";
+		
+		[Header("Nested EntryIDs")]
+		[SerializeField, Tooltip("Used to determine the start of an area in the text that need to be localised")]
+		private string localisedEntryOpen = LocalisationUtil.ENTRY_OPENING_STRING;
+		
+		[SerializeField, Tooltip("Used to determine the end of an area in the text that need to be localised")]
+		private string localisedEntryClose = LocalisationUtil.ENTRY_CLOSING_STRING;
 
 		private Text labelLegacy;
 		private TMP_Text labelTMP;
@@ -38,7 +45,7 @@ namespace LocalisationPackage.UIComponents
 
 		private void ReloadText()
 		{
-			SetText(LocalisationUtil.GetNestedLocalisedString(entryID, LocalisationUtil.ENTRY_OPENING_STRING, LocalisationUtil.ENTRY_CLOSING_STRING));
+			SetText(LocalisationUtil.GetLocalisedStringNested(entryID, localisedEntryOpen, localisedEntryClose));
 		}
 
 		private void SetText(string newText)

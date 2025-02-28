@@ -11,6 +11,13 @@ namespace LocalisationPackage.UIComponents
 {
 	public class LocalisedDropDown : BetterMonoBehaviour
 	{
+		[Header("Nested EntryIDs")]
+		[SerializeField, Tooltip("Used to determine the start of an area in the text that need to be localised")]
+		private string localisedEntryOpen = LocalisationUtil.ENTRY_OPENING_STRING;
+		
+		[SerializeField, Tooltip("Used to determine the end of an area in the text that need to be localised")]
+		private string localisedEntryClose = LocalisationUtil.ENTRY_CLOSING_STRING;
+		
 		private string[] entryIDs;
 
 		private Dropdown dropdown;
@@ -35,6 +42,16 @@ namespace LocalisationPackage.UIComponents
 
 		private void Start()
 		{
+			LoadEntryIDs();
+
+			EventManager.AddListener<LanguageChangedEvent>(ReloadOptionText);
+		}
+
+		/// <summary>
+		/// Force this component to read all options in the dropdown and store them as EntryIDs 
+		/// </summary>
+		public void LoadEntryIDs()
+		{
 			if (!ReferenceEquals(dropdownTMP, null))
 			{
 				entryIDs = dropdownTMP.options.Select(option => option.text).ToArray();
@@ -45,8 +62,6 @@ namespace LocalisationPackage.UIComponents
 			}
 
 			ReloadOptionText();
-
-			EventManager.AddListener<LanguageChangedEvent>(ReloadOptionText);
 		}
 
 		private void ReloadOptionText()
@@ -55,14 +70,14 @@ namespace LocalisationPackage.UIComponents
 			{
 				for (int i = 0; i < entryIDs.Length; i++)
 				{
-					dropdownTMP.options[i].text = LocalisationUtil.GetNestedLocalisedString(entryIDs[i], LocalisationUtil.ENTRY_OPENING_STRING, LocalisationUtil.ENTRY_CLOSING_STRING);
+					dropdownTMP.options[i].text = LocalisationUtil.GetLocalisedStringNested(entryIDs[i], localisedEntryOpen, localisedEntryClose);
 				}
 			}
 			else // use legacy dropdown if no TMP dropdown
 			{
 				for (int i = 0; i < entryIDs.Length; i++)
 				{
-					dropdown.options[i].text = LocalisationUtil.GetNestedLocalisedString(entryIDs[i], LocalisationUtil.ENTRY_OPENING_STRING, LocalisationUtil.ENTRY_CLOSING_STRING);
+					dropdown.options[i].text = LocalisationUtil.GetLocalisedStringNested(entryIDs[i], localisedEntryOpen, localisedEntryClose);
 				}
 			}
 		}

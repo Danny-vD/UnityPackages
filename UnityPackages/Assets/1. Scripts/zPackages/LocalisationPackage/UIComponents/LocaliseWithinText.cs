@@ -8,7 +8,10 @@ using VDFramework.EventSystem;
 
 namespace LocalisationPackage.UIComponents
 {
-	public class LocalisedTextBulk : BetterMonoBehaviour
+	/// <summary>
+	/// Used to localise every EntryID found in a text (given by an entryOpen and entryClose pair)
+	/// </summary>
+	public class LocaliseWithinText : BetterMonoBehaviour
 	{
 		[SerializeField, Tooltip("Used to determine the start of an area in the text that need to be localised")]
 		private string localisedEntryOpen = LocalisationUtil.ENTRY_OPENING_STRING;
