@@ -1,30 +1,54 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using VDFramework;
 
 namespace UtilityPackage.Utility.SingleInstanceEnforcement
 {
-	public class EnforceSingleInstance : BetterMonoBehaviour
+	/// <summary>
+	/// A utility class used to ensure a group of instances/components are only active once (useful to prevent loading multiple instances between scene reloads)
+	/// </summary>
+	public class EnsureSingleInstance : BetterMonoBehaviour
 	{
-		[SerializeField]
-		private GameObject singleInstance;
-		
-		public static bool IsInitialized { get; private set; }
+		public static List<int> loadedGUIDs = new List<int>();
+
+		[SerializeField, Tooltip("Used to differentiate between different sets of single instances\nEvery ID may only be active once")]
+		private int guid;
+
+		[SerializeField, Tooltip("OPTIONAL if null all the children will be set to active")]
+		private GameObject singleInstanceParent;
+
+		private bool isValid = false;
 
 		private void Awake()
 		{
-			if (IsInitialized)
+			if (loadedGUIDs.Contains(guid))
 			{
-				Destroy(singleInstance.gameObject);
+				Destroy(gameObject);
+				return;
 			}
-			else
+			
+			loadedGUIDs.Add(guid);
+			isValid = true;
+
+			if (transform.childCount > 0)
 			{
-				IsInitialized = true;
-				
-				singleInstance.SetActive(true);
-				DontDestroyOnLoad(singleInstance);
+				for (int i = 0; i < transform.childCount; i++)
+				{
+					transform.GetChild(i).gameObject.SetActive(true);
+				}
 			}
-			 
-			Destroy(gameObject);
+			else if (singleInstanceParent != null)
+			{
+				singleInstanceParent.SetActive(true);
+			}
+		}
+
+		private void OnDestroy()
+		{
+			if (isValid)
+			{
+				loadedGUIDs.Remove(guid);
+			}
 		}
 	}
 }

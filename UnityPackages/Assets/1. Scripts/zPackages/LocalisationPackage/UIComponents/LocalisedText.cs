@@ -14,19 +14,19 @@ namespace LocalisationPackage.UIComponents
 		[SerializeField, Tooltip("Will use the current text as the textType variable")]
 		private bool UseTextAsEntryID = false;
 
-		[SerializeField]
+		[SerializeField, ContextMenuItem("Set text to entryID", "SetTextToEntryID"), ContextMenuItem("Set text to localised entry", "SetTextToLocalisedEntry")]
 		private string entryID = "PLACEHOLDER";
-		
+
 		[Header("Nested EntryIDs")]
 		[SerializeField, Tooltip("Used to determine the start of an area in the text that need to be localised")]
 		private string localisedEntryOpen = LocalisationUtil.ENTRY_OPENING_STRING;
-		
+
 		[SerializeField, Tooltip("Used to determine the end of an area in the text that need to be localised")]
 		private string localisedEntryClose = LocalisationUtil.ENTRY_CLOSING_STRING;
 
 		[Header("Settings")]
 		[SerializeField]
-		private bool capitaliseFirstLetter;
+		private bool capitaliseFirstLetter = false;
 
 		private Text labelLegacy;
 		private TMP_Text labelTMP;
@@ -59,7 +59,7 @@ namespace LocalisationPackage.UIComponents
 			{
 				newText = newText.CapitaliseFirstLetter();
 			}
-			
+
 			if (labelTMP)
 			{
 				labelTMP.text = newText;
@@ -74,5 +74,28 @@ namespace LocalisationPackage.UIComponents
 		{
 			EventManager.RemoveListener<LanguageChangedEvent>(ReloadText);
 		}
+
+#if UNITY_EDITOR
+		private void SetTextToEntryID()
+		{
+			Awake();
+			
+			if (labelTMP)
+			{
+				labelTMP.text = entryID;
+			}
+			else if (labelLegacy)
+			{
+				labelLegacy.text = entryID;
+			}
+		}
+
+		private void SetTextToLocalisedEntry()
+		{
+			Awake();
+			
+			ReloadText();
+		}
+#endif
 	}
 }

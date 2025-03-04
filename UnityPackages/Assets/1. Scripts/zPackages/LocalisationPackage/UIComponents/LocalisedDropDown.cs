@@ -9,7 +9,7 @@ using VDFramework.EventSystem;
 
 namespace LocalisationPackage.UIComponents
 {
-	public class LocalisedDropDown : BetterMonoBehaviour
+	public class LocalisedDropDown : BetterMonoBehaviour // TODO: Add option to capitalise first letter | Maybe even enum to also choose title case (same for LocalisedText) (then also toLower and toUpper)
 	{
 		[Header("Nested EntryIDs")]
 		[SerializeField, Tooltip("Used to determine the start of an area in the text that need to be localised")]

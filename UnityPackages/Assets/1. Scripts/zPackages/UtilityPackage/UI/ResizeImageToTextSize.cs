@@ -1,5 +1,6 @@
 using LocalisationPackage.Events;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 using VDFramework;
@@ -8,7 +9,7 @@ using VDFramework.ObserverPattern.Constants;
 namespace UtilityPackage.UI
 {
 	[DefaultExecutionOrder(50)] // After default to ensure that any other scripts can set the text first
-	public class StretchImageToTextWidth : BetterMonoBehaviour
+	public class ResizeImageToTextSize : BetterMonoBehaviour
 	{
 		[Header("Text")]
 		[SerializeField]
@@ -22,8 +23,11 @@ namespace UtilityPackage.UI
 		private Image image;
 
 		[Header("Settings")]
-		[SerializeField]
-		private float padding = 35;
+		[SerializeField, Tooltip("Should resize: Horizontally | Vertically")]
+		private bool2 resizeHorizontalVertical = new bool2(true, true);
+
+		[SerializeField, Tooltip("Additional padding: Horizontally | Vertically")]
+		private float2 paddingHorizontalVertical = new float2(35, 5);
 
 		[Header("Localisation")]
 		[SerializeField]
@@ -57,16 +61,16 @@ namespace UtilityPackage.UI
 
 		private void Start()
 		{
-			UpdateImageWidth();
+			UpdateImageSize();
 		}
 
 		private void OnEnable()
 		{
-			UpdateImageWidth();
+			UpdateImageSize();
 
 			if (reactToLanguageChangedEvent)
 			{
-				LanguageChangedEvent.AddListener(UpdateImageWidth, Priority.UI);
+				LanguageChangedEvent.AddListener(UpdateImageSize, Priority.UI);
 			}
 		}
 
@@ -74,22 +78,25 @@ namespace UtilityPackage.UI
 		{
 			if (reactToLanguageChangedEvent)
 			{
-				LanguageChangedEvent.RemoveListener(UpdateImageWidth);
+				LanguageChangedEvent.RemoveListener(UpdateImageSize);
 			}
 		}
 
-		public void UpdateImageWidth()
+		public void UpdateImageSize()
 		{
-			// Get the preferred width of the text
+			// The preferred width and height of the text
 			float textWidth;
+			float textHeight;
 			
 			if (labelTMP)
 			{
-				textWidth = labelTMP.preferredWidth;
+				textWidth  = labelTMP.preferredWidth;
+				textHeight = labelTMP.preferredHeight;
 			}
 			else if (labelLegacy)
 			{
-				textWidth = labelLegacy.preferredWidth;
+				textWidth  = labelLegacy.preferredWidth;
+				textHeight = labelLegacy.preferredHeight;
 			}
 			else
 			{
@@ -103,8 +110,19 @@ namespace UtilityPackage.UI
 				return;
 			}
 
+			Vector2 newSize = new Vector2(imageRectTransform.sizeDelta.x, imageRectTransform.sizeDelta.y);
+
+			if (resizeHorizontalVertical.x)
+			{
+				newSize.x = textWidth + paddingHorizontalVertical.x;
+			}
+
+			if (resizeHorizontalVertical.y)
+			{
+				newSize.y = textHeight + paddingHorizontalVertical.y;
+			}
 			
-			imageRectTransform.sizeDelta = new Vector2(textWidth + padding, imageRectTransform.sizeDelta.y);
+			imageRectTransform.sizeDelta = newSize;
 		}
 	}
 }
