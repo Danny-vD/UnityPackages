@@ -16,7 +16,7 @@ namespace UtilityPackage.CursorManagement
 		public bool IsActive { get; private set; }
 		
 		/// <summary>
-		/// If true, another component (that is lower in the priority list) may be activate alongside this one
+		/// If true, another component (that is lower in the priority list) may be active alongside this one
 		/// </summary>
 		/// <seealso cref="CursorComponentManager.cursorComponents"/>
 		public abstract bool IsAdditiveEffect { get; }

@@ -16,19 +16,19 @@ namespace UtilityPackage.CursorManagement.Singletons
 
 		public bool IsScrolling { get; private set; }
 
-		private TimerHandle timerHandle;
+		private TimerHandle stopScrollingTimer;
 
 		private void Update()
 		{
 			if (MouseButtonUtil.IsScrolling)
 			{
-				if (timerHandle == null)
+				if (stopScrollingTimer == null)
 				{
 					StartScrolling();
 				}
 				else
 				{
-					timerHandle.ResetTimer();
+					stopScrollingTimer.ResetTimer();
 				}
 			}
 		}
@@ -36,13 +36,13 @@ namespace UtilityPackage.CursorManagement.Singletons
 		private void StartScrolling()
 		{
 			IsScrolling = true;
-			timerHandle = TimerManager.StartNewTimer(minimumScrollTime, StopScrolling);	
+			stopScrollingTimer = TimerManager.StartNewTimer(minimumScrollTime, StopScrolling);	
 		}
 
 		private void StopScrolling()
 		{
 			IsScrolling = false;
-			timerHandle = null;
+			stopScrollingTimer = null;
 		}
 	}
 }

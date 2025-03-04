@@ -26,7 +26,7 @@ namespace UtilityPackage.CursorManagement.CursorComponents
 			cursorDataToSet = null;
 		}
 
-		private void LateUpdate()
+		public override bool AreConditionsMet()
 		{
 			if (IsPointerOverSelectable(out GameObject hoveredSelectableObject))
 			{
@@ -34,14 +34,11 @@ namespace UtilityPackage.CursorManagement.CursorComponents
 
 				if (!newCursorData.Equals(cursorDataToSet)) // Prevent updating to the cursorData that is already set
 				{
-					cursorDataToSet     = newCursorData;
+					cursorDataToSet    = newCursorData;
 					ShouldUpdateCursor = true;
 				}
 			}
-		}
-
-		public override bool AreConditionsMet()
-		{
+			
 			return pointerIsHoveringOverSelectable;
 		}
 
