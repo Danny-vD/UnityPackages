@@ -17,6 +17,8 @@ namespace LocalisationPackage.UIComponents
 		[SerializeField, ContextMenuItem("Set text to entryID", "SetTextToEntryID"), ContextMenuItem("Set text to localised entry", "SetTextToLocalisedEntry")]
 		private string entryID = "PLACEHOLDER";
 
+		public string EntryID => entryID;
+
 		[Header("Nested EntryIDs")]
 		[SerializeField, Tooltip("Used to determine the start of an area in the text that need to be localised")]
 		private string localisedEntryOpen = LocalisationUtil.ENTRY_OPENING_STRING;
@@ -48,9 +50,16 @@ namespace LocalisationPackage.UIComponents
 			EventManager.AddListener<LanguageChangedEvent>(ReloadText);
 		}
 
-		private void ReloadText()
+		public void ReloadText()
 		{
 			SetText(LocalisationUtil.GetLocalisedStringNested(entryID, localisedEntryOpen, localisedEntryClose));
+		}
+
+		public void ReloadText(string newEntryID)
+		{
+			entryID = newEntryID;
+			
+			ReloadText();
 		}
 
 		private void SetText(string newText)
