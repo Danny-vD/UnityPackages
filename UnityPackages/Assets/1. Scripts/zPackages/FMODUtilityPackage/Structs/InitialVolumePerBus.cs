@@ -6,10 +6,10 @@ using VDFramework.Interfaces;
 namespace FMODUtilityPackage.Structs
 {
 	[Serializable]
-	public struct InitialVolumePerBus : IKeyValuePair<BusType, float>
+	public struct InitialVolumePerBus : IKeyValuePair<AudioBus, float>
 	{
 		[SerializeField]
-		private BusType key;
+		private AudioBus key;
 
 		[SerializeField]
 		private float value;
@@ -18,7 +18,7 @@ namespace FMODUtilityPackage.Structs
 
 		public static InitialVolumePerBus DefaultValue => new InitialVolumePerBus(default, 1, false);
 
-		public BusType Key
+		public AudioBus Key
 		{
 			get => key;
 			set => key = value;
@@ -30,14 +30,14 @@ namespace FMODUtilityPackage.Structs
 			set => this.value = value;
 		}
 
-		public InitialVolumePerBus(BusType busType, float volumeValue, bool muted)
+		public InitialVolumePerBus(AudioBus audioBus, float volumeValue, bool muted)
 		{
-			key     = busType;
+			key     = audioBus;
 			value   = volumeValue;
 			isMuted = muted;
 		}
 
-		public bool Equals(IKeyValuePair<BusType, float> other)
+		public bool Equals(IKeyValuePair<AudioBus, float> other)
 		{
 			return other != null && other.Key == Key;
 		}

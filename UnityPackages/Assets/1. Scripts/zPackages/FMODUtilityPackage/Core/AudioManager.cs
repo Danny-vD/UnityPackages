@@ -1,23 +1,27 @@
 using System.Collections.Generic;
+using FMOD.Studio;
+using FMODUnity;
 using FMODUtilityPackage.Enums;
 using FMODUtilityPackage.Structs;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VDFramework.Singleton;
 using VDFramework.Utility;
 
 namespace FMODUtilityPackage.Core
 {
 	/// <summary>
-	/// A Singleton that allows setting the EventReferences, BusPaths and Bus volumes in the inspector 
+	/// A Singleton that allows setting the EventReferences, BusPaths and Bus volumes in the inspector <br/>
+	/// Holds the <see cref="FMODPathResolver"/> which resolves the Enums to actual FMOD events, busses and emitters
 	/// </summary>
 	[DefaultExecutionOrder(-1)] // Ensure the AudioManager is initialized before others
 	public class AudioManager : Singleton<AudioManager>, ISerializationCallbackReceiver
 	{
-		public EventPaths EventPaths;
+		public FMODPathResolver FMODPathResolver;
 
 		[SerializeField]
 		private List<InitialVolumePerBus> initialVolumes = new List<InitialVolumePerBus>();
-
+		
 		protected override void Awake()
 		{
 			/*
@@ -32,7 +36,7 @@ namespace FMODUtilityPackage.Core
 				return;
 			}
 
-			if (EventPaths == null) // If EventPaths is null, the AudioManager was not present in the scene already (because otherwise the field would be deserialised)
+			if (FMODPathResolver == null) // If EventPaths is null, the AudioManager was not present in the scene already (because otherwise the field would be deserialised)
 			{
 #if UNITY_EDITOR
 				Debug.Log($"Add an {nameof(AudioManager)} to the scene manually for more control over the bus volumes at the start.");
@@ -42,12 +46,12 @@ namespace FMODUtilityPackage.Core
 					FMODUnity.EventManager.Startup();
 				}
 #endif
-				EventPaths = new EventPaths(true);
+				FMODPathResolver = new FMODPathResolver(true);
 				OnBeforeSerialize();
 			}
 
 			base.Awake();
-			EventPaths.AddEmitters(gameObject);
+			FMODPathResolver.AddEmitters(gameObject);
 
 			if (!transform.parent)
 			{
@@ -61,37 +65,16 @@ namespace FMODUtilityPackage.Core
 		{
 			foreach (InitialVolumePerBus pair in initialVolumes)
 			{
-				if (pair.Key == default) // Use default so people can freely rename the enum value
+				if (pair.Key == 0) // Use 0 so people can freely rename the enum value | Technically this check is not necessary as SetBusVolume/Mute already performs this check
 				{
-					AudioParameterManager.SetMasterVolume(pair.Value);
-					AudioParameterManager.SetMasterMute(pair.isMuted);
+					AudioVolumeManager.SetMasterVolume(pair.Value);
+					AudioVolumeManager.SetMasterMute(pair.isMuted);
 					continue;
 				}
 
-				string busPath = EventPaths.GetPath(pair.Key);
-				AudioParameterManager.SetBusVolume(busPath, pair.Value);
-				AudioParameterManager.SetBusMute(busPath, pair.isMuted);
+				AudioVolumeManager.SetBusVolume(pair.Key, pair.Value);
+				AudioVolumeManager.SetBusMute(pair.Key, pair.isMuted);
 			}
-		}
-
-		public void SetMasterVolume(float volume)
-		{
-			AudioParameterManager.SetMasterVolume(volume);
-		}
-
-		public float GetMasterVolume()
-		{
-			return AudioParameterManager.GetBusVolume(EventPaths.MASTER_BUS_PATH);
-		}
-
-		public void SetVolume(BusType busType, float volume)
-		{
-			AudioParameterManager.SetBusVolume(EventPaths.GetPath(busType), volume);
-		}
-
-		public float GetVolume(BusType busType)
-		{
-			return AudioParameterManager.GetBusVolume(EventPaths.GetPath(busType));
 		}
 
 		private void Reset()
@@ -105,7 +88,7 @@ namespace FMODUtilityPackage.Core
 		public void OnBeforeSerialize()
 		{
 			int countBeforeResize = initialVolumes.Count;
-			EnumDictionaryUtil.PopulateEnumDictionary<InitialVolumePerBus, BusType, float>(initialVolumes);
+			EnumDictionaryUtil.PopulateEnumDictionary<InitialVolumePerBus, AudioBus, float>(initialVolumes);
 			int countAfterResize = initialVolumes.Count;
 
 			if (countAfterResize > countBeforeResize) // If we have more values now then we had before, initialize the new ones with default values
@@ -126,7 +109,7 @@ namespace FMODUtilityPackage.Core
 		[ContextMenu("Update Data")]
 		private void UpdateDictionaries()
 		{
-			EventPaths.OnBeforeSerialize();
+			FMODPathResolver.OnBeforeSerialize();
 		}
 	}
 }

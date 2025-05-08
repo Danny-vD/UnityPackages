@@ -6,6 +6,7 @@ using FMODUtilityPackage.ExtentionMethods;
 using FMODUtilityPackage.Structs;
 using SerializableDictionaryPackage.SerializableDictionary;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UtilityPackage.Utility.UnityFunctionHandlers.Enums;
 
 namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.EmitterHandlers
@@ -16,14 +17,14 @@ namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.EmitterHandlers
 	public class EmitterParametersFunctionHandler : AbstractAudioFunctionHandler
 	{
 		[SerializeField]
-		private EmitterType emitterType;
+		private GlobalEmitter globalEmitter;
 		
 		[SerializeField]
 		private SerializableEnumDictionary<UnityFunction, EventParameters> parameters;
 
 		protected override void ReactToEvent(UnityFunction unityFunction)
 		{
-			StudioEventEmitter emitter = AudioManager.Instance.EventPaths.GetEmitter(emitterType);
+			StudioEventEmitter emitter = AudioManager.Instance.FMODPathResolver.GetEmitter(globalEmitter);
 
 			emitter.SetParameters(parameters[unityFunction]);
 		}

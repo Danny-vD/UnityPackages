@@ -12,7 +12,7 @@ namespace Utility.UtilityPackage
 	{
 		private const string scriptsFolder = "1. Scripts";
 
-		private static readonly string typePath = @$"{Application.dataPath}/{scriptsFolder}/";
+		private static readonly string typePath = $"{Application.dataPath}/{scriptsFolder}/";
 
 		/// <summary>
 		/// Write the given enum values to the enum, optionally with additional XML documentation
@@ -71,7 +71,6 @@ namespace Utility.UtilityPackage
 
 			string subPath = string.IsNullOrEmpty(type.Namespace) ? string.Empty : type.Namespace.Replace('.', '/') + "/";
 
-			Debug.Log(typePath + subPath);
 			WriteToFile(typePath + subPath, type.Name, values, documentation, documentationTag);
 		}
 

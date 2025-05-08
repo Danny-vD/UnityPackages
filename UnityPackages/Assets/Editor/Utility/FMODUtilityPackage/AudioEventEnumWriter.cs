@@ -13,10 +13,6 @@ namespace Utility.FMODUtilityPackage
 	/// </summary>
 	public static class AudioEventEnumWriter
 	{
-		private const string subFolder = "/zPackages"; // First slash is required so that it is possible to leave this empty
-
-		private static readonly string typePath = @$"{subFolder}/FMODUtilityPackage/Enums/";
-
 		public static void WriteFmodEventsToEnum()
 		{
 			List<EditorEventRef> editorEventRefs = EventManager.Events;
@@ -29,7 +25,7 @@ namespace Utility.FMODUtilityPackage
 
 			eventNames = EventPathToEnumValueUtil.ConvertEventPathToEnumValuesString(eventNames);
 			
-			EnumWriter.WriteEnumValuesAutomaticPath<AudioEventType>("zPackages/", eventNames, pathNames, "FMODEventPath");
+			EnumWriter.WriteEnumValuesAutomaticPath<AudioEvent>("zPackages/", eventNames, pathNames, "FMODEventPath");
 		}
 	}
 }

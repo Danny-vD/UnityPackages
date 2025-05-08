@@ -6,27 +6,27 @@ using VDFramework.Interfaces;
 namespace FMODUtilityPackage.Structs
 {
 	[Serializable]
-	public struct EventsPerEmitter : IKeyValuePair<EmitterType, AudioEventType>
+	public struct EventsPerEmitter : IKeyValuePair<GlobalEmitter, AudioEvent>
 	{
 		[SerializeField]
-		private EmitterType key;
+		private GlobalEmitter key;
 
 		[SerializeField]
-		private AudioEventType value;
+		private AudioEvent value;
 
-		public EmitterType Key
+		public GlobalEmitter Key
 		{
 			get => key;
 			set => key = value;
 		}
 
-		public AudioEventType Value
+		public AudioEvent Value
 		{
 			get => value;
 			set => this.value = value;
 		}
 
-		public bool Equals(IKeyValuePair<EmitterType, AudioEventType> other)
+		public bool Equals(IKeyValuePair<GlobalEmitter, AudioEvent> other)
 		{
 			return other != null && other.Key == Key;
 		}

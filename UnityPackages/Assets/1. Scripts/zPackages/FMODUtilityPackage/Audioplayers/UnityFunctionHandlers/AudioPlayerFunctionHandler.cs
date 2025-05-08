@@ -4,17 +4,18 @@ using FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.BaseClasses;
 using FMODUtilityPackage.Core;
 using FMODUtilityPackage.Enums;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UtilityPackage.Utility.UnityFunctionHandlers.Enums;
 
 namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers
 {
 	/// <summary>
-	/// play an <see cref="AudioEventType"/> on a specific <see cref="UnityFunction"/>
+	/// play an <see cref="AudioEvent"/> on a specific <see cref="UnityFunction"/>
 	/// </summary>
 	public class AudioPlayerFunctionHandler : AbstractAudioFunctionHandler
 	{
 		[SerializeField]
-		private AudioEventType audioEventType;
+		private AudioEvent audioEvent;
 
 		[Header("Playback settings"), SerializeField, Tooltip("Share this event instance between all AudioPlayerFunctionHandlers")]
 		private bool useGlobalInstance = false;
@@ -34,17 +35,17 @@ namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers
 
 		private EventInstance localInstance;
 
-		public EventInstance AudioEventInstance => useGlobalInstance ? GlobalEventInstanceManager.GetEventInstance(audioEventType) : localInstance;
+		public EventInstance AudioEventInstance => useGlobalInstance ? GlobalEventInstanceManager.GetEventInstance(audioEvent) : localInstance;
 
 		private void Awake()
 		{
 			if (useGlobalInstance)
 			{
-				GlobalEventInstanceManager.CacheNewInstanceIfNeeded(audioEventType);
+				GlobalEventInstanceManager.CacheNewInstanceIfNeeded(audioEvent);
 			}
 			else
 			{
-				localInstance = AudioPlayer.GetEventInstance(audioEventType);
+				localInstance = AudioPlayer.GetEventInstance(audioEvent);
 			}
 		}
 
@@ -75,7 +76,7 @@ namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers
 			{
 				if (freeGlobalInstanceOnDestroy)
 				{
-					GlobalEventInstanceManager.ReleaseAndRemoveInstance(audioEventType, stopPlayingOnDestroy, stopMode);
+					GlobalEventInstanceManager.ReleaseAndRemoveInstance(audioEvent, stopPlayingOnDestroy, stopMode);
 				}
 				else if (stopPlayingOnDestroy)
 				{

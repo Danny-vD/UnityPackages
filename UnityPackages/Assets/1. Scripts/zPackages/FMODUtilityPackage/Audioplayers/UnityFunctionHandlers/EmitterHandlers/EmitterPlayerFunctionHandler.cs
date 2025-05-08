@@ -2,6 +2,7 @@
 using FMODUtilityPackage.Core;
 using FMODUtilityPackage.Enums;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UtilityPackage.Utility.UnityFunctionHandlers.Enums;
 
 namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.EmitterHandlers
@@ -12,11 +13,11 @@ namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.EmitterHandlers
 	public class EmitterPlayerFunctionHandler : AbstractAudioFunctionHandler
 	{
 		[SerializeField]
-		private EmitterType emitterType;
+		private GlobalEmitter globalEmitter;
 		
 		protected override void ReactToEvent(UnityFunction unityFunction)
 		{
-			AudioPlayer.PlayEmitter(emitterType);
+			AudioPlayer.PlayEmitter(globalEmitter);
 		}
 	}
 }

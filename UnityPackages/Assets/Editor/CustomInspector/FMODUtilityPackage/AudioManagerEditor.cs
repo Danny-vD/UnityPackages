@@ -64,10 +64,10 @@ namespace CustomInspector.FMODUtilityPackage
 			initialVolumes   = serializedObject.FindProperty("initialVolumes");
 			busVolumeFoldout = new bool[initialVolumes.arraySize];
 
-			// EventPaths
-			events        = serializedObject.FindProperty("EventPaths.events");
-			buses         = serializedObject.FindProperty("EventPaths.buses");
-			emitterEvents = serializedObject.FindProperty("EventPaths.emitterEvents");
+			// FMODPathResolver
+			events        = serializedObject.FindProperty("FMODPathResolver.events");
+			buses         = serializedObject.FindProperty("FMODPathResolver.buses");
+			emitterEvents = serializedObject.FindProperty("FMODPathResolver.emitterEvents");
 
 			eventPathsFoldout    = new bool[events.arraySize];
 			busesFoldout         = new bool[buses.arraySize];
@@ -116,7 +116,7 @@ namespace CustomInspector.FMODUtilityPackage
 		{
 			if (IsFoldOut(ref showEventPaths, showEventPaths ? folderIconOpen : folderIconClosed, "Event Paths"))
 			{
-				DrawFoldoutKeyValueArray<AudioEventType>(events, "key", "value", eventPathsFoldout, eventIcon, new GUIContent("Path"));
+				DrawFoldoutKeyValueArray<AudioEvent>(events, "key", "value", eventPathsFoldout, eventIcon, new GUIContent("Path"));
 			}
 		}
 
@@ -124,7 +124,7 @@ namespace CustomInspector.FMODUtilityPackage
 		{
 			if (IsFoldOut(ref showBuses, showBuses ? folderIconOpen : folderIconClosed, "Bus Paths"))
 			{
-				DrawFoldoutKeyValueArray<BusType>(buses, "key", "value", busesFoldout, busIcon, DrawElement);
+				DrawFoldoutKeyValueArray<AudioBus>(buses, "key", "value", busesFoldout, busIcon, DrawElement);
 			}
 
 			void DrawElement(int index, SerializedProperty key, SerializedProperty value)
@@ -157,7 +157,7 @@ namespace CustomInspector.FMODUtilityPackage
 		{
 			if (IsFoldOut(ref showEmitterEvents, showEmitterEvents ? folderIconOpen : folderIconClosed, "Emitters"))
 			{
-				DrawFoldoutKeyValueArray<EmitterType>(emitterEvents, "key", "value", emitterEventsFoldout,
+				DrawFoldoutKeyValueArray<GlobalEmitter>(emitterEvents, "key", "value", emitterEventsFoldout,
 					new GUIContent("Event to play", eventIcon[0]));
 			}
 		}
@@ -166,7 +166,7 @@ namespace CustomInspector.FMODUtilityPackage
 		{
 			if (IsFoldOut(ref showBusVolume, showBusVolume ? folderIconOpen : folderIconClosed, "Volume"))
 			{
-				DrawFoldoutKeyValueArray<BusType>(initialVolumes, "key", busVolumeFoldout, busIcon, DrawStruct);
+				DrawFoldoutKeyValueArray<AudioBus>(initialVolumes, "key", busVolumeFoldout, busIcon, DrawStruct);
 			}
 
 			void DrawStruct(int i, SerializedProperty @struct)
@@ -195,7 +195,7 @@ namespace CustomInspector.FMODUtilityPackage
 		/// <returns>Whether or not a recompile is necessary</returns>
 		private static bool ValidateEventTypeEnum()
 		{
-			bool needRecompile = default(AudioEventType).GetValues().Count() != EventManager.Events.Count;
+			bool needRecompile = default(AudioEvent).GetValues().Count() != EventManager.Events.Count;
 
 			if (needRecompile)
 			{

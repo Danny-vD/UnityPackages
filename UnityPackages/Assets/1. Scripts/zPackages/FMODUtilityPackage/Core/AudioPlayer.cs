@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using FMOD.Studio;
 using FMODUnity;
 using FMODUtilityPackage.Enums;
@@ -15,17 +16,22 @@ namespace FMODUtilityPackage.Core
 	public static class AudioPlayer
 	{
 		// Reflection because the StudioEventEmitter internally caches the event after setting (and playing) it once, so you cannot normally set it again
+
+		/// <summary>
+		/// <see cref="StudioEventEmitter.Lookup"/>
+		/// </summary>
 		private static readonly MethodInfo lookup = typeof(StudioEventEmitter).GetMethod("Lookup", BindingFlags.Instance | BindingFlags.NonPublic);
+
 		private static readonly FieldInfo emitterEventInstance = typeof(StudioEventEmitter).GetField("instance", BindingFlags.Instance | BindingFlags.NonPublic);
-		
-		public static void PlayEmitter(EmitterType emitter)
+
+		public static void PlayEmitter(GlobalEmitter globalEmitter)
 		{
-			AudioManager.Instance.EventPaths.GetEmitter(emitter).Play();
+			GetEmitter(globalEmitter).Play();
 		}
 
-		public static void ToggleEmitter(EmitterType emitterType)
+		public static void ToggleEmitter(GlobalEmitter globalEmitter)
 		{
-			StudioEventEmitter emitter = AudioManager.Instance.EventPaths.GetEmitter(emitterType);
+			StudioEventEmitter emitter = GetEmitter(globalEmitter);
 
 			if (emitter.IsPlaying())
 			{
@@ -36,28 +42,28 @@ namespace FMODUtilityPackage.Core
 			emitter.Play();
 		}
 
-		public static void StopEmitter(EmitterType emitter)
+		public static void StopEmitter(GlobalEmitter globalEmitter)
 		{
-			AudioManager.Instance.EventPaths.GetEmitter(emitter).Stop();
+			GetEmitter(globalEmitter).Stop();
 		}
-		
-		public static void SetEmitterEvent(EmitterType emitter, AudioEventType audioEvent)
+
+		public static void SetEmitterEvent(GlobalEmitter globalEmitter, AudioEvent audioEvent)
 		{
-			StudioEventEmitter studioEventEmitter = AudioManager.Instance.EventPaths.GetEmitter(emitter);
+			StudioEventEmitter studioEventEmitter = GetEmitter(globalEmitter);
 			bool isPlaying = studioEventEmitter.IsPlaying();
 
 			studioEventEmitter.Stop(); // By telling the emitter to stop we also tell it to release the current instance
-			
-			EventReference eventReference = AudioManager.Instance.EventPaths.GetEventReference(audioEvent);
+
+			EventReference eventReference = GetEventReference(audioEvent);
 			studioEventEmitter.EventReference = eventReference;
 
 			eventReference.GetEventDescription().createInstance(out EventInstance instance);
-			
+
 			emitterEventInstance.SetValue(studioEventEmitter, instance);
-			
+
 			// Lookup updates the emitters internal eventDescription
 			lookup.Invoke(studioEventEmitter, null);
-			
+
 			if (isPlaying)
 			{
 				studioEventEmitter.Play();
@@ -69,23 +75,24 @@ namespace FMODUtilityPackage.Core
 		/// </summary>
 		/// <param name="audioEvent">The event to play</param>
 		/// <param name="location">The object to attach this event to</param>
-		public static void PlayOneShot3D(AudioEventType audioEvent, GameObject location)
+		public static void PlayOneShot3D(AudioEvent audioEvent, GameObject location)
 		{
-			RuntimeManager.PlayOneShotAttached(AudioManager.Instance.EventPaths.GetEventReference(audioEvent), location);
+			RuntimeManager.PlayOneShotAttached(GetEventReference(audioEvent), location);
 		}
 
 		/// <summary>
 		/// Play a 3D event at the position of the AudioManager
 		/// </summary>
 		/// <param name="audioEvent">The event to play</param>
-		public static void PlayOneShot3D(AudioEventType audioEvent)
+		public static void PlayOneShot3D(AudioEvent audioEvent)
 		{
 			if (!AudioManager.IsInitialized)
 			{
-				throw new Exception("Audiomanager is not initialised yet, check if it is present in the scene or whether you called from Awake");
+				// Does not break the code. But since we play at the position of the AudioManager, it is unlikely that it was intended that it was not present already
+				throw new Exception("Audiomanager is not initialised yet, check if it is present in the scene");
 			}
 
-			RuntimeManager.PlayOneShotAttached(AudioManager.Instance.EventPaths.GetEventReference(audioEvent), AudioManager.Instance.gameObject);
+			RuntimeManager.PlayOneShotAttached(GetEventReference(audioEvent), AudioManager.Instance.gameObject);
 		}
 
 		/// <summary>
@@ -94,24 +101,24 @@ namespace FMODUtilityPackage.Core
 		/// <param name="audioEvent">The event to play</param>
 		/// <param name="parameters">The parameters to use</param>
 		/// <param name="gameObject">The object to attach this even to</param>
-		public static void PlayOneShot3D(AudioEventType audioEvent, EventParameters parameters, GameObject gameObject)
+		public static void PlayOneShot3D(AudioEvent audioEvent, EventParameters parameters, GameObject gameObject)
 		{
-			EventInstance eventInstance = RuntimeManager.CreateInstance(AudioManager.Instance.EventPaths.GetEventReference(audioEvent));
+			EventInstance eventInstance = RuntimeManager.CreateInstance(GetEventReference(audioEvent));
 			eventInstance.set3DAttributes(gameObject.transform.To3DAttributes());
 
 			eventInstance.SetParameters(parameters);
 
 			eventInstance.start();
-			eventInstance.release(); //Release each event instance immediately, they are fire and forget, one-shot instances. 
+			eventInstance.release(); // Release each event instance immediately, they are fire and forget, one-shot instances. 
 		}
 
 		/// <summary>
 		/// Play a 2D event
 		/// </summary>
 		/// <param name="audioEvent">The event to play</param>
-		public static void PlayOneShot2D(AudioEventType audioEvent)
+		public static void PlayOneShot2D(AudioEvent audioEvent)
 		{
-			RuntimeManager.PlayOneShot(AudioManager.Instance.EventPaths.GetEventReference(audioEvent));
+			RuntimeManager.PlayOneShot(GetEventReference(audioEvent));
 		}
 
 		/// <summary>
@@ -119,9 +126,9 @@ namespace FMODUtilityPackage.Core
 		/// </summary>
 		/// <param name="audioEvent">The event to play</param>
 		/// <param name="parameters">The parameters to use</param>
-		public static void PlayOneShot2D(AudioEventType audioEvent, EventParameters parameters)
+		public static void PlayOneShot2D(AudioEvent audioEvent, EventParameters parameters)
 		{
-			EventInstance eventInstance = RuntimeManager.CreateInstance(AudioManager.Instance.EventPaths.GetEventReference(audioEvent));
+			EventInstance eventInstance = RuntimeManager.CreateInstance(GetEventReference(audioEvent));
 
 			eventInstance.SetParameters(parameters);
 
@@ -132,9 +139,9 @@ namespace FMODUtilityPackage.Core
 		/// <summary>
 		/// Returns an instance of the specified event with given parameters, you will need to start, stop and release it manually
 		/// </summary>
-		public static EventInstance GetEventInstance(AudioEventType audioEvent, EventParameters parameters)
+		public static EventInstance GetEventInstance(AudioEvent audioEvent, EventParameters parameters)
 		{
-			EventInstance eventInstance = RuntimeManager.CreateInstance(AudioManager.Instance.EventPaths.GetEventReference(audioEvent));
+			EventInstance eventInstance = RuntimeManager.CreateInstance(GetEventReference(audioEvent));
 
 			eventInstance.SetParameters(parameters);
 
@@ -144,7 +151,7 @@ namespace FMODUtilityPackage.Core
 		/// <summary>
 		/// Returns an instance of the specified event, you will need to start, stop and release it manually
 		/// </summary>
-		public static EventInstance GetEventInstance(AudioEventType audioEvent)
+		public static EventInstance GetEventInstance(AudioEvent audioEvent)
 		{
 			EventReference eventReference = GetEventReference(audioEvent);
 			eventReference.GetEventDescription().createInstance(out EventInstance instance);
@@ -155,9 +162,18 @@ namespace FMODUtilityPackage.Core
 		/// <summary>
 		/// Returns a reference of the specified event, from there you can request specific details about the event
 		/// </summary>
-		public static EventReference GetEventReference(AudioEventType audioEvent)
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static EventReference GetEventReference(AudioEvent audioEvent)
 		{
-			return AudioManager.Instance.EventPaths.GetEventReference(audioEvent);
+			return AudioManager.Instance.FMODPathResolver.GetEventReference(audioEvent);
+		}
+
+		/// <summary>
+		/// Returns a reference to the specified emitter
+		/// </summary>
+		public static StudioEventEmitter GetEmitter(GlobalEmitter audioGlobalEmitter)
+		{
+			return AudioManager.Instance.FMODPathResolver.GetEmitter(audioGlobalEmitter);
 		}
 	}
 }

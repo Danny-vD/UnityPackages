@@ -6,6 +6,7 @@ using FMODUtilityPackage.ExtentionMethods;
 using FMODUtilityPackage.Interfaces;
 using FMODUtilityPackage.Structs;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VDFramework;
 
 namespace FMODUtilityPackage.Audioplayers
@@ -13,7 +14,7 @@ namespace FMODUtilityPackage.Audioplayers
 	public class AudioPlayerComponent : BetterMonoBehaviour, IAudioplayer
 	{
 		[SerializeField]
-		private AudioEventType audioEventType;
+		private AudioEvent audioEvent;
 
 		[Header("Global Instance settings")]
 		[SerializeField]
@@ -23,21 +24,21 @@ namespace FMODUtilityPackage.Audioplayers
 		private bool releaseGlobalInstanceOnDestroy = true;
 
 		private EventInstance localInstance;
-		private EventInstance AudioEventInstance => useGlobalInstance ? GlobalEventInstanceManager.GetEventInstance(audioEventType) : localInstance;
+		private EventInstance AudioEventInstance => useGlobalInstance ? GlobalEventInstanceManager.GetEventInstance(audioEvent) : localInstance;
 
 		private void Start()
 		{
 			CacheEventInstance();
 		}
 
-		public void SetEventType(AudioEventType newAudioEventType, bool releaseGlobalInstanceIfApplicable)
+		public void SetEventType(AudioEvent newAudioEvent, bool releaseGlobalInstanceIfApplicable)
 		{
 			if (useGlobalInstance && releaseGlobalInstanceIfApplicable)
 			{
-				GlobalEventInstanceManager.ReleaseAndRemoveInstance(audioEventType, false);
+				GlobalEventInstanceManager.ReleaseAndRemoveInstance(audioEvent, false);
 			}
 
-			audioEventType = newAudioEventType;
+			audioEvent = newAudioEvent;
 			CacheEventInstance();
 		}
 
@@ -81,12 +82,12 @@ namespace FMODUtilityPackage.Audioplayers
 		{
 			if (useGlobalInstance)
 			{
-				GlobalEventInstanceManager.CacheNewInstanceIfNeeded(audioEventType);
+				GlobalEventInstanceManager.CacheNewInstanceIfNeeded(audioEvent);
 			}
 			else
 			{
 				localInstance.release();
-				localInstance = AudioPlayer.GetEventInstance(audioEventType);
+				localInstance = AudioPlayer.GetEventInstance(audioEvent);
 			}
 		}
 

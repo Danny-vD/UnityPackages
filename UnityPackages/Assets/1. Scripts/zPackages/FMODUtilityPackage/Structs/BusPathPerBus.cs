@@ -6,15 +6,15 @@ using VDFramework.Interfaces;
 namespace FMODUtilityPackage.Structs
 {
 	[Serializable]
-	public struct BusPathPerBus : IKeyValuePair<BusType, string>
+	public struct BusPathPerBus : IKeyValuePair<AudioBus, string>
 	{
 		[SerializeField]
-		private BusType key;
+		private AudioBus key;
 
 		[SerializeField]
 		private string value;
 
-		public BusType Key
+		public AudioBus Key
 		{
 			get => key;
 			set => key = value;
@@ -26,7 +26,7 @@ namespace FMODUtilityPackage.Structs
 			set => this.value = value;
 		}
 
-		public bool Equals(IKeyValuePair<BusType, string> other)
+		public bool Equals(IKeyValuePair<AudioBus, string> other)
 		{
 			return other != null && other.Key == Key;
 		}

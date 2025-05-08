@@ -18,7 +18,7 @@ namespace FMODUtilityPackage.Audioplayers.UI
 		private bool clickRestartsSound = true;
 
 		[SerializeField]
-		private AudioEventType audioEventToPlayOnClick;
+		private AudioEvent audioEventToPlayOnClick;
 
 		[SerializeField]
 		private EventParameters parameters;

@@ -7,15 +7,15 @@ using VDFramework.Interfaces;
 namespace FMODUtilityPackage.Structs
 {
 	[Serializable]
-	public struct EventReferencePerEvent : IKeyValuePair<AudioEventType, EventReference>
+	public struct EventReferencePerEvent : IKeyValuePair<AudioEvent, EventReference>
 	{
 		[SerializeField]
-		private AudioEventType key;
+		private AudioEvent key;
 
 		[SerializeField]
 		private EventReference value;
 
-		public AudioEventType Key
+		public AudioEvent Key
 		{
 			get => key;
 			set => key = value;
@@ -27,7 +27,7 @@ namespace FMODUtilityPackage.Structs
 			set => this.value = value;
 		}
 
-		public bool Equals(IKeyValuePair<AudioEventType, EventReference> other)
+		public bool Equals(IKeyValuePair<AudioEvent, EventReference> other)
 		{
 			return other != null && other.Key == Key;
 		}

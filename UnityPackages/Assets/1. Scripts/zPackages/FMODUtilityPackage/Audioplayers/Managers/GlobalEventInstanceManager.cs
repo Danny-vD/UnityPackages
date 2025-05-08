@@ -10,41 +10,41 @@ namespace FMODUtilityPackage.Audioplayers.Managers
 	/// </summary>
 	public static class GlobalEventInstanceManager
 	{
-		private static readonly Dictionary<AudioEventType, EventInstance> globalEventInstances = new Dictionary<AudioEventType, EventInstance>();
+		private static readonly Dictionary<AudioEvent, EventInstance> globalEventInstances = new Dictionary<AudioEvent, EventInstance>();
 
-		public static EventInstance CacheNewInstanceIfNeeded(AudioEventType audioEventType)
+		public static EventInstance CacheNewInstanceIfNeeded(AudioEvent audioEvent) // Used as an 'announcement' that something will be used in the future
 		{
-			EventInstance eventInstance = !globalEventInstances.ContainsKey(audioEventType) ? CacheNewInstance(audioEventType) : GetEventInstance(audioEventType);
+			EventInstance eventInstance = !globalEventInstances.ContainsKey(audioEvent) ? CacheNewInstance(audioEvent) : GetEventInstance(audioEvent);
 
 			return eventInstance;
 		}
 
-		public static bool HasInstanceOfEvent(AudioEventType audioEventType)
+		public static bool HasInstanceOfEvent(AudioEvent audioEvent)
 		{
-			return globalEventInstances.ContainsKey(audioEventType);
+			return globalEventInstances.ContainsKey(audioEvent);
 		}
 
-		public static bool TryGetEventInstance(AudioEventType audioEventType, out EventInstance eventInstance)
+		public static bool TryGetEventInstance(AudioEvent audioEvent, out EventInstance eventInstance)
 		{
-			return globalEventInstances.TryGetValue(audioEventType, out eventInstance);
+			return globalEventInstances.TryGetValue(audioEvent, out eventInstance);
 		}
 
 		/// <summary>
-		/// Will return the globally accessible instance for this <see cref="AudioEventType"/> or create a new one if one is not cached
+		/// Will return the globally accessible instance for this <see cref="AudioEvent"/> or create a new one if one is not cached
 		/// </summary>
-		public static EventInstance GetEventInstance(AudioEventType audioEventType)
+		public static EventInstance GetEventInstance(AudioEvent audioEvent)
 		{
-			if (globalEventInstances.TryGetValue(audioEventType, out EventInstance eventInstance))
+			if (globalEventInstances.TryGetValue(audioEvent, out EventInstance eventInstance))
 			{
 				return eventInstance;
 			}
 
-			return CacheNewInstance(audioEventType);
+			return CacheNewInstance(audioEvent);
 		}
 		
 		public static void StopAllInstances(STOP_MODE stopMode = STOP_MODE.ALLOWFADEOUT)
 		{
-			foreach (KeyValuePair<AudioEventType, EventInstance> pair in globalEventInstances)
+			foreach (KeyValuePair<AudioEvent, EventInstance> pair in globalEventInstances)
 			{
 				EventInstance eventInstance = pair.Value;
 
@@ -55,9 +55,9 @@ namespace FMODUtilityPackage.Audioplayers.Managers
 			globalEventInstances.Clear();
 		}
 
-		public static void ReleaseAndRemoveInstance(AudioEventType audioEventType, bool stopInstance, STOP_MODE stopMode = STOP_MODE.ALLOWFADEOUT)
+		public static void ReleaseAndRemoveInstance(AudioEvent audioEvent, bool stopInstance, STOP_MODE stopMode = STOP_MODE.ALLOWFADEOUT)
 		{
-			if (globalEventInstances.TryGetValue(audioEventType, out EventInstance eventInstance))
+			if (globalEventInstances.TryGetValue(audioEvent, out EventInstance eventInstance))
 			{
 				if (stopInstance)
 				{
@@ -66,15 +66,15 @@ namespace FMODUtilityPackage.Audioplayers.Managers
 
 				eventInstance.release();
 
-				globalEventInstances.Remove(audioEventType);
+				globalEventInstances.Remove(audioEvent);
 			}
 		}
 
-		private static EventInstance CacheNewInstance(AudioEventType audioEventType)
+		private static EventInstance CacheNewInstance(AudioEvent audioEvent)
 		{
-			EventInstance eventInstance = AudioPlayer.GetEventInstance(audioEventType);
+			EventInstance eventInstance = AudioPlayer.GetEventInstance(audioEvent);
 
-			globalEventInstances.Add(audioEventType, eventInstance);
+			globalEventInstances.Add(audioEvent, eventInstance);
 
 			return eventInstance;
 		}

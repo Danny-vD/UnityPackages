@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FMOD.Studio;
 using FMODUnity;
 using FMODUtilityPackage.Enums;
 using FMODUtilityPackage.Structs;
@@ -11,11 +12,16 @@ using VDFramework.Utility;
 
 namespace FMODUtilityPackage.Core
 {
+	/// <summary>
+	/// Utility class that resolves <see cref="AudioEvent"/>s, <see cref="AudioBus"/>ses and <see cref="GlobalEmitter"/>s to FMOD events, busses and emitters 
+	/// </summary>
 	[Serializable]
-	public class EventPaths : ISerializationCallbackReceiver
+	public class FMODPathResolver : ISerializationCallbackReceiver
 	{
-		public const string MASTER_BUS_PATH = @"bus:/";
+		public const string MASTER_BUS_PATH = "bus:/";
 
+		private static Dictionary<AudioBus, Bus> busPerAudioBusEnum = new Dictionary<AudioBus, Bus>();
+		
 		[SerializeField]
 		private List<EventReferencePerEvent> events = new List<EventReferencePerEvent>();
 
@@ -25,9 +31,9 @@ namespace FMODUtilityPackage.Core
 		[SerializeField]
 		private List<EventsPerEmitter> emitterEvents = new List<EventsPerEmitter>();
 
-		private readonly Dictionary<EmitterType, StudioEventEmitter> emitters = new Dictionary<EmitterType, StudioEventEmitter>();
+		private readonly Dictionary<GlobalEmitter, StudioEventEmitter> emitters = new Dictionary<GlobalEmitter, StudioEventEmitter>();
 
-		public EventPaths()
+		public FMODPathResolver()
 		{
 			buses.Add(new BusPathPerBus { Key = default, Value = MASTER_BUS_PATH });
 		}
@@ -35,7 +41,7 @@ namespace FMODUtilityPackage.Core
 		/// <summary>
 		/// Will also initialize all the Dictionaries and set the Event and Bus paths
 		/// </summary>
-		public EventPaths(bool setAllEventPaths) : this()
+		public FMODPathResolver(bool setAllEventPaths) : this()
 		{
 			if (setAllEventPaths)
 			{
@@ -48,7 +54,7 @@ namespace FMODUtilityPackage.Core
 
 		public void AddEmitters(GameObject gameObject)
 		{
-			foreach (EmitterType emitterType in default(EmitterType).GetValues())
+			foreach (GlobalEmitter emitterType in default(GlobalEmitter).GetValues())
 			{
 				StudioEventEmitter emitter = gameObject.AddComponent<StudioEventEmitter>();
 				emitter.EventReference = GetEventReferenceForEmitter(emitterType);
@@ -57,25 +63,41 @@ namespace FMODUtilityPackage.Core
 			}
 		}
 
-		public EventReference GetEventReference(AudioEventType audioEventType)
+		public EventReference GetEventReference(AudioEvent audioEvent)
 		{
-			return events.First(item => item.Key.Equals(audioEventType)).Value;
+			return events.First(item => item.Key.Equals(audioEvent)).Value;
 		}
 
-		public string GetPath(BusType busType)
+		public Bus GetAudioBus(AudioBus audioBus)
 		{
-			return buses.First(item => item.Key.Equals(busType)).Value;
+			if (!busPerAudioBusEnum.TryGetValue(audioBus, out Bus bus))
+			{
+				bus = GetBusFromPath(GetAudioBusPath(audioBus));
+				busPerAudioBusEnum.Add(audioBus, bus);
+			}
+
+			return bus;
+		}
+		
+		public string GetAudioBusPath(AudioBus audioBus)
+		{
+			return buses.First(item => item.Key.Equals(audioBus)).Value;
+		}
+		
+		public StudioEventEmitter GetEmitter(GlobalEmitter globalEmitter)
+		{
+			return emitters[globalEmitter];
 		}
 
-		public StudioEventEmitter GetEmitter(EmitterType emitterType)
+		public static Bus GetBusFromPath(string busPath)
 		{
-			return emitters[emitterType];
+			return RuntimeManager.GetBus(busPath);
 		}
-
-		private EventReference GetEventReferenceForEmitter(EmitterType emitterType)
+		
+		private EventReference GetEventReferenceForEmitter(GlobalEmitter globalEmitter)
 		{
-			AudioEventType audioEventType = emitterEvents.First(item => item.Key == emitterType).Value;
-			return GetEventReference(audioEventType);
+			AudioEvent audioEvent = emitterEvents.First(item => item.Key == globalEmitter).Value;
+			return GetEventReference(audioEvent);
 		}
 
 #if UNITY_EDITOR
@@ -86,7 +108,7 @@ namespace FMODUtilityPackage.Core
 				List<EditorEventRef> eventRefs = EventManager.Events;
 				string[] eventPaths = eventRefs.Select(eventref => eventref.Path).ToArray();
 
-				AudioEventType[] enumValues = EventPathToEnumValueUtil.ConvertEventPathToEnumValues(eventPaths);
+				AudioEvent[] enumValues = EventPathToEnumValueUtil.ConvertEventPathToEnumValues(eventPaths);
 
 				for (int i = 0; i < enumValues.Length; i++)
 				{
@@ -154,7 +176,7 @@ namespace FMODUtilityPackage.Core
 				return;
 			}
 
-			string[] busNames = default(BusType).GetNames().ToArray();
+			string[] busNames = default(AudioBus).GetNames().ToArray();
 
 			// Start at 1 because 0 is always the master bus
 			for (int i = 1; i < busCount; i++)
@@ -171,11 +193,11 @@ namespace FMODUtilityPackage.Core
 		private void UpdateDictionaries()
 		{
 			//TODO replace the lists with SerializableDictionaries (check the serializableDictionary drawer how to properly display it in the inspector)
-			EnumDictionaryUtil.PopulateEnumDictionary<EventReferencePerEvent, AudioEventType, EventReference>(events);
+			EnumDictionaryUtil.PopulateEnumDictionary<EventReferencePerEvent, AudioEvent, EventReference>(events);
 
-			EnumDictionaryUtil.PopulateEnumDictionary<BusPathPerBus, BusType, string>(buses);
+			EnumDictionaryUtil.PopulateEnumDictionary<BusPathPerBus, AudioBus, string>(buses);
 
-			EnumDictionaryUtil.PopulateEnumDictionary<EventsPerEmitter, EmitterType, AudioEventType>(emitterEvents);
+			EnumDictionaryUtil.PopulateEnumDictionary<EventsPerEmitter, GlobalEmitter, AudioEvent>(emitterEvents);
 		}
 
 		public void OnBeforeSerialize()

@@ -6,13 +6,7 @@ namespace FMODUtilityPackage.Core
 {
 	public static class AudioParameterManager
 	{
-		private static readonly Dictionary<string, PARAMETER_ID> globalParameters =
-			new Dictionary<string, PARAMETER_ID>();
-
-		private static readonly Dictionary<string, Bus> buses = new Dictionary<string, Bus>();
-
-		private static float masterVolume;
-		private static bool masterMute;
+		private static readonly Dictionary<string, PARAMETER_ID> globalParameters = new Dictionary<string, PARAMETER_ID>();
 
 		/////////////////////////////////////////////////
 		//			Global parameters
@@ -86,80 +80,5 @@ namespace FMODUtilityPackage.Core
 		/////////////////////////////////////////////////
 		//			Bus parameters
 		/////////////////////////////////////////////////
-
-		public static void SetBusVolume(string busPath, float volume)
-		{
-			if (busPath == EventPaths.MASTER_BUS_PATH)
-			{
-				SetMasterVolume(volume);
-				return;
-			}
-
-			Bus bus = GetBus(busPath);
-			bus.setVolume(volume);
-		}
-
-		/// <summary>
-		/// Sets the volume of the master bus
-		/// </summary>
-		/// <param name="volume"></param>
-		/// <param name="updateCached">Update the cached value as well (the cached value is used to get the old volume when you unmute)</param>
-		/// <param name="ignoreMute">Should ignore the current mute state and set the volume anyway (can cancel mute)</param>
-		public static void SetMasterVolume(float volume, bool updateCached = true, bool ignoreMute = false)
-		{
-			if (updateCached)
-			{
-				masterVolume = volume;
-			}
-
-			if (!ignoreMute && masterMute)
-			{
-				return;
-			}
-
-			Bus bus = GetBus(EventPaths.MASTER_BUS_PATH);
-			bus.setVolume(volume);
-		}
-
-		public static void SetBusMute(string busPath, bool isMuted)
-		{
-			Bus bus = GetBus(busPath);
-			bus.setMute(isMuted);
-		}
-
-		/// <summary>
-		/// Sets the master bus volume to 0 (muting it doesn't work)
-		/// </summary>
-		public static void SetMasterMute(bool isMuted)
-		{
-			masterMute = isMuted;
-
-			SetMasterVolume(isMuted ? 0 : masterVolume, false, true);
-		}
-
-		public static float GetBusVolume(string busPath)
-		{
-			if (busPath == EventPaths.MASTER_BUS_PATH)
-			{
-				return masterVolume;
-			}
-
-			Bus bus = GetBus(busPath);
-			bus.getVolume(out float volume);
-
-			return volume;
-		}
-
-		private static Bus GetBus(string busPath)
-		{
-			if (buses.TryGetValue(busPath, out Bus bus))
-			{
-				return bus;
-			}
-
-			bus = RuntimeManager.GetBus(busPath);
-			buses.Add(busPath, bus);
-			return bus;
-		}
 	}
 }

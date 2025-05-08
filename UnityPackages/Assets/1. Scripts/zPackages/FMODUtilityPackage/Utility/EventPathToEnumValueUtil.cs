@@ -7,9 +7,9 @@ namespace FMODUtilityPackage.Utility
 {
 	public static class EventPathToEnumValueUtil
 	{
-		public static AudioEventType[] ConvertEventPathToEnumValues(string[] eventPaths)
+		public static AudioEvent[] ConvertEventPathToEnumValues(string[] eventPaths)
 		{
-			return ConvertEventPathToEnumValuesString(eventPaths).Select(Enum.Parse<AudioEventType>).ToArray();
+			return ConvertEventPathToEnumValuesString(eventPaths).Select(Enum.Parse<AudioEvent>).ToArray();
 		}
 		
 		public static string[] ConvertEventPathToEnumValuesString(string[] eventPaths)
