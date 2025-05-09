@@ -9,7 +9,7 @@ using UtilityPackage.Utility.UnityFunctionHandlers.Enums;
 namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.AudioPlayerFunctionHandlerExtras
 {
 	/// <summary>
-	/// Sets parameters to the <see cref="AudioPlayerFunctionHandler"/> on given <see cref="Enums.UnityFunction"/>s
+	/// Sets parameters to the <see cref="AudioPlayerFunctionHandler"/> on given <see cref="UnityFunction"/>s
 	/// </summary>
 	public class AudioParametersFunctionHandler : AbstractAudioFunctionHandler
 	{

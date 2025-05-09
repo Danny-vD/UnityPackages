@@ -12,6 +12,9 @@ namespace FMODUtilityPackage.Audioplayers.Managers
 	{
 		private static readonly Dictionary<AudioEvent, EventInstance> globalEventInstances = new Dictionary<AudioEvent, EventInstance>();
 
+		/// <summary>
+		/// Tell the <see cref="GlobalEventInstanceManager"/> that this AudioEvent will likely be used and should therefore be cached in advance
+		/// </summary>
 		public static EventInstance CacheNewInstanceIfNeeded(AudioEvent audioEvent) // Used as an 'announcement' that something will be used in the future
 		{
 			EventInstance eventInstance = !globalEventInstances.ContainsKey(audioEvent) ? CacheNewInstance(audioEvent) : GetEventInstance(audioEvent);

@@ -24,7 +24,7 @@ namespace FMODUtilityPackage.Audioplayers.UI
 		[Serializable]
 		public struct AudioEventData
 		{
-			[Tooltip("Share this event instance between all EventTriggerSoundPlayers")]
+			[Tooltip("Share this event instance between all AudioPlayers")]
 			public bool IsGlobalInstance;
 
 			public AudioEvent AudioEvent;

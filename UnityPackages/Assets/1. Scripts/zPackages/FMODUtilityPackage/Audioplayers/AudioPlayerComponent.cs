@@ -11,6 +11,10 @@ using VDFramework;
 
 namespace FMODUtilityPackage.Audioplayers
 {
+	/// <summary>
+	/// A simple component that provides functions to Set, Start, Pause and Stop <see cref="AudioEvent"/>s, optionally with parameters
+	/// </summary>
+	/// <seealso cref="IAudioplayer"/>
 	public class AudioPlayerComponent : BetterMonoBehaviour, IAudioplayer
 	{
 		[SerializeField]
@@ -86,7 +90,7 @@ namespace FMODUtilityPackage.Audioplayers
 			}
 			else
 			{
-				localInstance.release();
+				localInstance.release(); // No need to check for null because it is a struct
 				localInstance = AudioPlayer.GetEventInstance(audioEvent);
 			}
 		}

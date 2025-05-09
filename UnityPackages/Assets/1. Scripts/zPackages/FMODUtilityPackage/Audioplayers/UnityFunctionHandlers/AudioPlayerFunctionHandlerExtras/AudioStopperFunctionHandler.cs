@@ -6,7 +6,7 @@ using UtilityPackage.Utility.UnityFunctionHandlers.Enums;
 namespace FMODUtilityPackage.Audioplayers.UnityFunctionHandlers.AudioPlayerFunctionHandlerExtras
 {
 	/// <summary>
-	/// Stops the <see cref="AudioPlayerFunctionHandler"/> on a specific <see cref="Enums.UnityFunction"/>
+	/// Stops the <see cref="AudioPlayerFunctionHandler"/> on a specific <see cref="UnityFunction"/>
 	/// </summary>
 	public class AudioStopperFunctionHandler : AbstractAudioFunctionHandler
 	{

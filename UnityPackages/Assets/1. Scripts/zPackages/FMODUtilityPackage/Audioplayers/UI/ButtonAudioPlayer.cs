@@ -11,11 +11,14 @@ using VDFramework;
 
 namespace FMODUtilityPackage.Audioplayers.UI
 {
+	/// <summary>
+	/// A simple script that plays an <see cref="AudioEvent"/> when the button is clicked
+	/// </summary>
 	[RequireComponent(typeof(Button))]
 	public class ButtonAudioPlayer : BetterMonoBehaviour, IAudioplayer
 	{
 		[SerializeField, Tooltip("If true, clicking the button again will start the event from the beginning")]
-		private bool clickRestartsSound = true;
+		private bool clickRestartsAudio = true;
 
 		[SerializeField]
 		private AudioEvent audioEventToPlayOnClick;
@@ -32,34 +35,34 @@ namespace FMODUtilityPackage.Audioplayers.UI
 
 		private Button button;
 
-		private EventInstance localClickSoundEvent;
+		private EventInstance localClickAudioEvent;
 		private bool isInitialized;
 
-		private EventInstance AudioEventInstance => useGlobalInstance ? GlobalEventInstanceManager.GetEventInstance(audioEventToPlayOnClick) : localClickSoundEvent;
+		private EventInstance AudioEventInstance => useGlobalInstance ? GlobalEventInstanceManager.GetEventInstance(audioEventToPlayOnClick) : localClickAudioEvent;
 
 		private void Awake()
 		{
 			button = GetComponent<Button>();
-			button.onClick.AddListener(clickRestartsSound ? Play : PlayIfNotPlaying);
+			button.onClick.AddListener(clickRestartsAudio ? Play : PlayIfNotPlaying);
 		}
 
 		private void Initialize()
 		{
-			EventInstance clickSoundEventInstance;
-			
+			EventInstance audioEventToPlayOnClickInstance;
+
 			if (!useGlobalInstance)
 			{
-				localClickSoundEvent    = AudioPlayer.GetEventInstance(audioEventToPlayOnClick);
-				clickSoundEventInstance = localClickSoundEvent;
+				localClickAudioEvent            = AudioPlayer.GetEventInstance(audioEventToPlayOnClick);
+				audioEventToPlayOnClickInstance = localClickAudioEvent;
 			}
 			else
 			{
-				clickSoundEventInstance = GlobalEventInstanceManager.GetEventInstance(audioEventToPlayOnClick);
+				audioEventToPlayOnClickInstance = GlobalEventInstanceManager.GetEventInstance(audioEventToPlayOnClick);
 			}
-			
+
 			isInitialized = true;
-			
-			clickSoundEventInstance.SetParameters(parameters);
+
+			audioEventToPlayOnClickInstance.SetParameters(parameters);
 		}
 
 		private void OnDisable()
@@ -73,9 +76,9 @@ namespace FMODUtilityPackage.Audioplayers.UI
 			}
 			else
 			{
-				localClickSoundEvent.release();
+				localClickAudioEvent.release();
 			}
-			
+
 			isInitialized = false;
 		}
 
@@ -96,13 +99,13 @@ namespace FMODUtilityPackage.Audioplayers.UI
 				Initialize();
 			}
 
-			EventInstance clickSoundEventInstance = AudioEventInstance;
-			
-			clickSoundEventInstance.getPlaybackState(out PLAYBACK_STATE state);
+			EventInstance clickAudioEventInstance = AudioEventInstance;
+
+			clickAudioEventInstance.getPlaybackState(out PLAYBACK_STATE state);
 
 			if (state is PLAYBACK_STATE.STOPPED or PLAYBACK_STATE.STOPPING)
 			{
-				clickSoundEventInstance.start();
+				clickAudioEventInstance.start();
 			}
 		}
 
@@ -126,7 +129,7 @@ namespace FMODUtilityPackage.Audioplayers.UI
 		{
 			Stop();
 
-			button.onClick.RemoveListener(clickRestartsSound ? Play : PlayIfNotPlaying);
+			button.onClick.RemoveListener(clickRestartsAudio ? Play : PlayIfNotPlaying);
 		}
 	}
 }
