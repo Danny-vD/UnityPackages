@@ -22,7 +22,7 @@ namespace UtilityPackage.CursorManagement.Singletons
 		{
 			StartCoroutine(CheckMoving());
 
-			lastMousePosition = CursorUtil.MousePosition2D;
+			lastMousePosition = CursorUtil.CursorPosition2D;
 		}
 
 		private IEnumerator CheckMoving()
@@ -34,7 +34,7 @@ namespace UtilityPackage.CursorManagement.Singletons
 					yield return null;
 				}
 
-				Vector2 currentMousePosition = CursorUtil.MousePosition2D;
+				Vector2 currentMousePosition = CursorUtil.CursorPosition2D;
 
 				Vector2 delta = currentMousePosition - lastMousePosition;
 				IsCursorMoving = delta.magnitude >= movementThreshold;

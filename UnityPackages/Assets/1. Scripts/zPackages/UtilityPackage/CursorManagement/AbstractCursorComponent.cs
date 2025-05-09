@@ -54,8 +54,8 @@ namespace UtilityPackage.CursorManagement
 		}
 
 		/// <summary>
-		/// <para>Returns the texture that the cursor should update to, including hotspot</para>
-		/// <para>Only called if <see cref="ShouldUpdateCursor"/> is true</para>
+		/// Returns the texture that the cursor should update to, including hotspot<br/>
+		/// Only called if <see cref="ShouldUpdateCursor"/> is true
 		/// </summary>
 		public abstract CursorData GetCursorData();
 		

@@ -109,7 +109,7 @@ namespace ConsolePackage.ObjectSelection
 
 		private bool RayCast(out GameObject objectHit)
 		{
-			Ray ray = RaycastFrom.ScreenPointToRay(CursorUtil.MousePosition);
+			Ray ray = RaycastFrom.ScreenPointToRay(CursorUtil.CursorPosition);
 
 			if (Physics.Raycast(ray, out RaycastHit hit, float.MaxValue, SelectableLayers))
 			{

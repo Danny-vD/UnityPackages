@@ -29,14 +29,14 @@ namespace UtilityPackage.CursorManagement.CursorUtility.Singletons
 #endif
 
 		/// <summary>
-		/// The current mouse position in ScreenSpace
+		/// The current cursor position in ScreenSpace
 		/// </summary>
-		public static Vector3 MousePosition => GetMousePosition();
+		public static Vector3 CursorPosition => GetCursorPosition();
 
 		/// <summary>
-		/// The current mouse position in ScreenSpace with 0 as Z value
+		/// The current cursor position in ScreenSpace with 0 as Z value
 		/// </summary>
-		public static Vector2 MousePosition2D => GetMousePosition2D();
+		public static Vector2 CursorPosition2D => GetCursorPosition2D();
 
 #if UNITY_INPUT_SYSTEM
 		private void OnEnable()
@@ -110,58 +110,58 @@ namespace UtilityPackage.CursorManagement.CursorUtility.Singletons
 		}
 #endif
 
-		#region MouseWorldPosition Methods
+		#region CursorWorldPosition Methods
 
 		/// <summary>
-		/// Get the MousePosition in world space
+		/// Get the CursorPosition in world space
 		/// </summary>
-		/// <param name="camera">The camera from which to calculate mouse world position</param>
+		/// <param name="camera">The camera from which to calculate cursor world position</param>
 		/// <param name="eye">By default, <see cref="Camera.MonoOrStereoscopicEye.Mono"/>. Can be set to <see cref="Camera.MonoOrStereoscopicEye.Left"/> or <see cref="Camera.MonoOrStereoscopicEye.Right"/> for use in stereoscopic rendering (e.g., for VR).</param>
-		/// <returns>The mouse position in 3D world space</returns>
-		public static Vector3 GetMouseWorldPosition(Camera camera, Camera.MonoOrStereoscopicEye eye = Camera.MonoOrStereoscopicEye.Mono)
+		/// <returns>The cursor position in 3D world space</returns>
+		public static Vector3 GetCursorWorldPosition(Camera camera, Camera.MonoOrStereoscopicEye eye = Camera.MonoOrStereoscopicEye.Mono)
 		{
-			Vector3 mousePosition = GetMousePosition();
+			Vector3 cursorPosition = GetCursorPosition();
 
 #if UNITY_INPUT_SYSTEM
 
-			// Mouse position is a vector 2 in the new input system
-			mousePosition.z = camera.nearClipPlane;
+			// Cursor position is a vector 2 in the new input system
+			cursorPosition.z = camera.nearClipPlane;
 #endif
 
-			return camera.ScreenToWorldPoint(mousePosition, eye);
+			return camera.ScreenToWorldPoint(cursorPosition, eye);
 		}
 
 		/// <summary>
-		/// Returns a ray going from camera through the mouse position.
+		/// Returns a ray going from camera through the cursor position.
 		/// </summary>
 		/// <param name="camera">The camera from which the ray starts</param>
 		/// <param name="eye">By default, <see cref="Camera.MonoOrStereoscopicEye.Mono"/>. Can be set to <see cref="Camera.MonoOrStereoscopicEye.Left"/> or <see cref="Camera.MonoOrStereoscopicEye.Right"/> for use in stereoscopic rendering (e.g., for VR).</param>
-		/// <returns>A ray from the camera to the mouse position</returns>
-		public static Ray GetMouseToWorldRay(Camera camera, Camera.MonoOrStereoscopicEye eye = Camera.MonoOrStereoscopicEye.Mono)
+		/// <returns>A ray from the camera to the cursor position</returns>
+		public static Ray GetCursorToWorldRay(Camera camera, Camera.MonoOrStereoscopicEye eye = Camera.MonoOrStereoscopicEye.Mono)
 		{
-			return camera.ScreenPointToRay(GetMousePosition(), eye);
+			return camera.ScreenPointToRay(GetCursorPosition(), eye);
 		}
 
 		#endregion
 
 #if UNITY_INPUT_SYSTEM
-		private static Vector3 GetMousePosition()
+		private static Vector3 GetCursorPosition()
 		{
-			return GetMousePosition2D();
+			return GetCursorPosition2D();
 		}
 
-		private static Vector2 GetMousePosition2D()
+		private static Vector2 GetCursorPosition2D()
 		{
 			return Mouse.current.position.ReadValue();
 		}
 
 #else
-		private static Vector3 GetMousePosition()
+		private static Vector3 GetCursorPosition()
 		{
 			return Input.mousePosition;
 		}
 
-		private static Vector2 GetMousePosition2D()
+		private static Vector2 GetCursorPosition2D()
 		{
 			return Input.mousePosition;
 		}

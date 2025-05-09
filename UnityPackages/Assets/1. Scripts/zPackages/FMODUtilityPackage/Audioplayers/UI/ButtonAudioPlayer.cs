@@ -12,7 +12,7 @@ using VDFramework;
 namespace FMODUtilityPackage.Audioplayers.UI
 {
 	[RequireComponent(typeof(Button))]
-	public class ButtonSoundPlayer : BetterMonoBehaviour, IAudioplayer
+	public class ButtonAudioPlayer : BetterMonoBehaviour, IAudioplayer
 	{
 		[SerializeField, Tooltip("If true, clicking the button again will start the event from the beginning")]
 		private bool clickRestartsSound = true;
