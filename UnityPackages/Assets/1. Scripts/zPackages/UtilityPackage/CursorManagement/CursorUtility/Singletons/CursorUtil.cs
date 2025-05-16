@@ -21,7 +21,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility.Singletons
 		private static EventSystem EventSystem => EventSystem.current;
 
 		/// <inheritdoc cref="UnityEngine.EventSystems.PointerInputModule.GetPointerData"/>
-		/// <function> protected bool GetPointerData(int id, out PointerEventData data, bool create) </function>
+		/// <function>protected bool GetPointerData(int id, out PointerEventData data, bool create)</function>
 		private MethodInfo getPointerData;
 
 		private readonly object[] parameters = new object[] { PointerInputModule.kMouseLeftId, null, false };

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UtilityPackage.CursorManagement.CursorUtility;
 using VDFramework.Extensions;
@@ -6,8 +7,12 @@ using VDFramework.Singleton;
 
 namespace UtilityPackage.CursorManagement.Singletons
 {
+	[DefaultExecutionOrder(-5)]
 	public class MouseButtonHeldChecker : Singleton<MouseButtonHeldChecker>
 	{
+		public static readonly Dictionary<MouseButtonUtil.MouseButton, Action> OnStartedHoldingButtonEvents = new Dictionary<MouseButtonUtil.MouseButton, Action>();
+		public static readonly Dictionary<MouseButtonUtil.MouseButton, Action> OnStoppedHoldingButtonEvents = new Dictionary<MouseButtonUtil.MouseButton, Action>();
+		
 		[SerializeField, Tooltip("How long (in seconds) a button should be held down for it to count as 'holding'")]
 		private float buttonDownTimeThreshold = 0.1f;
 
@@ -25,6 +30,9 @@ namespace UtilityPackage.CursorManagement.Singletons
 
 			foreach (MouseButtonUtil.MouseButton mouseButton in mouseButtons)
 			{
+				OnStartedHoldingButtonEvents.Add(mouseButton, delegate { });
+				OnStoppedHoldingButtonEvents.Add(mouseButton, delegate { });
+				
 				downTimePerButton.Add(mouseButton, 0);
 			}
 		}
@@ -35,13 +43,25 @@ namespace UtilityPackage.CursorManagement.Singletons
 			
 			foreach (MouseButtonUtil.MouseButton mouseButton in mouseButtons)
 			{
+				bool buttonWasHeld = IsButtonHeld(mouseButton);
+				
 				if (MouseButtonUtil.IsButtonPressed(mouseButton))
 				{
 					downTimePerButton[mouseButton] += deltaTime;
+
+					if (!buttonWasHeld && IsButtonHeld(mouseButton))
+					{
+						OnStartedHoldingButtonEvents[mouseButton].Invoke();
+					}
 				}
 				else
 				{
 					downTimePerButton[mouseButton] = 0;
+
+					if (buttonWasHeld)
+					{
+						OnStoppedHoldingButtonEvents[mouseButton].Invoke();
+					}
 				}
 			}
 		}

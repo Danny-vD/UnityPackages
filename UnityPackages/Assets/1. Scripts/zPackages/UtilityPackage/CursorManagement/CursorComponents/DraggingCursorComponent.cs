@@ -26,7 +26,7 @@ namespace UtilityPackage.CursorManagement.CursorComponents
 			ShouldUpdateCursor = true; // Always update when we are activated
 		}
 
-		public override bool AreConditionsMet()
+		public override bool AreConditionsMet() // Does not use MouseDraggingChecker because doing the check here is more efficient since this is only called when necessary instead of every frame
 		{
 			if (keepUsingAfterStoppedMoving && draggingStarted || CursorMovementChecker.Instance.IsCursorMoving)
 			{
@@ -34,7 +34,7 @@ namespace UtilityPackage.CursorManagement.CursorComponents
 				{
 					if (MouseButtonHeldChecker.Instance.IsButtonHeld(pair.Key))
 					{
-						if (!pair.Value.Equals(dataToSet)) // Prevent constantly updating to the same cursor
+						if (!pair.Value.Equals(dataToSet)) // Prevent constantly updating to the same cursor by only setting it to true if the result would be different
 						{
 							ShouldUpdateCursor = true;
 						}

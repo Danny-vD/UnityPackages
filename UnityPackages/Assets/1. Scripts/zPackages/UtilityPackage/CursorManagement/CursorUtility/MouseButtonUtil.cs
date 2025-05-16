@@ -8,7 +8,7 @@ using Mouse = UnityEngine.InputSystem.Mouse;
 
 namespace UtilityPackage.CursorManagement.CursorUtility
 {
-	[DisallowMultipleComponent, DefaultExecutionOrder(-1)] // Default execution order makes sure it runs before anything else (this is great for the query functions since it prevents it being a frame off)
+	[DisallowMultipleComponent, DefaultExecutionOrder(-5)] // Default execution order makes sure it runs before anything else (this is great for the query functions since it prevents it being a frame off)
 	public class MouseButtonUtil : Singleton<MouseButtonUtil>
 	{
 		#region Nested Types
@@ -91,7 +91,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 			Forward,
 		}
 #endif
-
+		
 		/// <summary>
 		/// A utility class that watches the Button ups and downs and calls the respective events
 		/// </summary>
@@ -266,10 +266,11 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 		}
 
 		/// <summary>
-		/// Invoked when the mouse wheel scrolls
-		/// <para>The parameter is a simplified way to get the scroll delta</para>
-		/// <para>use <see cref="IsScrolling"/> to query whether the mouse is scrolling at any time</para>
-		/// <para>WARNING: will be invoked every frame that the mouse scrolls</para>
+		/// Invoked when the mouse wheel scrolls<br/>
+		/// The parameter is a simplified way to get the scroll delta<br/>
+		/// use <see cref="IsScrolling"/> to query whether the mouse is scrolling at any time<br/>
+		/// or <see cref="UtilityPackage.CursorManagement.Singletons.MouseScrollChecker"/> to react to scrolling in a more controlled way<br/>
+		/// <br/>WARNING: will be invoked every frame that the mouse scrolls
 		/// </summary>
 		/// <seealso cref="MouseScrollDelta"/>
 		/// <seealso cref="IsScrolling"/>

@@ -8,6 +8,9 @@ namespace LootTablePackage.Baseclasses
 {
 	public abstract class LootTableObject<TLootType> : ScriptableObject, ILoot<TLootType>
 	{
+		/// <summary>
+		/// The <see cref="IRandomNumberGenerator"/> used to get loot from this loottable
+		/// </summary>
 		public IRandomNumberGenerator RandomNumberGenerator
 		{
 			get => GetLootTable().RandomNumberGenerator;

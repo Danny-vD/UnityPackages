@@ -1,13 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
-using UtilityPackage.CursorManagement.CursorUtility;
 using UtilityPackage.CursorManagement.CursorUtility.Singletons;
 using VDFramework.Singleton;
 
 namespace UtilityPackage.CursorManagement.Singletons
 {
+	[DefaultExecutionOrder(-5)]
 	public class CursorMovementChecker : Singleton<CursorMovementChecker>
 	{
+		public static event Action OnStartedMoving = delegate { };
+		public static event Action OnStoppedMoving = delegate { };
+		
 		[SerializeField, Tooltip("The interval in frames for when it should check whether the cursor moved\nLower values might lead to inaccuracy while higher values might lead to unresponsiveness")]
 		private int checkInterval = 30;
 
@@ -37,7 +41,18 @@ namespace UtilityPackage.CursorManagement.Singletons
 				Vector2 currentMousePosition = CursorUtil.CursorPosition2D;
 
 				Vector2 delta = currentMousePosition - lastMousePosition;
+				bool wasCursorMoving = IsCursorMoving;
 				IsCursorMoving = delta.magnitude >= movementThreshold;
+
+				switch (IsCursorMoving)
+				{
+					case true when !wasCursorMoving:
+						OnStartedMoving.Invoke();
+						break;
+					case false when wasCursorMoving:
+						OnStoppedMoving.Invoke();
+						break;
+				}
 
 				lastMousePosition = currentMousePosition;
 			}
