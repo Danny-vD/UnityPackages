@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using VDFramework;
+using VDFramework.Logger;
 
 namespace UtilityPackage.Utility.CopyTargetUtils
 {
@@ -79,13 +80,13 @@ namespace UtilityPackage.Utility.CopyTargetUtils
 		{
 			if (ReferenceEquals(target, null))
 			{
-				Debug.LogError("Target is not set", this);
+				LogManager.LogError("Target is not set", this);
 				return;
 			}
 
 			if (ReferenceEquals(target, CachedTransform))
 			{
-				Debug.LogWarning("Copying self may not be desired behaviour", this);
+				LogManager.LogWarning("Copying self may not be desired behaviour", this);
 			}
 		}
 

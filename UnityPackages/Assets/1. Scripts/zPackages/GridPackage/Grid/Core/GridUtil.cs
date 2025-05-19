@@ -2,6 +2,7 @@
 using GridPackage.Grid.BaseTiles;
 using UnityEngine;
 using VDFramework;
+using VDFramework.Logger;
 using VDFramework.UnityExtensions;
 
 namespace GridPackage.Grid.Core
@@ -66,7 +67,7 @@ namespace GridPackage.Grid.Core
 				return GridData.Grid[gridPosition.y, gridPosition.x];
 			}
 
-			Debug.LogError("Invalid gridPosition: given position is not on the grid");
+			LogManager.LogError("Invalid gridPosition: given position is not on the grid");
 			return null;
 		}
 

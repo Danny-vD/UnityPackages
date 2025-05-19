@@ -5,6 +5,7 @@ using VDFramework.Singleton;
 #if UNITY_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using VDFramework.Logger;
 
 #else
 using System.Reflection;
@@ -47,7 +48,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility.Singletons
 
 				if (inputModule == null)
 				{
-					Debug.LogErrorFormat("No {0} found in the scene!", nameof(InputSystemUIInputModule));
+					LogManager.LogError($"No {nameof(InputSystemUIInputModule)} found in the scene!");
 				}
 			}
 		}

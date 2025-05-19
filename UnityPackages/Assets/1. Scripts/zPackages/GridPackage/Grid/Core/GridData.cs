@@ -6,6 +6,7 @@ using SerializableDictionaryPackage.Structs;
 using UnityEngine;
 using VDFramework;
 using VDFramework.Extensions;
+using VDFramework.Logger;
 
 namespace GridPackage.Grid.Core
 {
@@ -66,7 +67,7 @@ namespace GridPackage.Grid.Core
 				return pair.Value;
 			}
 
-			Debug.LogError("Invalid gridPosition: given position is not on the grid");
+			LogManager.LogError("Invalid gridPosition: given position is not on the grid");
 			return (TileType)(-1);
 		}
 

@@ -7,6 +7,7 @@ using SerializableDictionaryPackage.Structs;
 using UnityEngine;
 using VDFramework;
 using VDFramework.Extensions;
+using VDFramework.Logger;
 using VDFramework.UnityExtensions;
 
 namespace GridPackage.Grid.Core
@@ -101,8 +102,7 @@ namespace GridPackage.Grid.Core
 
 				string message = unassignedPositions.Count == 1 ? $"position {{{coordinates}}} is" : $"positions {{{coordinates}}} are";
 
-				Debug.LogWarning(
-					$"Grid {message} not assigned!\nRegenerating grid...");
+				LogManager.LogWarning($"Grid {message} not assigned!\nRegenerating grid...");
 				GenerateGrid(gridData, gridData.transform);
 				return;
 			}

@@ -8,6 +8,7 @@ using FMODUtilityPackage.Structs;
 using FMODUtilityPackage.Utility;
 using UnityEngine;
 using VDFramework.Extensions;
+using VDFramework.Logger;
 using VDFramework.Utility;
 
 namespace FMODUtilityPackage.Core
@@ -121,7 +122,7 @@ namespace FMODUtilityPackage.Core
 					if (index == -1)
 					{
 						// Technically should never happen since UpdateDictionaries was called before this | If it does, there is a problem in FindIndex above
-						Debug.LogError($"Event paths do not contain a pair for {enumValues[i].ToString()}");
+						LogManager.LogError($"Event paths do not contain a pair for {enumValues[i].ToString()}");
 						continue;
 					}
 
@@ -133,7 +134,7 @@ namespace FMODUtilityPackage.Core
 			{
 				if (UnityEditor.EditorApplication.isPlaying)
 				{
-					Debug.LogException(e);
+					LogManager.LogException(e);
 				}
 
 				// ignore all exceptions outside of playmode
