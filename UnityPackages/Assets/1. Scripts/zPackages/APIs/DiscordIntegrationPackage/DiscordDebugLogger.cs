@@ -1,5 +1,5 @@
 ﻿using Discord;
-using UnityEngine;
+using VDFramework.Logger;
 
 namespace APIs.DiscordIntegrationPackage
 {
@@ -12,7 +12,24 @@ namespace APIs.DiscordIntegrationPackage
 
 		private static void LogToConsole(LogLevel level, string message)
 		{
-			Debug.Log($"[{level}]: {message}");
+			switch (level)
+			{
+				case LogLevel.Error:
+					LogManager.LogError(message);
+					break;
+				case LogLevel.Warn:
+					LogManager.LogWarning(message);
+					break;
+				case LogLevel.Info:
+					LogManager.LogInfo(message);
+					break;
+				case LogLevel.Debug:
+					LogManager.LogDebug(message);
+					break;
+				default:
+					LogManager.LogInfo(message);
+					break;
+			}
 		}
 	}
 }

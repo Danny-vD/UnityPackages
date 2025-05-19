@@ -4,6 +4,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 using VDFramework;
+using VDFramework.Logger;
 using VDFramework.ObserverPattern.Constants;
 
 namespace UtilityPackage.UI
@@ -52,7 +53,7 @@ namespace UtilityPackage.UI
 		{
 			if (!image)
 			{
-				Debug.LogError("No image assigned in the inspector!", this);
+				LogManager.LogError("No image assigned in the inspector!", this);
 				return;
 			}
 			
@@ -100,13 +101,13 @@ namespace UtilityPackage.UI
 			}
 			else
 			{
-				Debug.LogError("No text assigned in the inspector!", this);
+				LogManager.LogError("No text assigned in the inspector!", this);
 				return;
 			}
 
 			if (!image)
 			{
-				Debug.LogError("No image assigned in the inspector!", this);
+				LogManager.LogError("No image assigned in the inspector!", this);
 				return;
 			}
 

@@ -5,6 +5,7 @@ using FMODUtilityPackage.Enums;
 using FMODUtilityPackage.Structs;
 using UnityEngine;
 using UnityEngine.Serialization;
+using VDFramework.Logger;
 using VDFramework.Singleton;
 using VDFramework.Utility;
 
@@ -39,7 +40,7 @@ namespace FMODUtilityPackage.Core
 			if (FMODPathResolver == null) // If EventPaths is null, the AudioManager was not present in the scene already (because otherwise the field would be deserialised)
 			{
 #if UNITY_EDITOR
-				Debug.Log($"Add an {nameof(AudioManager)} to the scene manually for more control over the bus volumes at the start.");
+				LogManager.LogInfo($"Add an {nameof(AudioManager)} to the scene manually for more control over the bus volumes at the start.");
 
 				if (!FMODUnity.EventManager.IsInitialized) //EventManager is an editor script
 				{

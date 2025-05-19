@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEditor.Compilation;
 using UnityEngine;
+using VDFramework.Logger;
 
 namespace Utility.UtilityPackage
 {
@@ -97,7 +98,7 @@ namespace Utility.UtilityPackage
 
 			if (startIndex == -1)
 			{
-				Debug.LogError($"No valid enum declaration found in file\n{fullPath}");
+				LogManager.LogError($"No valid enum declaration found in file\n{fullPath}");
 				return;
 			}
 

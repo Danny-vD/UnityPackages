@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using VDFramework;
 using VDFramework.EventSystem;
+using VDFramework.Logger;
 
 namespace LocalisationPackage.UIComponents
 {
@@ -34,7 +35,7 @@ namespace LocalisationPackage.UIComponents
 
 				if (ReferenceEquals(dropdown, null))
 				{
-					Debug.LogError("No dropdown found on this object, destroying this component...", gameObject);
+					LogManager.LogError("No dropdown found on this object, destroying this component...", gameObject);
 					Destroy(this);
 				}
 			}
