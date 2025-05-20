@@ -86,7 +86,7 @@ namespace CustomInspector.FMODUtilityPackage
 
 			busIcon = new[]
 			{
-				GetTexture("AudioManager/BusIcon.png"),
+				GetTexture("FMODUtilityPackage/BusIcon.png"),
 			};
 		}
 
