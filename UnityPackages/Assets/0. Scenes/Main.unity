@@ -475,6 +475,7 @@ GameObject:
   - component: {fileID: 380809195}
   - component: {fileID: 380809194}
   - component: {fileID: 380809196}
+  - component: {fileID: 380809197}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -542,6 +543,18 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+--- !u!114 &380809197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380809192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636979f5ce7a4858a7e9e6ebe1e3e87e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &459895987
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,7 +884,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1574386316}
-  - component: {fileID: 1574386315}
+  - component: {fileID: 1574386317}
   m_Layer: 0
   m_Name: Timer Updater
   m_TagString: Untagged
@@ -879,18 +892,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1574386315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1574386314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 62906614, guid: a85713c54a8b39e47967138814e75e1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1574386316
 Transform:
   m_ObjectHideFlags: 0
@@ -906,3 +907,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1574386317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574386314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -483078219, guid: a85713c54a8b39e47967138814e75e1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

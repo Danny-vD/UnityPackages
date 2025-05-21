@@ -2,8 +2,8 @@
 using UnityEngine;
 using UtilityPackage.CursorManagement.CursorUtility;
 using VDFramework.Singleton;
-using VDFramework.Utility.TimerUtil;
-using VDFramework.Utility.TimerUtil.TimerHandles;
+using VDFramework.Timer;
+using VDFramework.Timer.TimerHandles;
 
 namespace UtilityPackage.CursorManagement.Singletons
 {

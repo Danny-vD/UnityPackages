@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LocalisationPackage.Core.Enums;
+using LocalisationPackage.Core.IO.Parsers.Interfaces;
 using UnityEngine;
 
 namespace LocalisationPackage.Core.IO.Parsers
 {
-	public static class JsonLocalisationParser
+	public class JsonLocalisationParser : ILocalisationParser
 	{
 		private static readonly JsonLanguageVariables variables;
+		
+		public bool CanPreReadAllEntries => true;
 
 		static JsonLocalisationParser()
 		{
@@ -19,9 +23,14 @@ namespace LocalisationPackage.Core.IO.Parsers
 			}
 		}
 
-		public static string GetVariable(string entryID, string languageID)
+		public string GetLocalisedEntry(string entryID, Language languageID)
 		{
 			return variables.GetVariable(entryID, languageID);
+		}
+
+		public Dictionary<string, Dictionary<Language, string>> GetAllEntries()
+		{
+			return variables.GetEntry();
 		}
 	}
 
@@ -37,7 +46,7 @@ namespace LocalisationPackage.Core.IO.Parsers
 			Variables.AddRange(jsonVariables.Variables);
 		}
 
-		public string GetVariable(string entryID, string languageID)
+		public string GetVariable(string entryID, Language languageID)
 		{
 			try
 			{
@@ -49,9 +58,9 @@ namespace LocalisationPackage.Core.IO.Parsers
 			}
 		}
 
-		private Dictionary<string, Dictionary<string, string>> entryPerVariable = null;
+		private Dictionary<string, Dictionary<Language, string>> entryPerVariable = null;
 
-		private Dictionary<string, Dictionary<string, string>> GetEntry()
+		public Dictionary<string, Dictionary<Language, string>> GetEntry()
 		{
 			return entryPerVariable ??= CalculateLanguageDictionary.GetNestedDictionary(Variables);
 		}
@@ -70,9 +79,9 @@ namespace LocalisationPackage.Core.IO.Parsers
 		public string EntryID;
 		public LanguageKeyValuePair[] Languages;
 
-		private Dictionary<string, string> dictionary = null;
+		private Dictionary<Language, string> dictionary = null;
 
-		public Dictionary<string, string> GetDictionary
+		public Dictionary<Language, string> GetDictionary
 		{
 			get { return dictionary ??= CalculateLanguageDictionary.GetDictionary(Languages); }
 		}
@@ -80,12 +89,12 @@ namespace LocalisationPackage.Core.IO.Parsers
 
 	public static class CalculateLanguageDictionary
 	{
-		public static Dictionary<string, string> GetDictionary(IEnumerable<LanguageKeyValuePair> pArray)
+		public static Dictionary<Language, string> GetDictionary(IEnumerable<LanguageKeyValuePair> pArray)
 		{
-			return pArray.ToDictionary(entry => entry.LanguageID, entry => entry.Value);
+			return pArray.ToDictionary(entry => Enum.Parse<Language>(entry.LanguageID), entry => entry.Value);
 		}
 
-		public static Dictionary<string, Dictionary<string, string>> GetNestedDictionary(IEnumerable<LanguageVariable> pArray)
+		public static Dictionary<string, Dictionary<Language, string>> GetNestedDictionary(IEnumerable<LanguageVariable> pArray)
 		{
 			return pArray.ToDictionary(entry => entry.EntryID, entry => entry.GetDictionary);
 		}

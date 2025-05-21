@@ -21,7 +21,7 @@ namespace LocalisationPackage.Core
 		/// <returns>The string that is assigned to the given EntryID for the current language</returns>
 		public static string GetLocalisedString(string entryID)
 		{
-			return JsonLocalisationParser.GetVariable(entryID, LanguageSettings.Language.ToString());
+			return LocalisationDataManager.GetLocalisedEntry(entryID);
 		}
 
 		/// <summary>
