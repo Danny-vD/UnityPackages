@@ -15,6 +15,7 @@ namespace UtilityPackage.Utility.LoggerUtil
 		private void Awake()
 		{
 			LogManager.LoggerImplementation = new DebugLogger();
+			
 			Destroy(this);
 		}
 	}
