@@ -14,12 +14,15 @@ namespace LocalisationPackage.Core.IO.Parsers.Interfaces
 		public bool CanPreReadAllEntries { get; }
 		
 		/// <summary>
-		/// Read a single localised string for the given entry and language
+		/// Get a single localised string for the given entry and language
 		/// </summary>
 		/// <param name="entryID">The ID of the localisation</param>
 		/// <param name="languageID">the ID of the language</param>
 		/// <returns>A localised <see langword="string"/> for the given language</returns>
-		/// <remarks>It is up to the implementation on how to handle the case where the given entry or language is not valid</remarks>
+		/// <remarks>
+		/// It is up to the implementation on how to handle the case where the given entry or language is not valid<br/>
+		///	Ideally the implementation also checks if <see cref="LanguageSettings.DEFAULT_LANGUAGE"/> *is* valid so it can be used as a fallback option
+		/// </remarks>
 		public string GetLocalisedEntry(string entryID, Language languageID);
 
 		/// <summary>

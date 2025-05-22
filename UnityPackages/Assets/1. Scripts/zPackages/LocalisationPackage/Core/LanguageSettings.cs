@@ -13,9 +13,9 @@ namespace LocalisationPackage.Core
 		/// <para>The default language will be the same as the <see cref="SystemLanguage"/> if <see cref="useSystemLanguageAsDefault"/> is set</para>
 		/// <para>This constant is also used as a 'fallback' option if a given entry is not localised in the desired language</para>
 		/// </summary>
-		public const Language DEFAULT_LANGUAGE = Language.EN;
+		public const Language DEFAULT_LANGUAGE = Language.NL;
 		
-		private const bool useSystemLanguageAsDefault = true; // If false, will use the 'defaultLanguage' as default
+		private const bool useSystemLanguageAsDefault = false; // If false, will use the 'defaultLanguage' as default
 
 		static LanguageSettings()
 		{

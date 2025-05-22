@@ -1,53 +1,53 @@
 {
-  "Variables": [
+  "Entries": [
 	{
-	  "EntryID": "PLAY",
-	  "Languages": [
+	  "EntryID"      : "PLAY",
+	  "LanguagePairs": [
 		{
 		  "LanguageID": "NL",
-		  "Value": "SPELEN"
+		  "Value"     : "SPELEN"
 		},
 		{
 		  "LanguageID": "EN",
-		  "Value": "PLAY"
+		  "Value"     : "PLAY"
 		},
 		{
 		  "LanguageID": "DE",
-		  "Value": "SPIELEN"
+		  "Value"     : "SPIELEN"
 		}
 	  ]
 	},
 	{
-	  "EntryID": "SETTINGS",
-	  "Languages": [
+	  "EntryID"      : "SETTINGS",
+	  "LanguagePairs": [
 		{
 		  "LanguageID": "NL",
-		  "Value": "INSTELLINGEN"
+		  "Value"     : "INSTELLINGEN"
 		},
 		{
 		  "LanguageID": "EN",
-		  "Value": "SETTINGS"
+		  "Value"     : "SETTINGS"
 		},
 		{
 		  "LanguageID": "DE",
-		  "Value": "EINSTELLUNGEN"
+		  "Value"     : "EINSTELLUNGEN"
 		}
 	  ]
 	},
 	{
-	  "EntryID": "EXIT",
-	  "Languages": [
+	  "EntryID"      : "EXIT",
+	  "LanguagePairs": [
 		{
 		  "LanguageID": "NL",
-		  "Value": "SLUITEN"
+		  "Value"     : "SLUITEN"
 		},
 		{
 		  "LanguageID": "EN",
-		  "Value": "EXIT"
+		  "Value"     : "EXIT"
 		},
 		{
 		  "LanguageID": "DE",
-		  "Value": "SCHLIEßEN"
+		  "Value"     : "SCHLIEßEN"
 		}
 	  ]
 	}

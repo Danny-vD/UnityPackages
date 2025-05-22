@@ -1,102 +1,97 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using LocalisationPackage.Core.Enums;
 using LocalisationPackage.Core.IO.Parsers.Interfaces;
 using UnityEngine;
+using VDFramework.Logger;
 
 namespace LocalisationPackage.Core.IO.Parsers
 {
 	public class JsonLocalisationParser : ILocalisationParser
 	{
-		private static readonly JsonLanguageVariables variables;
+		private static readonly Dictionary<string, Dictionary<Language, string>> localisationEntries = new Dictionary<string, Dictionary<Language, string>>();
 		
 		public bool CanPreReadAllEntries => true;
 
 		static JsonLocalisationParser()
 		{
-			variables = new JsonLanguageVariables();
+			ReadData();
+		}
 
+		private static void ReadData()
+		{
 			foreach (TextAsset file in Resources.LoadAll<TextAsset>("Localisation"))
 			{
-				variables.AddVariables(JsonUtility.FromJson<JsonLanguageVariables>(file.ToString()));
+				JsonLocalisationEntries jsonLocalisationEntries = JsonUtility.FromJson<JsonLocalisationEntries>(file.ToString());
+
+				foreach (LocalisationEntry entry in jsonLocalisationEntries.Entries)
+				{
+					// Check if this entry ID was already defined elsewhere (if it is, we can simply add any new languages to it)
+					if (!localisationEntries.TryGetValue(entry.EntryID, out Dictionary<Language, string> stringsPerLanguageDictionary))
+					{
+						stringsPerLanguageDictionary = new Dictionary<Language, string>();
+						localisationEntries.Add(entry.EntryID, stringsPerLanguageDictionary);
+					}
+
+					foreach (LanguageKeyValuePair languageKeyValuePair in entry.LanguagePairs)
+					{
+						Language language = Enum.Parse<Language>(languageKeyValuePair.LanguageID);
+						
+						// Only add the new Language-Value pair if that language was not already defined for this EntryID
+						if (!stringsPerLanguageDictionary.TryAdd(language, languageKeyValuePair.Value))
+						{
+							LogManager.LogWarning($"Language {language} already defined for {entry.EntryID}!\n{file.name}\nIgnoring value \"{languageKeyValuePair.Value}\"");
+						}
+					}
+				}
 			}
 		}
 
 		public string GetLocalisedEntry(string entryID, Language languageID)
 		{
-			return variables.GetVariable(entryID, languageID);
+			if (localisationEntries.TryGetValue(entryID, out Dictionary<Language, string> stringsPerLanguageDictionary))
+			{
+				if (stringsPerLanguageDictionary.TryGetValue(languageID, out string localisedString))
+				{
+					return localisedString;
+				}
+				
+				if (stringsPerLanguageDictionary.TryGetValue(LanguageSettings.DEFAULT_LANGUAGE, out localisedString))
+				{
+					return localisedString;
+				}
+
+				LogManager.LogError($"Entry '{entryID}' has no localisation for language {LanguageSettings.Language} or {LanguageSettings.DEFAULT_LANGUAGE}!");
+				return LocalisationDataManager.NO_LOCALISATION_STRING;
+			}
+			
+			LogManager.LogError($"Entry '{entryID}' was not found!");
+			return entryID.ToUpper();
 		}
 
 		public Dictionary<string, Dictionary<Language, string>> GetAllEntries()
 		{
-			return variables.GetEntry();
+			return localisationEntries;
 		}
 	}
 
 	[Serializable]
-	public class JsonLanguageVariables
+	public class JsonLocalisationEntries
 	{
-		private const string defaultString = "UNDEFINED";
-
-		public List<LanguageVariable> Variables = new List<LanguageVariable>();
-
-		public void AddVariables(JsonLanguageVariables jsonVariables)
-		{
-			Variables.AddRange(jsonVariables.Variables);
-		}
-
-		public string GetVariable(string entryID, Language languageID)
-		{
-			try
-			{
-				return GetEntry()[entryID][languageID];
-			}
-			catch (KeyNotFoundException)
-			{
-				return defaultString;
-			}
-		}
-
-		private Dictionary<string, Dictionary<Language, string>> entryPerVariable = null;
-
-		public Dictionary<string, Dictionary<Language, string>> GetEntry()
-		{
-			return entryPerVariable ??= CalculateLanguageDictionary.GetNestedDictionary(Variables);
-		}
+		public List<LocalisationEntry> Entries = new List<LocalisationEntry>();
 	}
 
+	[Serializable]
+	public class LocalisationEntry
+	{
+		public string EntryID;
+		public LanguageKeyValuePair[] LanguagePairs;
+	}
+	
 	[Serializable]
 	public class LanguageKeyValuePair
 	{
 		public string LanguageID;
 		public string Value;
-	}
-
-	[Serializable]
-	public class LanguageVariable
-	{
-		public string EntryID;
-		public LanguageKeyValuePair[] Languages;
-
-		private Dictionary<Language, string> dictionary = null;
-
-		public Dictionary<Language, string> GetDictionary
-		{
-			get { return dictionary ??= CalculateLanguageDictionary.GetDictionary(Languages); }
-		}
-	}
-
-	public static class CalculateLanguageDictionary
-	{
-		public static Dictionary<Language, string> GetDictionary(IEnumerable<LanguageKeyValuePair> pArray)
-		{
-			return pArray.ToDictionary(entry => Enum.Parse<Language>(entry.LanguageID), entry => entry.Value);
-		}
-
-		public static Dictionary<string, Dictionary<Language, string>> GetNestedDictionary(IEnumerable<LanguageVariable> pArray)
-		{
-			return pArray.ToDictionary(entry => entry.EntryID, entry => entry.GetDictionary);
-		}
 	}
 }
