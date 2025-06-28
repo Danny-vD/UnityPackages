@@ -11,6 +11,10 @@ using VDFramework.Extensions;
 using VDFramework.Logger;
 using VDFramework.Utility;
 
+#if !UNITY_EDITOR
+using FMODUtilityPackage.Constants;
+#endif
+
 namespace FMODUtilityPackage.Core
 {
 	/// <summary>
@@ -145,10 +149,10 @@ namespace FMODUtilityPackage.Core
 		{
 			try
 			{
-				TextAsset file = Resources.Load<TextAsset>("FmodUtils/EventPaths");
+				TextAsset file = Resources.Load<TextAsset>(ResourcesPathConstants.PATH);
 
 				string[] lines = file.ToString().Split(Environment.NewLine);
-				AudioEventType[] eventTypes = default(AudioEventType).GetValues().ToArray();
+				AudioEvent[] eventTypes = default(AudioEvent).GetValues().ToArray();
 
 				for (int i = 0; i < events.Count; i++)
 				{

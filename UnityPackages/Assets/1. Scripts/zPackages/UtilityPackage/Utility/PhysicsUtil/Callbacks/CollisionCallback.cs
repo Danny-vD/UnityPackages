@@ -1,16 +1,16 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 using VDFramework;
 
 namespace UtilityPackage.Utility.PhysicsUtil.Callbacks
 {
 	public class CollisionCallback : BetterMonoBehaviour
 	{
-		public event Action<Collision> OnCollisionEntered = delegate { };
-		public event Action<Collision> OnCollisionExited = delegate { };
+		public UnityEvent<Collision> OnCollisionEntered;
+		public UnityEvent<Collision> OnCollisionExited;
 
 		private void OnCollisionEnter(Collision other)
-		{
+		{   
 			OnCollisionEntered.Invoke(other);
 		}
 

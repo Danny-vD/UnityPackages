@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security;
 using System.Text;
 using UnityEditor.Compilation;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace Utility.UtilityPackage
 {
 	public static class EnumWriter
 	{
-		private const string scriptsFolder = "1. Scripts";
+		private const string scriptsFolder = "1. Scripts"; //TODO: Move to some general 'UnityPackageConstants' script?
 
 		private static readonly string typePath = $"{Application.dataPath}/{scriptsFolder}/";
 
@@ -132,7 +133,7 @@ namespace Utility.UtilityPackage
 				if (hasDocumentation)
 				{
 					builder.AppendLine($"\t\t/// <{documentationTag}>");
-					builder.AppendLine($"\t\t/// {enumDocumentation[i].Replace("&", "&amp;").Replace("'", "&apos;")}"); // XML does not allow special characters directly
+					builder.AppendLine($"\t\t/// {SecurityElement.Escape(enumDocumentation[i])}"); // XML does not allow special characters directly, so we replace them by their equivalent
 					builder.AppendLine($"\t\t/// </{documentationTag}>");
 				}
 

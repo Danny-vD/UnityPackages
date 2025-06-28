@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FMODUnity;
+using FMODUtilityPackage.Constants;
 using FMODUtilityPackage.Enums;
 using FMODUtilityPackage.Utility;
 using Utility.UtilityPackage;
@@ -13,6 +14,8 @@ namespace Utility.FMODUtilityPackage
 	/// </summary>
 	public static class AudioEventEnumWriter
 	{
+		private const string documentationTag = "FMODEventPath";
+		
 		public static void WriteFmodEventsToEnum()
 		{
 			List<EditorEventRef> editorEventRefs = EventManager.Events;
@@ -21,11 +24,12 @@ namespace Utility.FMODUtilityPackage
 			string[] pathNames = new string[eventNames.Length];
 			Array.Copy(eventNames, pathNames, eventNames.Length);
 
-			WriteToResourcesUtil.WriteToResources(pathNames, "EventPaths.txt", "FMODUtilityPackage/");
+			WriteToResourcesUtil.WriteToResources(pathNames, ResourcesPathConstants.FILE_NAME_FULL, ResourcesPathConstants.SUB_FOLDER);
 
 			eventNames = EventPathToEnumValueUtil.ConvertEventPathToEnumValuesString(eventNames);
 			
-			EnumWriter.WriteEnumValuesAutomaticPath<AudioEvent>("zPackages/", eventNames, pathNames, "FMODEventPath");
+			//TODO: Move 'zPackages/' to some general 'UnityPackageConstants' script?
+			EnumWriter.WriteEnumValuesAutomaticPath<AudioEvent>("zPackages/", eventNames, pathNames, documentationTag);
 		}
 	}
 }

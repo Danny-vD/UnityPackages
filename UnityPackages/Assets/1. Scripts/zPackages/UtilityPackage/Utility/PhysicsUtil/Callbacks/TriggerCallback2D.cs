@@ -1,13 +1,13 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 using VDFramework;
 
 namespace UtilityPackage.Utility.PhysicsUtil.Callbacks
 {
 	public class TriggerCallback2D : BetterMonoBehaviour
 	{
-		public event Action<Collider2D> OnTriggerEntered = delegate { };
-		public event Action<Collider2D> OnTriggerExited = delegate { };
+		public UnityEvent<Collider2D> OnTriggerEntered;
+		public UnityEvent<Collider2D> OnTriggerExited;
 
 		private void OnTriggerEnter2D(Collider2D other)
 		{
