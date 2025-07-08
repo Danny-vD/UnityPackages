@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using SerializableDictionaryPackage.SerializableDictionary;
 using UnityEngine;
 
@@ -55,8 +56,10 @@ namespace FMODUtilityPackage.Structs
 			return parameters[parameterName];
 		}
 
+		[MustDisposeResource]
 		public IEnumerator<KeyValuePair<string, float>> GetEnumerator() => parameters.GetEnumerator();
 
+		[MustDisposeResource]
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 	}
 }

@@ -1,4 +1,6 @@
 using FMODUtilityPackage.Core;
+using FMODUtilityPackage.Structs;
+using UnityEngine;
 
 namespace FMODUtilityPackage.Enums
 {
@@ -177,5 +179,41 @@ namespace FMODUtilityPackage.Enums
 		/// event:/SFX/MonsterEating
 		/// </FMODEventPath>
 		SFX_MonsterEating,
+	}
+
+	/// <summary>
+	/// Provides extension functions for <see cref="AudioEvent"/> to simplify playing an event
+	/// </summary>
+	public static class AudioEventExtensions
+	{
+		/// <inheritdoc cref="AudioPlayer.PlayOneShot2D(AudioEvent)"/>
+		public static void PlayOneShot2D(this AudioEvent audioEvent)
+		{
+			AudioPlayer.PlayOneShot2D(audioEvent);
+		}
+		
+		/// <inheritdoc cref="AudioPlayer.PlayOneShot2D(AudioEvent, EventParameters)"/>
+		public static void PlayOneShot2D(this AudioEvent audioEvent, EventParameters parameters)
+		{
+			AudioPlayer.PlayOneShot2D(audioEvent, parameters);
+		}
+		
+		/// <inheritdoc cref="AudioPlayer.PlayOneShot3D(AudioEvent)"/>
+		public static void PlayOneShot3D(this AudioEvent audioEvent)
+		{
+			AudioPlayer.PlayOneShot3D(audioEvent);
+		}
+		
+		/// <inheritdoc cref="AudioPlayer.PlayOneShot3D(AudioEvent, GameObject)"/>
+		public static void PlayOneShot3D(this AudioEvent audioEvent, GameObject location)
+		{
+			AudioPlayer.PlayOneShot3D(audioEvent, location);
+		}
+		
+		/// <inheritdoc cref="AudioPlayer.PlayOneShot3D(AudioEvent, EventParameters, GameObject)"/>
+		public static void PlayOneShot3D(this AudioEvent audioEvent, EventParameters parameters, GameObject location)
+		{
+			AudioPlayer.PlayOneShot3D(audioEvent, parameters, location);
+		}
 	}
 }

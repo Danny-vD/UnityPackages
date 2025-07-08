@@ -50,7 +50,7 @@ namespace FMODUtilityPackage.Core
 		public static void SetEmitterEvent(GlobalEmitter globalEmitter, AudioEvent audioEvent)
 		{
 			StudioEventEmitter studioEventEmitter = GetEmitter(globalEmitter);
-			bool isPlaying = studioEventEmitter.IsPlaying();
+			bool wasPlaying = studioEventEmitter.IsPlaying();
 
 			studioEventEmitter.Stop(); // By telling the emitter to stop we also tell it to release the current instance
 
@@ -64,7 +64,7 @@ namespace FMODUtilityPackage.Core
 			// Lookup updates the emitters internal eventDescription
 			lookup.Invoke(studioEventEmitter, null);
 
-			if (isPlaying)
+			if (wasPlaying)
 			{
 				studioEventEmitter.Play();
 			}
@@ -100,7 +100,7 @@ namespace FMODUtilityPackage.Core
 		/// </summary>
 		/// <param name="audioEvent">The event to play</param>
 		/// <param name="parameters">The parameters to use</param>
-		/// <param name="gameObject">The object to attach this even to</param>
+		/// <param name="gameObject">The object to attach this event to</param>
 		public static void PlayOneShot3D(AudioEvent audioEvent, EventParameters parameters, GameObject gameObject)
 		{
 			EventInstance eventInstance = RuntimeManager.CreateInstance(GetEventReference(audioEvent));
