@@ -1,4 +1,6 @@
-﻿using LocalisationPackage.Core.Enums;
+﻿using System;
+using System.Collections.Generic;
+using LocalisationPackage.Core.Enums;
 using LocalisationPackage.Events;
 using UnityEngine;
 using VDFramework.EventSystem;
@@ -11,9 +13,8 @@ namespace LocalisationPackage.Core
 		/// <summary>
 		/// <para>The default language of the application if no other language was set</para>
 		/// <para>The default language will be the same as the <see cref="SystemLanguage"/> if <see cref="useSystemLanguageAsDefault"/> is set</para>
-		/// <para>This constant is also used as a 'fallback' option if a given entry is not localised in the desired language</para>
 		/// </summary>
-		public const Language DEFAULT_LANGUAGE = Language.EN;
+		public const Language DEFAULT_LANGUAGE = Language.English;
 		
 		private const bool useSystemLanguageAsDefault = false; // If false, will use the 'defaultLanguage' as default
 
@@ -57,6 +58,26 @@ namespace LocalisationPackage.Core
 				return EnumUtil.IsValidEnumValue(systemLanguage) ? systemLanguage : SystemLanguage.Unknown; // Return Unknown if the current language does not translate to a system language
 			}
 			set => Language = (Language)value;
+		}
+
+		/// <summary>
+		/// Returns the fallback languages for the given languge, by default this is <see cref="DEFAULT_LANGUAGE"/>
+		/// </summary>
+		/// <returns>TRUE or FALSE depending if the given language has any fallback languages</returns>
+		public static bool TryGetFallBackLanguages(Language targetLanguage, out List<Language> fallbackLanguages)
+		{
+			fallbackLanguages = new List<Language>();
+
+			switch (targetLanguage)
+			{
+				case DEFAULT_LANGUAGE:
+					break;
+				default:
+					fallbackLanguages.Add(DEFAULT_LANGUAGE);
+					break;
+			}
+
+			return fallbackLanguages.Count > 0;
 		}
 	}
 }

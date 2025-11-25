@@ -49,24 +49,7 @@ namespace LocalisationPackage.Core.IO.Parsers
 
 		public string GetLocalisedEntry(string entryID, Language languageID)
 		{
-			if (localisationEntries.TryGetValue(entryID, out Dictionary<Language, string> stringsPerLanguageDictionary))
-			{
-				if (stringsPerLanguageDictionary.TryGetValue(languageID, out string localisedString))
-				{
-					return localisedString;
-				}
-				
-				if (stringsPerLanguageDictionary.TryGetValue(LanguageSettings.DEFAULT_LANGUAGE, out localisedString))
-				{
-					return localisedString;
-				}
-
-				LogManager.LogError($"Entry '{entryID}' has no localisation for language {LanguageSettings.Language} or {LanguageSettings.DEFAULT_LANGUAGE}!");
-				return LocalisationDataManager.NO_LOCALISATION_STRING;
-			}
-			
-			LogManager.LogError($"Entry '{entryID}' was not found!");
-			return entryID.ToUpper();
+			return LocalisationDataManager.InternalGetLocalisedEntryFromDictionary(localisationEntries, entryID, languageID);
 		}
 
 		public Dictionary<string, Dictionary<Language, string>> GetAllEntries()

@@ -45,27 +45,38 @@ namespace LocalisationPackage.Core.IO.Parsers
 			
 			if (ParserImplementation.CanPreReadAllEntries) // Because the parser can pre-read the entries, we can use the cached values
 			{
-				if (localisedEntries.TryGetValue(entryID, out Dictionary<Language, string> localisedStringPerLanguage))
-				{
-					if (localisedStringPerLanguage.TryGetValue(LanguageSettings.Language, out string localisedString))
-					{
-						return localisedString;
-					}
-					
-					if (localisedStringPerLanguage.TryGetValue(LanguageSettings.DEFAULT_LANGUAGE, out localisedString))
-					{
-						return localisedString;
-					}
-					
-					LogManager.LogError($"Entry '{entryID}' has no localisation for language {LanguageSettings.Language} or {LanguageSettings.DEFAULT_LANGUAGE}!");
-					return NO_LOCALISATION_STRING;
-				}
-				
-				LogManager.LogError($"Entry '{entryID}' was not found!");
-				return entryID.ToUpper();
+				return InternalGetLocalisedEntryFromDictionary(localisedEntries, entryID, LanguageSettings.Language);
 			}
 			
 			return ParserImplementation.GetLocalisedEntry(entryID, LanguageSettings.Language);
+		}
+
+		public static string InternalGetLocalisedEntryFromDictionary(Dictionary<string, Dictionary<Language, string>> localisationData, string entryID, Language language)
+		{
+			if (localisedEntries.TryGetValue(entryID, out Dictionary<Language, string> localisedStringPerLanguage))
+			{
+				if (localisedStringPerLanguage.TryGetValue(language, out string localisedString))
+				{
+					return localisedString;
+				}
+
+				if (LanguageSettings.TryGetFallBackLanguages(language, out List<Language> fallbackLanguages))
+				{
+					foreach (Language fallbackLanguage in fallbackLanguages)
+					{
+						if (localisedStringPerLanguage.TryGetValue(fallbackLanguage, out localisedString))
+						{
+							return localisedString;
+						}
+					}
+				}
+					
+				LogManager.LogError($"Entry '{entryID}' has no localisation for language {LanguageSettings.Language} or any fallback languages!");
+				return NO_LOCALISATION_STRING;
+			}
+			
+			LogManager.LogError($"Entry '{entryID}' was not found!");
+			return entryID.ToUpper();
 		}
 	}
 }
