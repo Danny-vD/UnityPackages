@@ -57,7 +57,7 @@ namespace VDPackages.UtilityPackage.Utility.CopyTargetUtils
 		{
 			Vector3 line = point2 - point1;
 
-			Vector3 newPosition = VectorProjectionUtil.ProjectPointOntoLine(point1, line, position, clampBetweenPoints);
+			Vector3 newPosition = VectorProjectionUtil.ProjectPointOntoLine(point1, line, position, clampBetweenPoints, out _);
 
 			if (drawDebugLines)
 			{

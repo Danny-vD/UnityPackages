@@ -1,5 +1,6 @@
 ﻿using System;
 using Discord;
+using Discord.Sdk;
 using UnityEngine;
 using VDFramework.Singleton;
 using VDFramework.Timer;
@@ -79,7 +80,7 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 		{
 			return (ulong)(discordIsRequiredForGameToWork ? CreateFlags.Default : CreateFlags.NoRequireDiscord);
 		}
-
+		
 		private void TryConnectingWithDiscord()
 		{
 			try

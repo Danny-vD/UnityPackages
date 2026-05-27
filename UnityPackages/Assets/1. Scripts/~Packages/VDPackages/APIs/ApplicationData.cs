@@ -7,6 +7,6 @@
 	{
 		public const long DISCORD_APPLICATION_ID = 0; // AKA Client ID
 
-		public const uint STEAM_APPLICATION_ID = 480;
+		public const uint STEAM_APPLICATION_ID = 480; // Default = 480 (Spacewar)
 	}
 }
