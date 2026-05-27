@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using VDFramework.Singleton;
 
-#if UNITY_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using VDFramework.Logger;
@@ -15,7 +15,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility.Singletons
 {
 	public class CursorUtil : Singleton<CursorUtil>
 	{
-#if UNITY_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM
 		private InputSystemUIInputModule inputModule;
 
 #else
@@ -39,12 +39,12 @@ namespace UtilityPackage.CursorManagement.CursorUtility.Singletons
 		/// </summary>
 		public static Vector2 CursorPosition2D => GetCursorPosition2D();
 
-#if UNITY_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM
 		private void OnEnable()
 		{
 			if (inputModule == null)
 			{
-				inputModule = FindObjectOfType<InputSystemUIInputModule>(false);
+				inputModule = FindAnyObjectByType<InputSystemUIInputModule>();
 
 				if (inputModule == null)
 				{
@@ -70,7 +70,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility.Singletons
 			return false;
 		}
 
-		public bool TryGetHoveredGameObject(out GameObject hoveredGameObject)
+		public bool TryGetMouseHoveredGameObject(out GameObject hoveredGameObject)
 		{
 			return TryGetHoveredGameObject(Mouse.current.deviceId, out hoveredGameObject);
 		}
@@ -123,9 +123,9 @@ namespace UtilityPackage.CursorManagement.CursorUtility.Singletons
 		{
 			Vector3 cursorPosition = GetCursorPosition();
 
-#if UNITY_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM
 
-			// Cursor position is a vector 2 in the new input system
+			// Cursor position is a vector 2 in the input system
 			cursorPosition.z = camera.nearClipPlane;
 #endif
 
@@ -145,7 +145,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility.Singletons
 
 		#endregion
 
-#if UNITY_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM
 		private static Vector3 GetCursorPosition()
 		{
 			return GetCursorPosition2D();

@@ -1,4 +1,4 @@
-﻿#if UNITY_INPUT_SYSTEM
+﻿#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 
 #else
@@ -12,7 +12,7 @@ namespace ConsolePackage.Console
 	[Serializable]
 	public class ConsoleInputChecker
 	{
-#if UNITY_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM
 		[SerializeField]
 		private InputActionReference openConsoleInput;
 

@@ -1,5 +1,6 @@
 ﻿using SerializableDictionaryPackage.SerializableDictionary;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UtilityPackage.CursorManagement.CursorUtility;
 using UtilityPackage.CursorManagement.CursorUtility.Singletons;
@@ -28,7 +29,7 @@ namespace UtilityPackage.CursorManagement.CursorComponents
 
 		public override bool AreConditionsMet()
 		{
-			if (IsPointerOverSelectable(out GameObject hoveredSelectableObject))
+			if (IsMousePointerOverSelectable(out GameObject hoveredSelectableObject))
 			{
 				CursorData newCursorData = GetCursorData(hoveredSelectableObject);
 
@@ -48,12 +49,12 @@ namespace UtilityPackage.CursorManagement.CursorComponents
 			return cursorDataToSet!.Value;
 		}
 
-		private bool IsPointerOverSelectable(out GameObject hoveredSelectableObject)
+		private bool IsPointerOverSelectable(int pointerID, out GameObject hoveredSelectableObject)
 		{
 			pointerIsHoveringOverSelectable = false;
 			hoveredSelectableObject         = null;
 			
-			if (CursorUtil.Instance.TryGetHoveredGameObject(out GameObject hoveredGameObject))
+			if (CursorUtil.Instance.TryGetHoveredGameObject(pointerID, out GameObject hoveredGameObject))
 			{
 				if (hoveredGameObject.GetComponent<Selectable>() != null)
 				{
@@ -63,6 +64,11 @@ namespace UtilityPackage.CursorManagement.CursorComponents
 			}
 
 			return pointerIsHoveringOverSelectable;
+		}
+
+		private bool IsMousePointerOverSelectable(out GameObject hoveredSelectableObject)
+		{
+			return IsPointerOverSelectable(Mouse.current.deviceId, out hoveredSelectableObject);
 		}
 
 		private CursorData GetCursorData(GameObject hoveredObject)

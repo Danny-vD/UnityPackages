@@ -1,4 +1,4 @@
-﻿#if UNITY_INPUT_SYSTEM
+﻿#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #else
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace ConsolePackage.ObjectSelection
 	[Serializable]
 	public class ObjectSelectorInputChecker
 	{
-#if UNITY_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM
 		[SerializeField]
 		private InputActionReference addToSelectionInput;
 

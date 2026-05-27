@@ -2,20 +2,20 @@
 using System.Linq;
 using UnityEngine;
 using VDFramework.Singleton;
-#if UNITY_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM
 using Mouse = UnityEngine.InputSystem.Mouse;
 #endif
 
 namespace UtilityPackage.CursorManagement.CursorUtility
 {
-	[DisallowMultipleComponent, DefaultExecutionOrder(-5)] // Default execution order makes sure it runs before anything else (this is great for the query functions since it prevents it being a frame off)
+	[DisallowMultipleComponent, DefaultExecutionOrder(-5)] // Default execution order makes sure it runs before anything else (to ensure it happens before Update, just like the events in the Input System)
 	public class MouseButtonUtil : Singleton<MouseButtonUtil>
 	{
 		#region Nested Types
 
-#if UNITY_INPUT_SYSTEM
-		// Necessary for convenience of other scripts trying to interact with MouseUtil
+#if ENABLE_INPUT_SYSTEM
 
+		// Necessary for convenience of other scripts trying to interact with MouseUtil
 		/// <summary>
 		/// Button indices for <see cref="UnityEngine.InputSystem.LowLevel.MouseState.buttons"/>.
 		/// </summary>
@@ -91,7 +91,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 			Forward,
 		}
 #endif
-		
+
 		/// <summary>
 		/// A utility class that watches the Button ups and downs and calls the respective events
 		/// </summary>
@@ -311,7 +311,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 		/// Returns true if the <see cref="MouseScrollDelta"/> has a value higher than 0
 		/// </summary>
 		public static bool IsScrolling => MouseScrollDelta.sqrMagnitude > 0.0f;
-		
+
 		private static MouseInputEventHandler[] MouseButtonHandlers
 		{
 			get
@@ -410,7 +410,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 			{
 				return;
 			}
-			
+
 			MouseInputEventHandler handler = mouseButtonHandlers[(int)mouseButton];
 
 			handler.OnButtonDown -= callback;
@@ -438,7 +438,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 			{
 				return;
 			}
-			
+
 			MouseInputEventHandler handler = mouseButtonHandlers[(int)mouseButton];
 
 			handler.OnButtonUp -= callback;
@@ -502,7 +502,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 
 		#region UNITY_INPUT_SYSTEM
 
-#if UNITY_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM
 		protected override void Awake()
 		{
 			base.Awake();
@@ -563,7 +563,7 @@ namespace UtilityPackage.CursorManagement.CursorUtility
 
 		#region Legacy input
 
-#if !UNITY_INPUT_SYSTEM
+#if !ENABLE_INPUT_SYSTEM
 		protected override void Awake()
 		{
 			base.Awake();
