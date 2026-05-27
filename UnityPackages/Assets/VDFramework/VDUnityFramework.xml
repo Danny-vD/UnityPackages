@@ -109,6 +109,11 @@
             If true, <see cref="M:VDFramework.SafeEnableBehaviour.OnEnabled"/> will be invoked immediately after <see cref="M:VDFramework.SafeEnableBehaviour.Start"/> (instead of waiting until the object is enabled again)
             </summary>
         </member>
+        <member name="M:VDFramework.SafeEnableBehaviour.OnEnable">
+            <summary>
+            This function is called when the object becomes enabled and active
+            </summary>
+        </member>
         <member name="M:VDFramework.SafeEnableBehaviour.OnEnabled">
             <summary>
             This function is called when the object becomes enabled and active, but never before <see cref="M:VDFramework.SafeEnableBehaviour.Start"/>
@@ -323,7 +328,7 @@
         <member name="M:VDFramework.Logger.LogManager.Log(VDFramework.Logger.Enums.LogLevel,System.Object,System.Object)">
             <summary>
             Logs data respective to the LogLevel<br/>
-            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> dot not meet the <paramref name="logLevel"/> then nothing will be logged<br/>
+            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> does not meet the <paramref name="logLevel"/> then nothing will be logged<br/>
             To send the exception with <see cref="F:VDFramework.Logger.Enums.LogLevel.Exception">LogLevel.Exception</see> use <see cref="M:VDFramework.Logger.LogManager.LogException(System.Exception,System.Object,System.Object)"/> instead
             </summary>
             <param name="logLevel">The level of this log</param>
@@ -333,7 +338,7 @@
         <member name="M:VDFramework.Logger.LogManager.LogDebug(System.Object,System.Object)">
             <summary>
             Logs a Debug message<br/>
-            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> dot not contain <see cref="F:VDFramework.Logger.Enums.LogLevel.Debug"/> then nothing will be logged
+            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> does not contain <see cref="F:VDFramework.Logger.Enums.LogLevel.Debug"/> then nothing will be logged
             </summary>
             <param name="data">The data to be logged</param>
             <param name="obj">Additional data that can be used by the logger</param>
@@ -341,7 +346,7 @@
         <member name="M:VDFramework.Logger.LogManager.LogInfo(System.Object,System.Object)">
             <summary>
             Logs an Info message<br/>
-            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> dot not contain <see cref="F:VDFramework.Logger.Enums.LogLevel.Info"/> then nothing will be logged
+            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> does not contain <see cref="F:VDFramework.Logger.Enums.LogLevel.Info"/> then nothing will be logged
             </summary>
             <param name="data">The data to be logged</param>
             <param name="obj">Additional data that can be used by the logger</param>
@@ -349,7 +354,7 @@
         <member name="M:VDFramework.Logger.LogManager.LogMessage(System.Object,System.Object)">
             <summary>
             Logs a Message<br/>
-            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> dot not contain <see cref="F:VDFramework.Logger.Enums.LogLevel.Message"/> then nothing will be logged
+            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> does not contain <see cref="F:VDFramework.Logger.Enums.LogLevel.Message"/> then nothing will be logged
             </summary>
             <param name="data">The data to be logged</param>
             <param name="obj">Additional data that can be used by the logger</param>
@@ -357,7 +362,7 @@
         <member name="M:VDFramework.Logger.LogManager.LogWarning(System.Object,System.Object)">
             <summary>
             Logs a Warning<br/>
-            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> dot not contain <see cref="F:VDFramework.Logger.Enums.LogLevel.Warning"/> then nothing will be logged
+            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> does not contain <see cref="F:VDFramework.Logger.Enums.LogLevel.Warning"/> then nothing will be logged
             </summary>
             <param name="data">The data to be logged</param>
             <param name="obj">Additional data that can be used by the logger</param>
@@ -365,7 +370,7 @@
         <member name="M:VDFramework.Logger.LogManager.LogError(System.Object,System.Object)">
             <summary>
             Logs an Error<br/>
-            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> dot not contain <see cref="F:VDFramework.Logger.Enums.LogLevel.Error"/> then nothing will be logged
+            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> does not contain <see cref="F:VDFramework.Logger.Enums.LogLevel.Error"/> then nothing will be logged
             </summary>
             <param name="data">The data to be logged</param>
             <param name="obj">Additional data that can be used by the logger</param>
@@ -373,7 +378,7 @@
         <member name="M:VDFramework.Logger.LogManager.LogException(System.Exception,System.Object,System.Object)">
             <summary>
             Logs an Exception<br/>
-            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> dot not contain <see cref="F:VDFramework.Logger.Enums.LogLevel.Debug"/> then nothing will be logged
+            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> does not contain <see cref="F:VDFramework.Logger.Enums.LogLevel.Exception"/> then nothing will be logged
             </summary>
             <param name="exception">The exception that needs to be logged</param>
             <param name="data">The data to be logged</param>
@@ -382,7 +387,7 @@
         <member name="M:VDFramework.Logger.LogManager.LogFatal(System.Object,System.Object)">
             <summary>
             Logs a fatal error<br/>
-            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> dot not contain <see cref="F:VDFramework.Logger.Enums.LogLevel.Debug"/> then nothing will be logged
+            If the <see cref="F:VDFramework.Logger.LogManager.LogLevel"/> does not contain <see cref="F:VDFramework.Logger.Enums.LogLevel.Fatal"/> then nothing will be logged
             </summary>
             <param name="data">The data to be logged</param>
             <param name="obj">Additional data that can be used by the logger</param>
@@ -686,9 +691,11 @@
         </member>
         <member name="T:VDFramework.RandomWrapper.RandomDelegator">
             <summary>
-            Provides an implementation of <see cref="T:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator"/> that delegates all implementation to an underlying field.<br/>
-            The idea is that you can reuse a single instance but still change the implementation of the random
+            Provides an implementation of <see cref="T:VDFramework.RandomWrapper.Interface.IRandomNumberGenerator"/> that delegates all implementation to an underlying field
             </summary>
+            <remarks>
+            The idea is that you can reuse a single instance but still change the implementation of the random
+            </remarks>
         </member>
         <member name="F:VDFramework.RandomWrapper.RandomDelegator.RandomNumberGenerator">
             <summary>
@@ -2528,7 +2535,7 @@
             <para>It can also be safely ignored if not needed</para></returns>
             <seealso cref="M:System.Delegate.DynamicInvoke(System.Object[])"/>
         </member>
-        <member name="M:VDFramework.Timer.TimerManager.StartNewTimer(VDFramework.Timer.TimerHandles.AbstractTimerHandle)">
+        <member name="M:VDFramework.Timer.TimerManager.StartTimer(VDFramework.Timer.TimerHandles.AbstractTimerHandle)">
             <summary>
             Start a timer on the given TimerHandle and resets the timer (only resets it is already ticking)
             </summary>
@@ -3738,7 +3745,7 @@
             Provides helper functions to do vector math
             </summary>
         </member>
-        <member name="M:VDFramework.Utility.MathUtility.VectorMath.VectorProjectionUtil.ProjectPointOntoLine(UnityEngine.Vector3,UnityEngine.Vector3,UnityEngine.Vector3,System.Boolean)">
+        <member name="M:VDFramework.Utility.MathUtility.VectorMath.VectorProjectionUtil.ProjectPointOntoLine(UnityEngine.Vector3,UnityEngine.Vector3,UnityEngine.Vector3,System.Boolean,System.Single@)">
             <summary>
             Projects a point onto a line and returns the projected point, optionally clamps the returned point to the line
             </summary>
@@ -3746,9 +3753,10 @@
             <param name="line">The line to project to</param>
             <param name="point">The point to project onto the line</param>
             <param name="ensureReturnedPointIsOnLine">Should the projected point be clamped between the end points of the line?</param>
+            <param name="normalizedValueFromStart">A value that signifies how far away from the start the returned point is, normalized to the length of the line</param>
             <returns>A point on the line closest to the given point</returns>
         </member>
-        <member name="M:VDFramework.Utility.MathUtility.VectorMath.VectorProjectionUtil.ProjectPointOntoLineBetweenPoints(UnityEngine.Vector3,UnityEngine.Vector3,UnityEngine.Vector3,System.Boolean)">
+        <member name="M:VDFramework.Utility.MathUtility.VectorMath.VectorProjectionUtil.ProjectPointOntoLineBetweenPoints(UnityEngine.Vector3,UnityEngine.Vector3,UnityEngine.Vector3,System.Boolean,System.Single@)">
             <summary>
             Projects a point onto a line and returns the projected point, optionally clamps the returned point to the line
             </summary>
@@ -3756,6 +3764,7 @@
             <param name="lineEnd">The end point of the line</param>
             <param name="point">The point to project onto the line</param>
             <param name="ensureReturnedPointIsOnLine">Should the projected point be clamped between the end points of the line?</param>
+            <param name="normalizedValueFromStart">A value that signifies how far away from the start the returned point is, normalized to the length of the line</param>
             <returns>A point on the line closest to the given point</returns>
             <returns></returns>
         </member>
@@ -4036,6 +4045,25 @@
             Rounds the given value to the nearest int
             </summary>
         </member>
+        <member name="T:VDFramework.Utility.DataTypes.ValueRangeCreator">
+            <summary>
+            A helper class to easily create a list of values in a range
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.ValueRangeCreator.CreateList(System.Int32)">
+            <summary>
+            Creates a list of values in the range of &lt;<paramref name="fromZeroExclusive"/>, 0] or [0, <paramref name="fromZeroExclusive"/>&gt;
+            </summary>
+            <param name="fromZeroExclusive">A non-zero number that defines the range, this can be either negative or positive</param>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.ValueRangeCreator.CreateList(System.Int32,System.Int32)">
+            <summary>
+            Creates a list of values in the range of [<paramref name="minInclusive"/>, <paramref name="maxExclusive"/>&gt;
+            </summary>
+            <param name="minInclusive">The lower bound of the range, the value itself will be inside the range</param>
+            <param name="maxExclusive">The upper bound of the range, the value itself will fall outside of the range</param>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="minInclusive"/> cannot be higher than <paramref name="maxExclusive"/></exception>
+        </member>
         <member name="T:VDFramework.Utility.DataTypes.StringUtil">
             <summary>
             Contains utility functions for the built-in <see cref="T:System.String"/> type
@@ -4049,6 +4077,12 @@
             <param name="addCharToEnd">In case the string is too short, add character to get the desired length</param>
             <param name="countAs1Char">A collection of substrings that will only count as 1 char for the purposes of returning the desired length</param>
             <param name="string">The string whose length to enforce</param>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.StringUtil.HasVisibleCharacters(System.String)">
+            <summary>
+            Tests if the string is not null and has any visible characters (non-format and non-whitespace)
+            </summary>
+            <returns><see langword="false"/> if the string is null or only contains whitespace and/or format characters</returns>
         </member>
         <member name="F:VDFramework.Utility.DataTypes.StringUtil.escapeCharacter">
             <summary>
@@ -4195,6 +4229,25 @@
             This function fixes that discrepancy
             </summary>
         </member>
+        <member name="T:VDFramework.Utility.DataTypes.StringVariableWriter">
+            <summary>
+            A simple class that provides an easy way to write variables to a string using <see cref="M:System.String.Format(System.String,System.Object[])"/>
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.StringVariableWriter.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="stringToModify">
+            <para>The string that this instance needs to write variables into</para>
+            <para>The string itself will not be modified, only a copy is used</para>
+            </param>
+        </member>
+        <member name="M:VDFramework.Utility.DataTypes.StringVariableWriter.UpdateText(System.Object[])">
+            <summary>
+            Uses <see cref="M:System.String.Format(System.String,System.Object[])"/> to replace placeholders in the string by variables and returns a copy of the new string
+            </summary>
+        </member>
         <member name="M:VDFramework.Utility.EnumDictionaryUtil.PopulateEnumDictionary``3(System.Collections.Generic.List{``0})">
             <summary>
             Will add a KeyValuePair for every enumValue to the list
@@ -4214,25 +4267,78 @@
             <typeparam name="TEnum">The enum to check against</typeparam>
             <returns><see langword="true"/> or <see langword="false"/></returns>
         </member>
-        <member name="T:VDFramework.Utility.RandomUtil">
+        <member name="T:VDFramework.Utility.RandomUtility.RandomRangeHelper">
+            <summary>
+            A helper class to return a random integer in a given range while ignoring the last value that was returned
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.RandomUtility.RandomRangeHelper.#ctor(System.Int32)">
+            <summary>
+            Use values in the range of &lt;<paramref name="fromZeroExclusive"/>, 0] or [0, <paramref name="fromZeroExclusive"/>&gt;
+            </summary>
+            <param name="fromZeroExclusive">A non-zero number that defines the range, this can be either negative or positive</param>
+        </member>
+        <member name="M:VDFramework.Utility.RandomUtility.RandomRangeHelper.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Use values in the range of [<paramref name="minInclusive"/>, <paramref name="maxExclusive"/>&gt;
+            </summary>
+            <param name="minInclusive">The lower bound of the range, the value itself will be inside the range</param>
+            <param name="maxExclusive">The upper bound of the range, the value itself will fall outside of the range</param>
+        </member>
+        <member name="M:VDFramework.Utility.RandomUtility.RandomRangeHelper.SetRange(System.Int32)">
+            <summary>
+            Use values in the range of &lt;<paramref name="fromZeroExclusive"/>, 0] or [0, <paramref name="fromZeroExclusive"/>&gt;
+            </summary>
+            <param name="fromZeroExclusive">A non-zero number that defines the range, this can be either negative or positive</param>
+        </member>
+        <member name="M:VDFramework.Utility.RandomUtility.RandomRangeHelper.SetRange(System.Int32,System.Int32)">
+            <summary>
+            Use values in the range of [<paramref name="minInclusive"/>, <paramref name="maxExclusive"/>&gt;
+            </summary>
+            <param name="minInclusive">The lower bound of the range, the value itself will be inside the range</param>
+            <param name="maxExclusive">The upper bound of the range, the value itself will fall outside of the range</param>
+        </member>
+        <member name="M:VDFramework.Utility.RandomUtility.RandomRangeHelper.GetRandomValueIgnorePrevious">
+            <summary>
+            Returns a random value in the given range, but not the value that was returned the last time this class returned a value
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.RandomUtility.RandomRangeHelper.GetRandomValue">
+            <summary>
+            Returns a random value in the given range
+            </summary>
+        </member>
+        <member name="M:VDFramework.Utility.RandomUtility.RandomRangeHelper.GetRandomValueIgnorePrevious(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator)">
+            <summary>
+            Returns a random value in the given range, but not the value that was returned the last time this class returned a value
+            </summary>
+            <param name="rng">The random number generator to use</param>
+        </member>
+        <member name="M:VDFramework.Utility.RandomUtility.RandomRangeHelper.GetRandomValue(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator)">
+            <summary>
+            Returns a random value in the given range
+            </summary>
+            <param name="rng">The random number generator to use</param>
+        </member>
+        <member name="T:VDFramework.Utility.RandomUtility.RandomUtil">
             <summary>
             Utility methods to randomly get an item from a given set of objects
             </summary>
         </member>
-        <member name="M:VDFramework.Utility.RandomUtil.RandomBool(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator)">
+        <member name="M:VDFramework.Utility.RandomUtility.RandomUtil.RandomBool(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator)">
             <summary>
             Returns a random bool value
             </summary>
             <param name="rng">The random number generator to use</param>
             <returns>TRUE or FALSE</returns>
         </member>
-        <member name="M:VDFramework.Utility.RandomUtil.RandomBool">
+        <member name="M:VDFramework.Utility.RandomUtility.RandomUtil.RandomBool">
             <summary>
             Returns a random bool value (using <see cref="T:System.Random">System.Random</see>)
             </summary>
             <returns>TRUE or FALSE</returns>
         </member>
-        <member name="M:VDFramework.Utility.RandomUtil.GetRandom(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator,System.Object[])">
+        <member name="M:VDFramework.Utility.RandomUtility.RandomUtil.GetRandom(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator,System.Object[])">
             <summary>
             Returns randomly from the parameters given
             </summary>
@@ -4240,18 +4346,18 @@
             <param name="array">The collection to randomly select an object from</param>
             <returns>Any of the given objects, randomly selected</returns>
         </member>
-        <member name="M:VDFramework.Utility.RandomUtil.GetRandom``1(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator,``0[])">
-            <inheritdoc cref="M:VDFramework.Utility.RandomUtil.GetRandom(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator,System.Object[])"/>
+        <member name="M:VDFramework.Utility.RandomUtility.RandomUtil.GetRandom``1(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator,``0[])">
+            <inheritdoc cref="M:VDFramework.Utility.RandomUtility.RandomUtil.GetRandom(VDFramework.RandomWrapper.Interface.IRandomNumberGenerator,System.Object[])"/>
         </member>
-        <member name="M:VDFramework.Utility.RandomUtil.GetRandom(System.Object[])">
+        <member name="M:VDFramework.Utility.RandomUtility.RandomUtil.GetRandom(System.Object[])">
             <summary>
             Returns randomly from the parameters given (using <see cref="T:System.Random">System.Random</see>)
             </summary>
             <param name="array">The collection to randomly select an object from</param>
             <returns>Any of the given objects, randomly selected</returns>
         </member>
-        <member name="M:VDFramework.Utility.RandomUtil.GetRandom``1(``0[])">
-            <inheritdoc cref="M:VDFramework.Utility.RandomUtil.GetRandom(System.Object[])"/>
+        <member name="M:VDFramework.Utility.RandomUtility.RandomUtil.GetRandom``1(``0[])">
+            <inheritdoc cref="M:VDFramework.Utility.RandomUtility.RandomUtil.GetRandom(System.Object[])"/>
         </member>
         <member name="T:VDFramework.Utility.Unsafe.UnsafeUtil">
             <summary>
@@ -4745,6 +4851,16 @@
             Create a new point with the same coordinates as the given point
             </summary>
         </member>
+        <member name="T:VDFramework.DynamicInstantiation.ConstructorCreator">
+            <summary>
+            A helper class to get the constructor (optionally with parameters) of a type dynamically
+            </summary>
+        </member>
+        <member name="M:VDFramework.DynamicInstantiation.ConstructorCreator.GetConstructor``1(System.Type,System.Type[])">
+            <summary>
+            Returns the constructor with the given parameters if one exists for the given type, otherwise <see langword="default"/>
+            </summary>
+        </member>
         <member name="T:VDFramework.EventSystem.EventHandler`1">
             <summary>
             Wrapper class for a <see cref="T:VDFramework.ObserverPattern.CallbackHandler"/> that uses a callback that takes an eventInstance as parameter
@@ -4817,6 +4933,46 @@
             <summary>
             The exception that is thrown once you create a 2nd instance of a singleton
             </summary>
+        </member>
+        <member name="T:VDFramework.Extensions.DictionaryExtension">
+            <summary>
+            Contains Extension methods for Dictionaries
+            </summary>
+        </member>
+        <member name="M:VDFramework.Extensions.DictionaryExtension.GetOrAddNewValue``2(System.Collections.Generic.IDictionary{``0,``1},``0)">
+            <summary>
+            <para>Get the value of the KeyValuePair with key <paramref name="key"/></para>
+            <para>Or add a new <typeparamref name="TValue"/> to the dictionary with that key and return it</para>
+            </summary>
+            <param name="dictionary">The dictionary to get the value from</param>
+            <param name="key">The key of the KeyValuePair to get the value from</param>
+            <typeparam name="TKey">The type of the Key in the dictionary</typeparam>
+            <typeparam name="TValue">The type of the Value in the dictionary</typeparam>
+            <returns>The value of the KeyValuePair at <paramref name="key"/> or a new <typeparamref name="TValue"/></returns>
+        </member>
+        <member name="M:VDFramework.Extensions.DictionaryExtension.GetOrAddNewValue``2(System.Collections.Generic.Dictionary{``0,``1},``0,System.Func{``1})">
+            <summary>
+            <para>Get the value of the KeyValuePair with key <paramref name="key"/></para>
+            <para>Or add a new <typeparamref name="TValue"/> to the dictionary with that key and return it</para>
+            </summary>
+            <param name="dictionary">The dictionary to get the value from</param>
+            <param name="key">The key of the KeyValuePair to get the value from</param>
+            <param name="factoryFunction">A function to create a new <typeparamref name="TValue"/> (only invoked if <paramref name="key"/> is not present in the dictionary)</param>
+            <typeparam name="TKey">The type of the Key in the dictionary</typeparam>
+            <typeparam name="TValue">The type of the Value in the dictionary</typeparam>
+            <returns>The value of the KeyValuePair at <paramref name="key"/> or a new <typeparamref name="TValue"/></returns>
+        </member>
+        <member name="M:VDFramework.Extensions.DictionaryExtension.GetOrAddNewValue``2(System.Collections.Generic.IDictionary{``0,``1},``0,``1)">
+            <summary>
+            <para>Get the value of the KeyValuePair with key <paramref name="key"/></para>
+            <para>Or add a new <typeparamref name="TValue"/> to the dictionary with that key and return it</para>
+            </summary>
+            <param name="dictionary">The dictionary to get the value from</param>
+            <param name="key">The key of the KeyValuePair to get the value from</param>
+            <param name="defaultValue">The value of the new KeyValuePair that is created when <paramref name="key"/> is not present</param>
+            <typeparam name="TKey">The type of the Key in the dictionary</typeparam>
+            <typeparam name="TValue">The type of the Value in the dictionary</typeparam>
+            <returns>The value of the KeyValuePair at <paramref name="key"/> or a new <typeparamref name="TValue"/></returns>
         </member>
         <member name="T:VDFramework.Extensions.EnumerableExtensions">
             <summary>
@@ -5001,6 +5157,7 @@
             <param name="rng">The random number generator to use</param>
             <param name="randomIndex">the index of the element returned</param>
             <param name="ignoreIndices">[OPTIONAL] the indices of elements that cannot be returned by this function</param>
+            <remarks>If the ignored indices would ignore all elements, then none will be ignored and a random element will be returned</remarks>
         </member>
         <member name="M:VDFramework.Extensions.RandomElement.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0},VDFramework.RandomWrapper.Interface.IRandomNumberGenerator,System.Int32[])">
             <summary>

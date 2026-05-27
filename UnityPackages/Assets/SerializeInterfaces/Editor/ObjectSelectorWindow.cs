@@ -224,7 +224,7 @@ namespace AYellowpaper.Editor
 			_filteredItems.Add(_nullItem);
 			_filteredItems.AddRange(_allItems.Where(item => string.IsNullOrEmpty(SearchText) || item.Label.IndexOf(SearchText, StringComparison.InvariantCultureIgnoreCase) >= 0));
 
-			_listView?.Refresh();
+			_listView?.Rebuild();
 		}
 
 		private void BindItem(VisualElement listItem, int index)
