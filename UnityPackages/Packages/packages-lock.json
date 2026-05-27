@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.discord.partnersdk": {
+      "version": "file:com.discord.partnersdk",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.eflatun.scenereference": {
       "version": "https://github.com/starikcetin/Eflatun.SceneReference.git#upm",
       "depth": 0,

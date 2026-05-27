@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FMODUnity;
+using VDPackages;
+using VDPackages.FMODUtilityPackage.Constants;
+using VDPackages.FMODUtilityPackage.Enums;
+using VDPackages.FMODUtilityPackage.Utility;
+using VDPackagesEditor.UtilityPackage;
+
+namespace VDPackagesEditor.FMODUtilityPackage
+{
+	/// <summary>
+	/// Used to write all the event paths to a file in the resources folder to be able to retrieve the eventpaths without having to put an instantiated AudioManager in the scene
+	/// </summary>
+	public static class AudioEventEnumWriter
+	{
+		private const string documentationTag = "FMODEventPath";
+		
+		public static void WriteFmodEventsToEnum()
+		{
+			List<EditorEventRef> editorEventRefs = EventManager.Events;
+			string[] eventNames = editorEventRefs.Select(eventref => eventref.Path).ToArray();
+
+			string[] pathNames = new string[eventNames.Length];
+			Array.Copy(eventNames, pathNames, eventNames.Length);
+
+			WriteToResourcesUtil.WriteToResources(pathNames, ResourcesPathConstants.FILE_NAME_FULL, ResourcesPathConstants.SUB_FOLDER);
+
+			eventNames = EventPathToEnumValueUtil.ConvertEventPathToEnumValuesString(eventNames);
+			
+			EnumWriter.WriteEnumValuesAutomaticPath<AudioEvent>(VDPackagesConstants.PACKAGES_PATH, eventNames, pathNames, documentationTag);
+		}
+	}
+}
