@@ -1,5 +1,5 @@
+using EditorAttributes;
 using UnityEngine;
-using UtilityPackage.Attributes;
 using VDFramework;
 
 namespace UtilityPackage.Utility.PhysicsUtil
@@ -29,7 +29,7 @@ namespace UtilityPackage.Utility.PhysicsUtil
 		{
 			if (rigidbdy) // Only calculate speed if no Rigidbody present
 			{
-				speed = rigidbdy.velocity.magnitude;
+				speed = rigidbdy.linearVelocity.magnitude;
 				return;
 			}
 			

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.Build;
 
 #if (UNITY_VISUALSCRIPTING_EXIST)
 using Unity.VisualScripting;
@@ -51,11 +52,12 @@ namespace FMODUnity
         {
             BuildTarget target = EditorUserBuildSettings.activeBuildTarget;
             BuildTargetGroup group = BuildPipeline.GetBuildTargetGroup(target);
+            NamedBuildTarget namedBuildTarget = NamedBuildTarget.FromBuildTargetGroup(group);
+            string previousSymbols = PlayerSettings.GetScriptingDefineSymbols(namedBuildTarget);
 
-            string previousSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(group);
             if (!previousSymbols.Contains("UNITY_BOLT_EXIST"))
             {
-                PlayerSettings.SetScriptingDefineSymbolsForGroup(group, previousSymbols + ";UNITY_BOLT_EXIST");
+                PlayerSettings.SetScriptingDefineSymbols(namedBuildTarget, previousSymbols + ";UNITY_BOLT_EXIST");
             }
             Settings.Instance.BoltUnitOptionsBuildPending = true;
             AssetDatabase.Refresh();

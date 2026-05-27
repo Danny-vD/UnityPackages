@@ -69,7 +69,7 @@ namespace ConsolePackage.Console
 
 		private void Reset()
 		{
-			if (FindObjectOfType<EventSystem>() == null)
+			if (FindAnyObjectByType<EventSystem>() == null)
 			{
 				new GameObject(nameof(EventSystem)).AddComponent<EventSystem>();
 			}

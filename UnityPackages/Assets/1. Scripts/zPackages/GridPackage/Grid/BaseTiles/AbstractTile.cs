@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using EditorAttributes;
 using GridPackage.Enums.Grid;
 using GridPackage.Structs;
 using UnityEngine;
-using UtilityPackage.Attributes;
 using VDFramework;
 
 namespace GridPackage.Grid.BaseTiles

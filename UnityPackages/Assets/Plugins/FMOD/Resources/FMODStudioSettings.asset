@@ -25,6 +25,12 @@ MonoBehaviour:
     Overlay:
       Value: 0
       HasValue: 0
+    OverlayPosition:
+      Value: 0
+      HasValue: 0
+    OverlayFontSize:
+      Value: 0
+      HasValue: 0
     Logging:
       Value: 0
       HasValue: 0
@@ -90,6 +96,12 @@ MonoBehaviour:
       Value: 0
       HasValue: 0
     Overlay:
+      Value: 0
+      HasValue: 0
+    OverlayPosition:
+      Value: 0
+      HasValue: 0
+    OverlayFontSize:
       Value: 0
       HasValue: 0
     Logging:
@@ -159,6 +171,12 @@ MonoBehaviour:
     Overlay:
       Value: 0
       HasValue: 0
+    OverlayPosition:
+      Value: 0
+      HasValue: 0
+    OverlayFontSize:
+      Value: 0
+      HasValue: 0
     Logging:
       Value: 0
       HasValue: 0
@@ -224,6 +242,12 @@ MonoBehaviour:
       Value: 0
       HasValue: 0
     Overlay:
+      Value: 0
+      HasValue: 0
+    OverlayPosition:
+      Value: 0
+      HasValue: 0
+    OverlayFontSize:
       Value: 0
       HasValue: 0
     Logging:
@@ -293,6 +317,12 @@ MonoBehaviour:
     Overlay:
       Value: 0
       HasValue: 0
+    OverlayPosition:
+      Value: 0
+      HasValue: 0
+    OverlayFontSize:
+      Value: 0
+      HasValue: 0
     Logging:
       Value: 0
       HasValue: 0
@@ -360,6 +390,12 @@ MonoBehaviour:
     Overlay:
       Value: 1
       HasValue: 1
+    OverlayPosition:
+      Value: 0
+      HasValue: 0
+    OverlayFontSize:
+      Value: 0
+      HasValue: 0
     Logging:
       Value: 0
       HasValue: 0
@@ -430,6 +466,7 @@ MonoBehaviour:
   TargetAssetPath: FMODBanks
   TargetBankFolder: 
   EventLinkage: 1
+  SerializeGUIDsOnly: 0
   LoggingLevel: 2
   SpeakerModeSettings: []
   SampleRateSettings: []
@@ -439,12 +476,8 @@ MonoBehaviour:
   VirtualChannelSettings: []
   RealChannelSettings: []
   Plugins: []
-  MasterBanks:
-  - Master
-  Banks:
-  - Ambient
-  - Music
-  - SFX
+  MasterBanks: []
+  Banks: []
   BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0
@@ -456,8 +489,8 @@ MonoBehaviour:
   EnableErrorCallback: 0
   SharedLibraryUpdateStage: 0
   SharedLibraryTimeSinceStart: 0
-  CurrentVersion: 131603
-  HideSetupWizard: 1
+  CurrentVersion: 131859
+  HideSetupWizard: 0
   LastEventReferenceScanVersion: 131603
   Platforms:
   - {fileID: -5753246870767584709}
@@ -495,6 +528,12 @@ MonoBehaviour:
       Value: 0
       HasValue: 0
     Overlay:
+      Value: 0
+      HasValue: 0
+    OverlayPosition:
+      Value: 0
+      HasValue: 0
+    OverlayFontSize:
       Value: 0
       HasValue: 0
     Logging:
@@ -562,6 +601,12 @@ MonoBehaviour:
       Value: 9264
       HasValue: 1
     Overlay:
+      Value: 0
+      HasValue: 0
+    OverlayPosition:
+      Value: 0
+      HasValue: 0
+    OverlayFontSize:
       Value: 0
       HasValue: 0
     Logging:
@@ -640,6 +685,12 @@ MonoBehaviour:
     Overlay:
       Value: 0
       HasValue: 0
+    OverlayPosition:
+      Value: 0
+      HasValue: 0
+    OverlayFontSize:
+      Value: 0
+      HasValue: 0
     Logging:
       Value: 0
       HasValue: 0
@@ -707,6 +758,12 @@ MonoBehaviour:
     Overlay:
       Value: 0
       HasValue: 0
+    OverlayPosition:
+      Value: 0
+      HasValue: 0
+    OverlayFontSize:
+      Value: 0
+      HasValue: 0
     Logging:
       Value: 0
       HasValue: 0
@@ -772,6 +829,12 @@ MonoBehaviour:
       Value: 0
       HasValue: 0
     Overlay:
+      Value: 0
+      HasValue: 0
+    OverlayPosition:
+      Value: 0
+      HasValue: 0
+    OverlayFontSize:
       Value: 0
       HasValue: 0
     Logging:

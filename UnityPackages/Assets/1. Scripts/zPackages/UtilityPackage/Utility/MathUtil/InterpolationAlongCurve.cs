@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
+using EditorAttributes;
 using UnityEngine;
-using UtilityPackage.Attributes;
 using VDFramework.Extensions;
 
 namespace UtilityPackage.Utility.MathUtil

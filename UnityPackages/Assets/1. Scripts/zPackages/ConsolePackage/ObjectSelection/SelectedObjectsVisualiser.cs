@@ -20,12 +20,13 @@ namespace ConsolePackage.ObjectSelection
 			foreach (GameObject @object in objects)
 			{
 				GameObject item = Instantiate(prefab, CachedTransform);
-				item.GetComponentInChildren<Text>().text = $"{count}: {@object.name} [{@object.GetInstanceID()}]";
+				item.GetComponentInChildren<Text>().text = $"{count}: {@object.name} [{@object.GetEntityId()}]";
 
 				Button button = item.GetComponentInChildren<Button>();
 				button.onClick.AddListener(RemoveObject);
 
 				++count;
+				continue;
 
 				void RemoveObject()
 				{
