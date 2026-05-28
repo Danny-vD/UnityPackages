@@ -8,7 +8,7 @@ using Void = EditorAttributes.Void;
 
 namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 {
-	public abstract class AbstractUpdateActivity : BetterMonoBehaviour
+	public class UpdateActivityComponent : BetterMonoBehaviour
 	{
 		[Header("Details")]
 		[SerializeField, HelpBox("Main activity description (e.g., “Playing Capture the Flag”)", MessageMode.None)]
@@ -64,7 +64,7 @@ namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 		[HideProperty, SerializeField, Prefix("Optional")]
 		private string smallImageURL = "";
 		
-		protected void UpdatePresence()
+		public void UpdatePresence()
 		{
 			if (!DiscordManager.IsDiscordConnected)
 			{
