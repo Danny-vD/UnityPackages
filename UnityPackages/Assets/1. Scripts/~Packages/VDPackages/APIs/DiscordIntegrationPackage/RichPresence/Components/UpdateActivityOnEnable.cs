@@ -1,4 +1,6 @@
-﻿namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
+﻿using Discord.Sdk;
+
+namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 {
 	public sealed class UpdateActivityOnEnable : AbstractUpdateActivity 
 	{
@@ -19,10 +21,10 @@
 			DiscordManager.OnDiscordConnected -= UpdatePresence;
 		}
 		
-		private void UpdatePresence(Discord.Discord discord)
+		private void UpdatePresence(Client client)
 		{
-			UpdatePresence();
 			DiscordManager.OnDiscordConnected -= UpdatePresence;
+			UpdatePresence();
 		}
 	}
 }

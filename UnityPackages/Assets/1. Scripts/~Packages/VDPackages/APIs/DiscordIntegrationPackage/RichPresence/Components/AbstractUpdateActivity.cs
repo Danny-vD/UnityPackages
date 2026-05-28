@@ -1,44 +1,68 @@
-﻿using System;
-using Discord;
+﻿using Discord.Sdk;
+using EditorAttributes;
 using UnityEngine;
 using VDFramework;
+using VDPackages.APIs.DiscordIntegrationPackage.Factories;
 using VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Enums;
-using VDPackages.APIs.DiscordIntegrationPackage.Structs;
+using Void = EditorAttributes.Void;
 
 namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 {
 	public abstract class AbstractUpdateActivity : BetterMonoBehaviour
 	{
 		[Header("Details")]
-		[SerializeField]
+		[SerializeField, HelpBox("Main activity description (e.g., “Playing Capture the Flag”)", MessageMode.None)]
 		private bool showDetails;
 
-		[SerializeField]
+		[SerializeField, ShowField(nameof(showDetails))]
 		private string details;
 
-		[Header("Status")]
-		[SerializeField]
+		[Header("State")]
+		[SerializeField, HelpBox("Secondary status (e.g., “In Queue”, “In Match, “In a group”)", MessageMode.None)]
 		private bool showState;
 
-		[SerializeField]
+		[SerializeField, ShowField(nameof(showState))]
 		private string state;
 
 		[Header("Timer")]
 		[SerializeField]
 		private TimerShown timerShown;
 
+		[ShowField(nameof(ShowingTimeRemaining))]
 		[SerializeField]
-		private long secondsRemaining;
+		private ulong secondsRemaining;
 
 		[Header("Images")]
 		[SerializeField]
 		private ImageShown imageShown;
-
-		[SerializeField]
-		private DiscordImage largeImage;
 		
-		[SerializeField]
+		[ShowField(nameof(ShowingSmallImage))]
+		[SerializeField, TabGroup(nameof(largeImageGroup), nameof(smallImageGroup))]
+		private Void tabGroup;
+		
+		[ShowField(nameof(ShowingOnlyLargeImage))]
+		[SerializeField, TabGroup(nameof(largeImageGroup))]
+		private Void tabGroupLargeOnly;
+		
+		[HideProperty]
+		[SerializeField, Rename("Large Image"), VerticalGroup(nameof(largeImage), nameof(largeImageURL))]
+		private Void largeImageGroup;
+
+		[HideProperty, SerializeField]
+		private DiscordImage largeImage;
+
+		[HideProperty, SerializeField, Prefix("Optional")]
+		private string largeImageURL = "";
+		
+		[HideInInspector]
+		[SerializeField, Rename("Large Image"), VerticalGroup(nameof(smallImage), nameof(smallImageURL))]
+		private Void smallImageGroup;
+		
+		[HideProperty, SerializeField]
 		private DiscordImage smallImage;
+		
+		[HideProperty, SerializeField, Prefix("Optional")]
+		private string smallImageURL = "";
 		
 		protected void UpdatePresence()
 		{
@@ -51,12 +75,12 @@ namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 
 			if (showDetails)
 			{
-				activity.Details = details;
+				activity.SetDetails(details);
 			}
 
 			if (showState)
 			{
-				activity.State = state;
+				activity.SetState(state);
 			}
 
 			switch (timerShown)
@@ -65,20 +89,14 @@ namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 				case TimerShown.None:
 					break;
 				case TimerShown.TimeElapsed:
-					activity.Timestamps = new ActivityTimestamps
-					{
-						Start = DateTimeOffset.Now.ToUnixTimeSeconds(),
-					};
+
+					ActivityFactory.AddTimeStampsStart(ref activity, 0);
+					
 					break;
 				case TimerShown.TimeRemaining:
-					activity.Timestamps = new ActivityTimestamps
-					{
-						End = DateTimeOffset.Now.ToUnixTimeSeconds() + secondsRemaining,
-					};
+					ActivityFactory.AddTimeStampsEnd(ref activity, secondsRemaining);
 					break;
 			}
-			
-			ImageData largeImageData = default;
 
 			switch (imageShown)
 			{
@@ -86,29 +104,29 @@ namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 				case ImageShown.None:
 					break;
 				case ImageShown.LargeOnly:
-					largeImageData = DiscordImageManager.Instance.GetImageID(largeImage);
-					
-					activity.Assets = new ActivityAssets
-					{
-						LargeImage = largeImageData.ImageID,
-						LargeText  = largeImageData.ImageText,
-					};
+					ActivityFactory.AddActivityAssets(ref activity, largeImage, largeImageURL);
 					break;
 				case ImageShown.LargeAndSmall:
-					largeImageData = DiscordImageManager.Instance.GetImageID(largeImage);
-					ImageData smallImageData = DiscordImageManager.Instance.GetImageID(smallImage);
-					
-					activity.Assets = new ActivityAssets
-					{
-						LargeImage = largeImageData.ImageID,
-						LargeText  = largeImageData.ImageText,
-						SmallImage = smallImageData.ImageID,
-						SmallText  = smallImageData.ImageText,
-					};
+					ActivityFactory.AddActivityAssets(ref activity, largeImage, largeImageURL, smallImage, smallImageURL);
 					break;
 			}
 			
-			DiscordPresenceManager.UpdatePresence(activity);
+			//DiscordPresenceManager.SetActivity(activity);
+		}
+
+		private bool ShowingTimeRemaining()
+		{
+			return timerShown == TimerShown.TimeRemaining;
+		}
+		
+		private bool ShowingOnlyLargeImage()
+		{
+			return imageShown == ImageShown.LargeOnly;
+		}
+		
+		private bool ShowingSmallImage()
+		{
+			return imageShown == ImageShown.LargeAndSmall;
 		}
 	}
 }
