@@ -1,29 +1,31 @@
 ﻿using Discord;
+using Discord.Sdk;
 using VDFramework.Logger;
 
 namespace VDPackages.APIs.DiscordIntegrationPackage
 {
 	public static class DiscordDebugLogger
 	{
-		public static void Initialize(Discord.Discord discord)
+		public static void Initialize(Client client, LoggingSeverity severity)
 		{
-			discord.SetLogHook(LogLevel.Debug, LogToConsole);
+			client.AddLogCallback(LogToConsole, severity);
 		}
 
-		private static void LogToConsole(LogLevel level, string message)
+		private static void LogToConsole(string message, LoggingSeverity severity)
 		{
-			switch (level)
+			switch (severity)
 			{
-				case LogLevel.Error:
+				case LoggingSeverity.Error:
 					LogManager.LogError(message);
 					break;
-				case LogLevel.Warn:
+				case LoggingSeverity.Warning:
 					LogManager.LogWarning(message);
 					break;
-				case LogLevel.Info:
+				case LoggingSeverity.Info:
 					LogManager.LogInfo(message);
 					break;
-				case LogLevel.Debug:
+				case LoggingSeverity.Verbose:
+				case LoggingSeverity.None:
 					LogManager.LogDebug(message);
 					break;
 				default:

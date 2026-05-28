@@ -5,8 +5,10 @@
 	/// </summary>
 	public static class ApplicationData
 	{
-		public const long DISCORD_APPLICATION_ID = 0; // AKA Client ID
+		public const ulong DISCORD_APPLICATION_ID = 1374698555398291496; // AKA Client ID
 
 		public const uint STEAM_APPLICATION_ID = 480; // Default = 480 (Spacewar)
+
+		public static readonly string SteamStartCommand = "steam://rungameid/" + STEAM_APPLICATION_ID;
 	}
 }
