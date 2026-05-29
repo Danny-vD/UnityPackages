@@ -2,8 +2,8 @@
 using EditorAttributes;
 using UnityEngine;
 using VDFramework;
-using VDPackages.APIs.DiscordIntegrationPackage.Factories;
 using VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Enums;
+using VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Utility;
 using Void = EditorAttributes.Void;
 
 namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
@@ -12,29 +12,29 @@ namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 	{
 		[Header("Details")]
 		[SerializeField, HelpBox("Main activity description (e.g., “Playing Capture the Flag”)", MessageMode.None)]
-		private bool showDetails;
+		protected bool showDetails;
 
 		[SerializeField, ShowField(nameof(showDetails))]
-		private string details;
+		protected string details;
 
 		[Header("State")]
 		[SerializeField, HelpBox("Secondary status (e.g., “In Queue”, “In Match, “In a group”)", MessageMode.None)]
-		private bool showState;
+		protected bool showState;
 
 		[SerializeField, ShowField(nameof(showState))]
-		private string state;
+		protected string state;
 
 		[Header("Timer")]
 		[SerializeField]
-		private TimerShown timerShown;
+		protected TimerShown timerShown;
 
 		[ShowField(nameof(ShowingTimeRemaining))]
 		[SerializeField]
-		private ulong secondsRemaining;
+		protected ulong secondsRemaining;
 
 		[Header("Images")]
 		[SerializeField]
-		private ImageShown imageShown;
+		protected ImageShown imageShown;
 		
 		[ShowField(nameof(ShowingSmallImage))]
 		[SerializeField, TabGroup(nameof(largeImageGroup), nameof(smallImageGroup))]
@@ -45,28 +45,47 @@ namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 		private Void tabGroupLargeOnly;
 		
 		[HideProperty]
-		[SerializeField, Rename("Large Image"), VerticalGroup(nameof(largeImage), nameof(largeImageURL))]
+		[SerializeField, VerticalGroup(nameof(largeImage), nameof(largeImageURL))]
 		private Void largeImageGroup;
 
 		[HideProperty, SerializeField]
-		private DiscordImage largeImage;
+		protected DiscordImage largeImage;
 
 		[HideProperty, SerializeField, Prefix("Optional")]
-		private string largeImageURL = "";
+		protected string largeImageURL = "";
 		
 		[HideInInspector]
-		[SerializeField, Rename("Large Image"), VerticalGroup(nameof(smallImage), nameof(smallImageURL))]
+		[SerializeField, VerticalGroup(nameof(smallImage), nameof(smallImageURL))]
 		private Void smallImageGroup;
 		
 		[HideProperty, SerializeField]
-		private DiscordImage smallImage;
+		protected DiscordImage smallImage;
 		
 		[HideProperty, SerializeField, Prefix("Optional")]
-		private string smallImageURL = "";
+		protected string smallImageURL = "";
+
+		[Header("Buttons")]
+		[SerializeField]
+		protected bool addButton;
+
+		[ShowField(nameof(addButton)), SerializeField]
+		protected string button1Label = "";
+		[ShowField(nameof(addButton)), SerializeField]
+		protected string button1URL = "";
+
+		[Space]
+		[ShowField(nameof(addButton)), SerializeField]
+		protected bool addAnotherButton;
 		
-		public void UpdatePresence()
+		[ShowField(nameof(addAnotherButton)), SerializeField]
+		protected string button2Label = "";
+		[ShowField(nameof(addAnotherButton)), SerializeField]
+		protected string button2URL = "";
+		
+		
+		public virtual void UpdatePresence()
 		{
-			if (!DiscordManager.IsDiscordConnected)
+			if (!DiscordManager.CanSetActivity)
 			{
 				return;
 			}
@@ -75,12 +94,12 @@ namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 
 			if (showDetails)
 			{
-				activity.SetDetails(details);
+				activity.SetDetails(GetDetailsString());
 			}
 
 			if (showState)
 			{
-				activity.SetState(state);
+				activity.SetState(GetStateString());
 			}
 
 			switch (timerShown)
@@ -90,11 +109,11 @@ namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 					break;
 				case TimerShown.TimeElapsed:
 
-					ActivityFactory.AddTimeStampsStart(ref activity, 0);
+					ActivityUtility.AddTimeStampsStart(ref activity, GetStartTime());
 					
 					break;
 				case TimerShown.TimeRemaining:
-					ActivityFactory.AddTimeStampsEnd(ref activity, secondsRemaining);
+					ActivityUtility.AddTimeStampsEnd(ref activity, GetTimeRemaining());
 					break;
 			}
 
@@ -104,16 +123,86 @@ namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 				case ImageShown.None:
 					break;
 				case ImageShown.LargeOnly:
-					ActivityFactory.AddActivityAssets(ref activity, largeImage, largeImageURL);
+					ActivityUtility.AddActivityAssets(ref activity, GetLargeImage(), GetLargeImageURL());
 					break;
 				case ImageShown.LargeAndSmall:
-					ActivityFactory.AddActivityAssets(ref activity, largeImage, largeImageURL, smallImage, smallImageURL);
+					ActivityUtility.AddActivityAssets(ref activity, GetLargeImage(), GetLargeImageURL(), GetSmallImage(), GetSmallImageURL());
 					break;
 			}
+
+			if (addButton)
+			{
+				ActivityUtility.AddButton(ref activity, button1Label, button1URL);
+
+				if (addAnotherButton) // Rich presence supports up to 2 buttons
+				{
+					ActivityUtility.AddButton(ref activity, button2Label, button2URL);
+				}
+			}
 			
-			//DiscordPresenceManager.SetActivity(activity);
+			DiscordActivityManager.SetActivity(activity);
 		}
 
+		//\\//\\//\\//
+		// DETAILS
+		//\\//\\//\\//
+		
+		protected virtual string GetDetailsString()
+		{
+			return details;
+		}
+		
+		//\\//\\//\\//
+		// STATE
+		//\\//\\//\\//
+		
+		protected virtual string GetStateString()
+		{
+			return state;
+		}
+		
+		//\\//\\//\\//
+		// TIMER
+		//\\//\\//\\//
+		
+		protected virtual ulong GetStartTime()
+		{
+			return 0;
+		}
+		
+		protected virtual ulong GetTimeRemaining()
+		{
+			return secondsRemaining;
+		}
+
+		//\\//\\//\\//
+		// IMAGES
+		//\\//\\//\\//
+		
+		protected virtual DiscordImage GetLargeImage()
+		{
+			return largeImage;
+		}
+		
+		protected virtual string GetLargeImageURL()
+		{
+			return largeImageURL;
+		}
+
+		protected virtual DiscordImage GetSmallImage()
+		{
+			return smallImage;
+		}
+		
+		protected virtual string GetSmallImageURL()
+		{
+			return smallImageURL;
+		}
+
+		//\\//\\//\\//
+		// PRIVATE
+		//\\//\\//\\//
+		
 		private bool ShowingTimeRemaining()
 		{
 			return timerShown == TimerShown.TimeRemaining;

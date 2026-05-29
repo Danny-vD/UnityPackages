@@ -2,13 +2,13 @@
 
 namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 {
-	public sealed class UpdateActivityOnEnable : AbstractUpdateActivity 
+	public sealed class UpdateActivityOnEnable : UpdateActivityComponent 
 	{
 		private void OnEnable()
 		{
-			if (!DiscordManager.IsDiscordConnected) // If discord is not connected, delay execution until it is
+			if (!DiscordManager.CanSetActivity) // If discord is not connected, delay execution until it is
 			{
-				DiscordManager.OnDiscordConnected += UpdatePresence;
+				DiscordManager.OnCanSetActivity += UpdatePresence;
 			}
 			else
 			{
@@ -18,13 +18,13 @@ namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 
 		private void OnDisable()
 		{
-			DiscordManager.OnDiscordConnected -= UpdatePresence;
+			DiscordManager.OnCanSetActivity -= UpdatePresence;
 		}
 		
-		private void UpdatePresence(Client client)
+		public override void UpdatePresence()
 		{
-			DiscordManager.OnDiscordConnected -= UpdatePresence;
-			UpdatePresence();
+			DiscordManager.OnCanSetActivity -= UpdatePresence;
+			base.UpdatePresence();
 		}
 	}
 }

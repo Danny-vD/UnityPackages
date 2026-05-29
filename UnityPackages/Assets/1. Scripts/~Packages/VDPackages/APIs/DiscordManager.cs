@@ -93,12 +93,6 @@ namespace VDPackages.APIs
 			client.UpdateRichPresence(activity, (_) => { });
 		}
 
-		[ContextMenu("Send Message")]
-		private void SendMessage()
-		{
-			client.SendUserMessage(250356636923854858, messageContent, (result, id) => { });
-		}
-
 		private void OnDestroy()
 		{
 			client.ClearRichPresence();

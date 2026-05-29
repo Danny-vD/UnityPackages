@@ -1,17 +1,20 @@
 ﻿using System;
-using Discord;
 using Discord.Sdk;
+using EditorAttributes;
 using UnityEngine;
+using VDFramework.Logger;
 using VDFramework.Singleton;
-using VDFramework.Timer;
 using VDFramework.Timer.TimerHandles;
+using VDPackages.APIs.DiscordIntegrationPackage.Enums;
 using VDPackages.APIs.DiscordIntegrationPackage.RichPresence;
 
 namespace VDPackages.APIs.DiscordIntegrationPackage
 {
 	public class DiscordManager : Singleton<DiscordManager>
 	{
-		public static event Action<Discord.Discord> OnDiscordConnected = delegate { };
+		public static event Action OnCanSetActivity = delegate { };
+
+		public static event Action<Client> OnDiscordConnected = delegate { };
 		public static event Action OnDiscordDisconnected = delegate { };
 
 		/// <summary>
@@ -31,8 +34,9 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 		public static event Action OnDiscordNotInstalled = delegate { };
 
 		public static bool IsDiscordConnected { get; private set; }
+		public static bool CanSetActivity { get; private set; }
 
-		public static Discord.Discord Discord { get; private set; }
+		public static Client DiscordClient { get; private set; }
 
 		[Header("Platform settings")]
 		[SerializeField, Tooltip("If discord is not open when the game starts, discord will:\n1. close the game\n2. attempt to open discord\n3. attempt to reopen the game")]
@@ -48,31 +52,129 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 		private TimerHandle tryReconnectTimer;
 		private int currentConnectionAttempt = 0;
 
-		private void Start()
+
+		[SerializeField]
+		private bool requireAuthorisationFromDiscord;
+
+		[SerializeField, ShowField(nameof(requireAuthorisationFromDiscord))]
+		private DiscordOAuth2Scope oAuth2Scope = DiscordOAuth2Scope.None;
+
+		[ShowField(nameof(UsingCustomOAuth2Scope)), SerializeField]
+		private string customoAuth2Scope = Client.GetDefaultPresenceScopes();
+
+		private string codeVerifier;
+
+
+		protected override void Awake()
 		{
+			base.Awake();
+
 			if (!transform.parent)
 			{
 				DontDestroyOnLoad(true);
 			}
-
-			TryConnectingWithDiscord();
 		}
 
-		private void OnDisable()
+		private void Start()
 		{
-			Cleanup();
+			Initialise();
+
+			if (requireAuthorisationFromDiscord && oAuth2Scope != DiscordOAuth2Scope.None)
+			{
+				StartOAuthFlow();
+				return;
+			}
+
+			DiscordClient.SetApplicationId(ApplicationData.DISCORD_APPLICATION_ID);
+
+			CanSetActivity = true;
+			OnCanSetActivity.Invoke();
 		}
-		
+
+		private void Initialise()
+		{
+			DiscordClient = new Client();
+			
+			DiscordDebugLogger.Initialize(DiscordClient, LoggingSeverity.Warning);
+			DiscordClient.SetStatusChangedCallback(OnStatusChanged);
+		}
+
+		private void StartOAuthFlow()
+		{
+			AuthorizationCodeVerifier authorizationCodeVerifier = DiscordClient.CreateAuthorizationCodeVerifier();
+			codeVerifier = authorizationCodeVerifier.Verifier();
+
+			AuthorizationArgs args = new AuthorizationArgs();
+			args.SetClientId(ApplicationData.DISCORD_APPLICATION_ID);
+			args.SetScopes(GetAuthorisationScope());
+			args.SetCodeChallenge(authorizationCodeVerifier.Challenge());
+			DiscordClient.Authorize(args, OnAuthoriseResult);
+		}
+
+		private void OnAuthoriseResult(ClientResult result, string code, string redirectUri)
+		{
+			LogManager.LogInfo($"Discord Authorisation result: [{result.Error()}] [{code}] [{redirectUri}]");
+
+			if (!result.Successful())
+			{
+				return;
+			}
+
+			GetTokenFromCode(code, redirectUri);
+		}
+
+		private void GetTokenFromCode(string code, string redirectUri)
+		{
+			DiscordClient.GetToken(ApplicationData.DISCORD_APPLICATION_ID, code, codeVerifier, redirectUri, GetTokenCallback);
+		}
+
+		private void GetTokenCallback(ClientResult result, string accesstoken, string refreshtoken, AuthorizationTokenType tokentype, int expiresin, string scopes)
+		{
+			if (!string.IsNullOrWhiteSpace(accesstoken))
+			{
+				LogManager.LogInfo($"Discord Token received: {accesstoken}");
+				DiscordClient.UpdateToken(AuthorizationTokenType.Bearer, accesstoken, UpdateTokenCallback);
+			}
+		}
+
+		private static void UpdateTokenCallback(ClientResult result)
+		{
+			if (result.Successful())
+			{
+				DiscordClient.Connect();
+			}
+		}
+
+		private void OnStatusChanged(Client.Status status, Client.Error error, int errordetail)
+		{
+			if (status == Client.Status.Ready)
+			{
+				CanSetActivity     = true;
+				IsDiscordConnected = true;
+				OnDiscordConnected.Invoke(DiscordClient);
+			}
+			else if (status == Client.Status.Disconnected)
+			{
+				if (!IsDiscordConnected)
+				{
+					OnDiscordDisconnected.Invoke();
+				}
+				
+				IsDiscordConnected = false;
+				CanSetActivity     = false;
+			}
+		}
+
 		/// <summary>
 		/// Will reset the current connection count and attempt to connect with discord
 		/// </summary>
 		public static void ResetConnection()
 		{
 			DiscordManager discordManager = Instance;
-			
+
 			discordManager.Cleanup();
 			discordManager.currentConnectionAttempt = 0;
-			
+
 			discordManager.TryConnectingWithDiscord();
 		}
 
@@ -80,12 +182,12 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 		{
 			return (ulong)(discordIsRequiredForGameToWork ? CreateFlags.Default : CreateFlags.NoRequireDiscord);
 		}
-		
+
 		private void TryConnectingWithDiscord()
 		{
 			try
 			{
-				Discord = new Discord.Discord(ApplicationData.DISCORD_APPLICATION_ID, GetDiscordFlag());
+				DiscordClient = new Discord.Discord(ApplicationData.DISCORD_APPLICATION_ID, GetDiscordFlag());
 
 				DiscordConnected();
 			}
@@ -104,15 +206,6 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 				}
 			}
 		}
-		
-		private static void InitializeManagers()
-		{
-#if UNITY_EDITOR
-			DiscordDebugLogger.Initialize(Discord);
-#endif
-
-			DiscordPresenceManager.Initialize(Discord);
-		}
 
 		private void DiscordConnected()
 		{
@@ -123,14 +216,14 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 
 			InitializeManagers();
 
-			OnDiscordConnected.Invoke(Discord);
+			OnDiscordConnected.Invoke(DiscordClient);
 		}
 
 		private void DiscordDisconnected()
 		{
 			IsDiscordConnected = false;
 
-			Discord.Dispose();
+			DiscordClient.Dispose();
 			OnDiscordDisconnected.Invoke();
 
 			tryReconnectTimer?.Stop();
@@ -166,7 +259,7 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 			{
 				try
 				{
-					Discord.RunCallbacks();
+					DiscordClient.RunCallbacks();
 				}
 				catch (ResultException)
 				{
@@ -182,7 +275,7 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 			{
 				IsDiscordConnected = false;
 
-				Discord.Dispose();
+				DiscordClient.Dispose();
 				OnDiscordDisconnected.Invoke();
 			}
 			else
@@ -190,6 +283,28 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 				tryReconnectTimer?.Stop();
 				tryReconnectTimer = null;
 			}
+
+			if (CanSetActivity)
+			{
+				DiscordActivityManager.ClearActivity();
+			}
+		}
+
+		private bool UsingCustomOAuth2Scope()
+		{
+			return oAuth2Scope == DiscordOAuth2Scope.Custom;
+		}
+
+		private string GetAuthorisationScope()
+		{
+			return oAuth2Scope switch
+			{
+				DiscordOAuth2Scope.None => throw new ArgumentException("Cannot get the OAuth2 scope for None"),
+				DiscordOAuth2Scope.DefaultPresence => Client.GetDefaultPresenceScopes(),
+				DiscordOAuth2Scope.DefaultCommunication => Client.GetDefaultCommunicationScopes(),
+				DiscordOAuth2Scope.Custom => customoAuth2Scope,
+				_ => throw new ArgumentOutOfRangeException(),
+			};
 		}
 
 		protected override void OnDestroy()

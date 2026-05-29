@@ -5,7 +5,10 @@
 	/// </summary>
 	public static class ApplicationData
 	{
-		public const ulong DISCORD_APPLICATION_ID = 1374698555398291496; // AKA Client ID
+		/// <remarks>
+		/// Client ID
+		/// </remarks>
+		public const ulong DISCORD_APPLICATION_ID = 1374698555398291496;
 
 		public const uint STEAM_APPLICATION_ID = 480; // Default = 480 (Spacewar)
 
