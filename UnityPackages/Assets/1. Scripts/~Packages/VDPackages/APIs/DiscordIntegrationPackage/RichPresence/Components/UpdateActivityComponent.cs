@@ -85,7 +85,7 @@ namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 		
 		public virtual void UpdatePresence()
 		{
-			if (!DiscordManager.CanSetActivity)
+			if (!DiscordManager.IsDiscordConnected)
 			{
 				return;
 			}

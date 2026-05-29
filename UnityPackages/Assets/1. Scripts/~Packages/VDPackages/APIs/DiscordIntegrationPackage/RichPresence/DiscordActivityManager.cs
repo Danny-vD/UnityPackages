@@ -1,5 +1,6 @@
 ﻿using System;
 using Discord.Sdk;
+using VDFramework.Logger;
 using VDPackages.APIs.DiscordIntegrationPackage.Factories;
 using VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Enums;
 
@@ -119,6 +120,10 @@ namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence
 			if (clientResult.Successful())
 			{
 				OnActivityUpdated?.Invoke();
+			}
+			else
+			{
+				LogManager.LogError($"Could not update rich presence!\n{clientResult}");
 			}
 		}
 	}

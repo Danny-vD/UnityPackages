@@ -13,7 +13,6 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 {
 	public class DiscordManager : Singleton<DiscordManager>
 	{
-		public static event Action OnCanSetActivity = delegate { };
 		public static event Action OnDiscordClientReady = delegate { };
 		public static event Action OnDiscordClientDisconnected = delegate { };
 
@@ -26,22 +25,30 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 		/// </summary>
 		public static event Action OnDiscordUnableToAuthorise = delegate { };
 
-		public static bool IsDiscordConnected { get; private set; }
-		public static bool CanSetActivity { get; private set; }
-
 		public static Client DiscordClient { get; private set; }
+		public static bool IsDiscordConnected { get; private set; }
+		public static bool IsDiscordAuthorised { get; private set; }
+		
 
-		[Header("Connection parameters")]
-		[SerializeField, Tooltip("If the Discord authorisation failed, try again every x seconds")]
-		private float authoriseAttemptTimer = 30;
+		/// <summary>
+		/// The access token used to access the SDK as the user
+		/// </summary>
+		/// <remarks>
+		/// Expires after 7 days
+		/// </remarks>
+		public static string AccessToken { get; private set; }
+		
+		/// <summary>
+		/// The refresh token used to refresh the access token
+		/// </summary>
+		/// <remarks>
+		/// Does not expire
+		/// </remarks>
+		public static string RefreshToken { get; private set; }
+		
+		public static bool RequireDiscordAuthorisation => Instance.requireAuthorisationFromDiscord && Instance.oAuth2Scope != DiscordOAuth2Scope.None;
 
-		[SerializeField, Tooltip("How many times we attempt to authorise with Discord before giving up, <=0 will be considered infinite attempts")]
-		private int maximumConnectionAttempts = 3;
-
-		private TimerHandle tryAuthoriseTimer;
-		private int currentAuthorisationAttempt = 0;
-
-
+		[Header("Authorisation")]
 		[SerializeField]
 		private bool requireAuthorisationFromDiscord;
 
@@ -49,13 +56,17 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 		private DiscordOAuth2Scope oAuth2Scope = DiscordOAuth2Scope.None;
 
 		[ShowField(nameof(UsingCustomOAuth2Scope)), SerializeField]
-		private string customoAuth2Scope = Client.GetDefaultPresenceScopes();
+		private string customoAuth2Scope = "";
+		
+		[Space]
+		[ShowField(nameof(requireAuthorisationFromDiscord)), SerializeField, Tooltip("If the Discord authorisation failed, try again every x seconds")]
+		private float authoriseAttemptTimer = 30;
 
-		public bool RequireDiscordAuthorisation => requireAuthorisationFromDiscord && oAuth2Scope != DiscordOAuth2Scope.None;
-		public bool DiscordAuthorised { get; private set; }
+		[ShowField(nameof(requireAuthorisationFromDiscord)), SerializeField, Tooltip("How many times we attempt to authorise with Discord before giving up, <=0 will be considered infinite attempts")]
+		private int maximumConnectionAttempts = 3;
 
-		public string AccessToken { get; private set; }
-		public string RefreshToken { get; private set; }
+		private TimerHandle tryAuthoriseTimer;
+		private int currentAuthorisationAttempt = 0;
 
 		private string codeVerifier;
 
@@ -82,11 +93,11 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 
 			DiscordClient.SetApplicationId(ApplicationData.DISCORD_APPLICATION_ID);
 
-			CanSetActivity = true;
-			OnCanSetActivity.Invoke();
+			IsDiscordConnected = true;
+			OnDiscordClientReady.Invoke();
 		}
 
-		private void Initialise()
+		private static void Initialise()
 		{
 			DiscordClient = new Client();
 
@@ -98,7 +109,6 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 		{
 			if (status == Client.Status.Ready)
 			{
-				CanSetActivity     = true;
 				IsDiscordConnected = true;
 
 				OnDiscordClientReady.Invoke();
@@ -108,7 +118,6 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 				if (IsDiscordConnected)
 				{
 					IsDiscordConnected = false;
-					CanSetActivity     = false;
 					
 					OnDiscordClientDisconnected.Invoke();
 				}
@@ -195,7 +204,8 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 			AccessToken  = accessToken;
 			RefreshToken = refreshToken;
 			
-			DiscordAuthorised = true;
+			IsDiscordAuthorised  = true;
+			
 			OnDiscordAuthorised.Invoke();
 		}
 
@@ -203,10 +213,12 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 		{
 			AccessToken  = string.Empty;
 			RefreshToken = string.Empty;
+			
+			OnDiscordAuthorisationFailed.Invoke();
 
-			if (DiscordAuthorised)
+			if (IsDiscordAuthorised)
 			{
-				DiscordAuthorised = false;
+				IsDiscordAuthorised = false;
 				OnDiscordUnauthorised.Invoke();
 			}
 			
@@ -277,22 +289,18 @@ namespace VDPackages.APIs.DiscordIntegrationPackage
 		{
 			if (IsDiscordConnected)
 			{
+				DiscordActivityManager.ClearActivity();
+				
 				IsDiscordConnected = false;
 
 				DiscordClient.Disconnect();
 				DiscordClient.Dispose();
 				OnDiscordUnauthorised.Invoke();
 			}
-			else
+			else if (tryAuthoriseTimer != null)
 			{
-				tryAuthoriseTimer?.Stop();
+				tryAuthoriseTimer.Stop();
 				tryAuthoriseTimer = null;
-			}
-
-			if (CanSetActivity)
-			{
-				DiscordActivityManager.ClearActivity();
-				CanSetActivity = false;
 			}
 		}
 

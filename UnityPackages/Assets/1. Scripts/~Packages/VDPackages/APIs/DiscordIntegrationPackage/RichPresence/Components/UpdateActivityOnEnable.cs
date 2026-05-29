@@ -6,9 +6,9 @@ namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 	{
 		private void OnEnable()
 		{
-			if (!DiscordManager.CanSetActivity) // If discord is not connected, delay execution until it is
+			if (!DiscordManager.IsDiscordConnected) // If discord is not connected, delay execution until it is
 			{
-				DiscordManager.OnCanSetActivity += UpdatePresence;
+				DiscordManager.OnDiscordClientReady += UpdatePresence;
 			}
 			else
 			{
@@ -18,12 +18,12 @@ namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 
 		private void OnDisable()
 		{
-			DiscordManager.OnCanSetActivity -= UpdatePresence;
+			DiscordManager.OnDiscordClientReady -= UpdatePresence;
 		}
 		
 		public override void UpdatePresence()
 		{
-			DiscordManager.OnCanSetActivity -= UpdatePresence;
+			DiscordManager.OnDiscordClientReady -= UpdatePresence;
 			base.UpdatePresence();
 		}
 	}
