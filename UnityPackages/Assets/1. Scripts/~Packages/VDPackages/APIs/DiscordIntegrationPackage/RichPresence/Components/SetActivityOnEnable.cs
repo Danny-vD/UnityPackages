@@ -2,7 +2,7 @@
 
 namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 {
-	public sealed class UpdateActivityOnEnable : UpdateActivityComponent 
+	public sealed class SetActivityOnEnable : SetActivityComponent 
 	{
 		private void OnEnable()
 		{

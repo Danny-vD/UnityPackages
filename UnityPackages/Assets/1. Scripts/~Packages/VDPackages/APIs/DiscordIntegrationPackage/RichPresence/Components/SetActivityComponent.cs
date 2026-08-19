@@ -8,7 +8,7 @@ using Void = EditorAttributes.Void;
 
 namespace VDPackages.APIs.DiscordIntegrationPackage.RichPresence.Components
 {
-	public class UpdateActivityComponent : BetterMonoBehaviour
+	public class SetActivityComponent : BetterMonoBehaviour
 	{
 		[Header("Details")]
 		[SerializeField, HelpBox("Main activity description (e.g., “Playing Capture the Flag”)", MessageMode.None)]
