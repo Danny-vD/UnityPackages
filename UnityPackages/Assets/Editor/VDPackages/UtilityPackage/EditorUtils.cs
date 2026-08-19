@@ -584,7 +584,7 @@ namespace VDPackagesEditor.UtilityPackage
 					return defaultText;
 
 				case SerializedPropertyType.Enum:
-					string[] enumNames = propertyType != null ? Enum.GetNames(propertyType) : serializedProperty.enumNames;
+					string[] enumNames = serializedProperty.enumNames;
 
 					if (serializedProperty.enumValueIndex < 0 || serializedProperty.enumValueIndex > enumNames.Length)
 					{
