@@ -102,10 +102,14 @@ namespace VDPackages.UtilityPackage.Utility.PhysicsUtil
 			// If otherCollider is null, their gameobject is null or we left the collider of the other gameobject, remove all points from them
 			contactPoints.RemoveAll(point =>
 			{
-				GameObject pointObj; // Cache the object to prevent repeated property access
+				if (point.otherCollider == null)
+				{
+					return true;
+				}
+				
+				GameObject pointOtherObject = point.otherCollider.gameObject; // Cache the object to prevent repeated property access
 
-				return point.otherCollider == null || (pointObj = point.otherCollider.gameObject) == null ||
-					   pointObj == otherObj;
+				return pointOtherObject == null || pointOtherObject == otherObj;
 			});
 
 			foreach (ContactPoint contact in other.contacts)
@@ -126,10 +130,14 @@ namespace VDPackages.UtilityPackage.Utility.PhysicsUtil
 			// If otherCollider is null, their gameobject is null or we left the collider of the other gameobject, remove all points from them
 			contactPoints.RemoveAll(point =>
 			{
-				GameObject otherColliderObj; // Cache the object to prevent repeated property access
+				if (point.otherCollider == null)
+				{
+					return true;
+				}
+				
+				GameObject pointOtherObject = point.otherCollider.gameObject; // Cache the object to prevent repeated property access
 
-				return point.otherCollider == null || (otherColliderObj = point.otherCollider.gameObject) == null ||
-					   otherColliderObj == otherObj;
+				return pointOtherObject == null || pointOtherObject == otherObj;
 			});
 		}
 	}
