@@ -32,6 +32,12 @@ namespace VDPackages.LootTablePackage.Baseclasses
 			return GetLootTable().GetLoot();
 		}
 		
+		/// <inheritdoc cref="VDFramework.LootTables.WeightedLootTable{TLootType}.GetLoot(IRandomNumberGenerator)"/>
+		public virtual TLootType GetLoot(IRandomNumberGenerator rng)
+		{
+			return GetLootTable().GetLoot();
+		}
+		
 		public decimal GetLootDropChance(TLootType loot)
 		{
 			ILoot<TLootType> tableItem = ConvertToLoot(loot);

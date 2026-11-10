@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 using VDPackages.SerializableDictionaryPackage.SerializableDictionary;
+using VDPackages.SerializableDictionaryPackage.Structs;
 using VDPackagesEditor.UtilityPackage;
 
 namespace VDPackagesEditor.SerializableDictionaryPackage.PropertyDrawers
@@ -14,14 +15,14 @@ namespace VDPackagesEditor.SerializableDictionaryPackage.PropertyDrawers
 	{
 		// Constants, for consistent layout
 		private const float baseSize = 15f;
-		
+
 		private const float warningHeight = 45.0f;
 		private const float spacingWarningToDictionary = 10.0f;
 
 		private const float paddingAtBeginOfElement = 2.0f;
 		private const float spacingBetweenPairValues = 5.0f;
 		private const float paddingAtEndOfElement = 8f;
-		
+
 		private const float paddingAtEndOfProperty = 0.0f;
 
 		private float propertySize;
@@ -85,14 +86,21 @@ namespace VDPackagesEditor.SerializableDictionaryPackage.PropertyDrawers
 		/// <summary>
 		/// Check if all the keys are distinct by comparing their value as a string
 		/// </summary>
-		/// <seealso cref="Structs.Utility.SerializableDictionary.SerializableKeyValuePair.key"/>
+		/// <seealso cref="VDPackages.SerializableDictionaryPackage.Structs.SerializableKeyValuePair{K, V}.Key"/>
 		/// <seealso cref="EditorUtils.GetValueString"/>
 		private static bool IsValidDictionary(SerializedProperty dictionary, out int actualKeyCount)
 		{
-			List<string> pairLabels = GetKeyLabels(dictionary);
+			List<object> keys = new List<object>();
+			
+			for (int i = 0; i < dictionary.arraySize; i++)
+			{
+				SerializedProperty keyValuePair = dictionary.GetArrayElementAtIndex(i);
+				object key = keyValuePair.FindPropertyRelative("key").boxedValue; // The key of a SerializableKeyValuePair<> is always called 'key'
+				keys.Add(key);
+			}
 
-			actualKeyCount = pairLabels.Distinct().Count();
-			return actualKeyCount == pairLabels.Count; // If the count of all distinct keys equals the count of all keys, then all keys are distinct
+			actualKeyCount = keys.Distinct().Count();
+			return actualKeyCount == keys.Count; // If the count of all distinct keys equals the count of all keys, then all keys are distinct
 		}
 
 		private void DrawHeader(Rect rect)
@@ -141,13 +149,13 @@ namespace VDPackagesEditor.SerializableDictionaryPackage.PropertyDrawers
 			Type[] genericArguments = fieldInfo.FieldType.GetGenericArguments();
 			Type keyType = genericArguments[0];
 
-			rect.height = EditorGUI.GetPropertyHeight(key, true);
+			rect.height = key != null ? EditorGUI.GetPropertyHeight(key, true) : 0;
 
 			EditorGUI.PropertyField(rect, key, new GUIContent($"{EditorUtils.GetValueString(key, index, propertyType: keyType)} [{EditorUtils.GetTypeString(key)}]"), true);
 
 			rect.y += rect.height + spacingBetweenPairValues; // Move the position down to beneath the last element + spacing
 
-			rect.height = EditorGUI.GetPropertyHeight(value, true);
+			rect.height = value != null ? EditorGUI.GetPropertyHeight(value, true) : 0;
 
 			EditorGUI.PropertyField(rect, value, new GUIContent($"Value [{EditorUtils.GetTypeString(value)}]"), true);
 

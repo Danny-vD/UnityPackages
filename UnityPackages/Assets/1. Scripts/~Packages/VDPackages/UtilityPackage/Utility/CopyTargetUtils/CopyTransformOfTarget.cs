@@ -116,6 +116,21 @@ namespace VDPackages.UtilityPackage.Utility.CopyTargetUtils
 				CopyScale();
 			}
 		}
+		
+		public void SetTarget(GameObject newTarget)
+		{
+			target = newTarget.transform;
+		}
+
+		public void SetTarget(Transform newTarget)
+		{
+			target = newTarget;
+		}
+
+		public void ClearTarget()
+		{
+			target = null;
+		}
 
 		private void CopyPosition()
 		{

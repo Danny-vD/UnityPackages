@@ -35,7 +35,7 @@ namespace VDPackages.LocalisationPackage.UIComponents
 
 				if (ReferenceEquals(dropdown, null))
 				{
-					LogManager.LogError("No dropdown found on this object, destroying this component...", gameObject);
+					LogManager.LogWarning("No dropdown found on this object, destroying this component...", gameObject);
 					Destroy(this);
 				}
 			}
@@ -73,6 +73,8 @@ namespace VDPackages.LocalisationPackage.UIComponents
 				{
 					dropdownTMP.options[i].text = LocalisationUtil.GetLocalisedStringNested(entryIDs[i], localisedEntryOpen, localisedEntryClose);
 				}
+				
+				dropdownTMP.RefreshShownValue();
 			}
 			else // use legacy dropdown if no TMP dropdown
 			{
@@ -80,6 +82,8 @@ namespace VDPackages.LocalisationPackage.UIComponents
 				{
 					dropdown.options[i].text = LocalisationUtil.GetLocalisedStringNested(entryIDs[i], localisedEntryOpen, localisedEntryClose);
 				}
+				
+				dropdown.RefreshShownValue();
 			}
 		}
 

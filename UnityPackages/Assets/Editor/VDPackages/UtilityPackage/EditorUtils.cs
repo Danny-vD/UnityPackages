@@ -516,7 +516,7 @@ namespace VDPackagesEditor.UtilityPackage
 		{
 			if (property == null)
 			{
-				throw new ArgumentNullException(nameof(property), "SerializedProperty is null, check if the type has serializable fields");
+				throw new ArgumentNullException(nameof(property), "SerializedProperty is null, one of the types might not be serializable!");
 			}
 
 			string type = property.type;
@@ -545,6 +545,11 @@ namespace VDPackagesEditor.UtilityPackage
 			if (defaultText.Contains("{index}"))
 			{
 				defaultText = defaultText.Replace("{index}", index.ToString());
+			}
+
+			if (serializedProperty == null)
+			{
+				return "Null";
 			}
 
 			switch (serializedProperty.propertyType)

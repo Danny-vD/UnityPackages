@@ -9,9 +9,9 @@
 		// DISCORD
 		//\\//\\//\\//\\//\\//\\//
 		
-		/// <remarks>
+		/// <summary>
 		/// Client ID
-		/// </remarks>
+		/// </summary>
 		public const ulong DISCORD_APPLICATION_ID = 0;
 
 		//\\//\\//\\//\\//\\//\\//

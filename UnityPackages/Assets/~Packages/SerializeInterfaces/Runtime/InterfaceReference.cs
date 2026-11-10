@@ -1,6 +1,7 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace AYellowpaper
 {
@@ -24,15 +25,20 @@ namespace AYellowpaper
 			get
 			{
 				if (_underlyingValue == null)
+				{
 					return null;
-				var @interface = _underlyingValue as TInterface;
+				}
+
+				TInterface @interface = _underlyingValue as TInterface;
 				Debug.Assert(@interface != null, $"{_underlyingValue} needs to implement interface {nameof(TInterface)}.");
 				return @interface;
 			}
 			set
 			{
 				if (value == null)
+				{
 					_underlyingValue = null;
+				}
 				else
 				{
 					var newValue = value as UObject;
@@ -41,6 +47,7 @@ namespace AYellowpaper
 				}
 			}
 		}
+
 		/// <summary>
 		/// Get the actual UnityEngine.Object that gets serialized.
 		/// </summary>
@@ -50,8 +57,12 @@ namespace AYellowpaper
 			set => _underlyingValue = value;
 		}
 
-		public InterfaceReference() { }
+		public InterfaceReference()
+		{
+		}
+
 		public InterfaceReference(UObject target) => _underlyingValue = target;
+
 		public InterfaceReference(TInterface @interface) => _underlyingValue = @interface as UObject;
 
 		public static implicit operator TInterface(InterfaceReference<TInterface, UObject> obj) => obj.Value;
@@ -62,7 +73,41 @@ namespace AYellowpaper
 	/// </summary>
 	/// <typeparam name="TInterface">The interface.</typeparam>
 	[System.Serializable]
-	public class InterfaceReference<TInterface> : InterfaceReference<TInterface, Object> where TInterface : class
+	public class InterfaceReference<TInterface> : InterfaceReference<TInterface, Object>, IEquatable<InterfaceReference<TInterface>> where TInterface : class
 	{
+		public override bool Equals(object obj)
+		{
+			if (obj == null && Value == null)
+			{
+				return true;
+			}
+
+			if (obj is not InterfaceReference<TInterface> other)
+			{
+				return false;
+			}
+			
+			return ReferenceEquals(Value, other.Value);
+		}
+
+		public bool Equals(InterfaceReference<TInterface> other)
+		{
+			if (other == null)
+			{
+				return false;
+			}
+			
+			return EqualityComparer<TInterface>.Default.Equals(Value, other.Value);
+		}
+
+		public override int GetHashCode()
+		{
+			if (Value == null)
+			{
+				return 0;
+			}
+			
+			return Value.GetHashCode();
+		}
 	}
 }

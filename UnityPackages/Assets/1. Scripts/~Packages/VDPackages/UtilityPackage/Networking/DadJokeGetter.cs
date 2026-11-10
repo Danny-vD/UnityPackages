@@ -18,7 +18,6 @@ namespace VDPackages.UtilityPackage.Networking
 	{
 		private static readonly string[] failJoke = new string[]
 		{
-			"Why did the HTTP client fail to get a joke? Because it couldn't fetch one.",
 			"There's supposed to be a joke here... but the HTTP client didn't GET it.",
 		};
 

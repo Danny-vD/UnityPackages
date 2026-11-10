@@ -55,6 +55,9 @@ FMOD/**/.user/
 FMOD/**/.unsaved/
 FMOD/**/.cache/
 
+# Discord (Some DLLs are very large)
+**/Packages/com.discord.partnersdk/Runtime/Plugins/
+
 # Ignore anything that starts with a '.' (e.g. .vs .user .cache etc)
 .*
 

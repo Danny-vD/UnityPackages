@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 using VDPackages.SerializableDictionaryPackage.Structs;
 
@@ -128,6 +129,10 @@ namespace VDPackages.SerializableDictionaryPackage.SerializableDictionary
 
 		#region IDictionary
 
+		/// <summary>
+		/// Adds the key-value pair to the dictionary
+		/// </summary>
+		/// <remarks>This will overwrite the value if the key already exists</remarks>
 		public void Add(TKey key, TValue value)
 		{
 			int index = FindEntry(key);
@@ -226,7 +231,7 @@ namespace VDPackages.SerializableDictionaryPackage.SerializableDictionary
 			InternalList.Clear();
 			serializedDictionary.Clear();
 		}
-		
+
 		// ReSharper disable once UsageOfDefaultStructEquality | False positive, it actually uses the custom Equals function from SerializableKeyValuePair<,>
 		public bool Contains(KeyValuePair<TKey, TValue> item) => InternalList.Contains(item);
 
@@ -250,16 +255,23 @@ namespace VDPackages.SerializableDictionaryPackage.SerializableDictionary
 
 		public virtual void OnAfterDeserialize()
 		{
-			InternalList = serializedDictionary.Distinct().ToList();
+			try
+			{
+				InternalList = serializedDictionary.Distinct().ToList();
+			}
+			catch (InvalidOperationException)
+			{
+			}
 		}
 
 		#endregion
 
 		#region IEnumerable
 
-		public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() =>
-			ToKeyValuePair().GetEnumerator();
+		[MustDisposeResource]
+		public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => ToKeyValuePair().GetEnumerator();
 
+		[MustDisposeResource]
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
 		IDictionaryEnumerator IDictionary.GetEnumerator() => ((Dictionary<TKey, TValue>)this).GetEnumerator();
